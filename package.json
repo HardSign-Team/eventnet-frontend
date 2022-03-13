@@ -1,0 +1,60 @@
+{
+    "name": "eventnet.frontend",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@skbkontur/react-ui": "^2.12.1",
+        "@testing-library/jest-dom": "^5.16.2",
+        "@testing-library/react": "^12.1.4",
+        "@testing-library/user-event": "^13.5.0",
+        "@types/jest": "^27.4.1",
+        "@types/node": "^12.20.47",
+        "fork-ts-checker-webpack-plugin": "^7.2.1",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-scripts": "5.0.0",
+        "web-vitals": "^2.1.4"
+    },
+    "scripts": {
+        "dev": "cross-env NODE_ENV=development webpack-dev-server",
+        "build": "cross-env NODE_ENV=production webpack",
+        "start": "serve dist"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "devDependencies": {
+        "@babel/core": "^7.7.7",
+        "@babel/preset-env": "^7.7.7",
+        "@babel/preset-react": "^7.7.4",
+        "@babel/preset-typescript": "^7.7.7",
+        "@types/node": "^12.12.5",
+        "@types/react": "^17.0.40",
+        "@types/react-dom": "^17.0.13",
+        "@typescript-eslint/eslint-plugin": "^5.14.0",
+        "@typescript-eslint/parser": "^5.14.0",
+        "awesome-typescript-loader": "^5.2.1",
+        "babel-loader": "^8.0.6",
+        "cross-env": "^6.0.3",
+        "css-loader": "^6.7.1",
+        "eslint": "^7.18.0",
+        "eslint-config-prettier": "^7.2.0",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-prettier": "^3.3.1",
+        "eslint-plugin-react": "^7.29.3",
+        "eslint-webpack-plugin": "^3.1.1",
+        "html-webpack-plugin": "^5.5.0",
+        "mini-css-extract-plugin": "^2.6.0",
+        "prettier": "^2.2.1",
+        "serve": "^11.3.0",
+        "source-map-loader": "^3.0.1",
+        "terser-webpack-plugin": "^2.3.2",
+        "typescript": "^4.6.2",
+        "webpack": "^5.70.0",
+        "webpack-cli": "^4.9.2",
+        "webpack-dev-server": "^4.7.4"
+    }
+}
