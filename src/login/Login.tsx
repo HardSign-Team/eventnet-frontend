@@ -1,5 +1,34 @@
-import React from 'react'
+import React, {useState} from 'react'
+import Logo from "../shared/Logo";
+import {Gapped, Input, PasswordInput} from "@skbkontur/react-ui";
 
-export default function Login(){
-    return (<div className="login">Login here</div>)
+const Login = () => {
+    const [userName, setUserName] = useState();
+    const [password, setPassword] = useState();
+    const [errors, setErrors] = useState({name:'', password: ''});
+
+    return (<div className="login">
+        <Logo className="logo" width={250} height={250} />
+        <Gapped gap={30} vertical>
+            <div className="userName">Эл.Потча или имя пользователя
+            <Input>Логин</Input>
+            </div>
+            <div className="password">
+                <PasswordInput>password</PasswordInput>
+            </div>
+            <div>
+                <label>
+                    <a className="resetPaword" href=''>Забыли пароль?</a>
+                </label>
+                <label>
+                    <button>Войти</button>
+                </label>
+            </div>
+            <div>
+                <a>Нет аккаунта?</a><br/>
+                <a href="">Зарегистрироваться</a>
+            </div>
+        </Gapped>
+    </div>)
 }
+export default Login
