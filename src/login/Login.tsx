@@ -10,15 +10,15 @@ const Login = () => {
     return (<div className="login">
         <Logo className="logo" width={250} height={250} />
         <Gapped gap={30} vertical>
-            <div className="userName">Эл.Потча или имя пользователя
+            <div className="userName">Эл.Почта или имя пользователя
             <Input>Логин</Input>
             </div>
-            <div className="password">
+            <div className="password"> Пароль
                 <PasswordInput>password</PasswordInput>
             </div>
             <div>
                 <label>
-                    <a className="resetPaword" href=''>Забыли пароль?</a>
+                    <a className="resetPassword" href=''>Забыли пароль?</a>
                 </label>
                 <label>
                     <button>Войти</button>
