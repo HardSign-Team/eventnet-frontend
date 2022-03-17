@@ -1,17 +1,19 @@
-const { resolve } = require('path');
-
+const webpack = require('webpack');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const path = require('path');
+const {resolve} = require("path");
+
 module.exports = {
+
     context: path.join(__dirname),
     entry: {
         index: './src/index.tsx'
     },
     output: {
-        path: resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist'),
         filename: 'index.js'
     },
     devtool: 'source-map',
@@ -22,11 +24,6 @@ module.exports = {
                 use: 'babel-loader',
                 exclude: /node_modules/
             },
-            // {
-            //     test: /\.html$/,
-            //     use: ['html-loader'],
-            //     exclude: /node_modules/
-            // },
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader'],
@@ -56,8 +53,13 @@ module.exports = {
         ]
     },
     resolve: {
-        modules: ['node_modules'],
-        extensions: ['.js', '.jsx', '.ts', '.tsx']
+        modules: [resolve(process.cwd(), 'src'), 'node_modules'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        alias: {
+            process: 'process/browser'
+        },
+        symlinks: false,
+        cacheWithContext: false
     },
     devServer: {
         static: path.resolve(__dirname, 'dist'),
@@ -67,7 +69,10 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './index.html',
+            template: './index.html'
+        }),
+        new webpack.ProvidePlugin({
+            process: 'process/browser'
         }),
         new ESLintPlugin(),
         new ReactRefreshWebpackPlugin(),

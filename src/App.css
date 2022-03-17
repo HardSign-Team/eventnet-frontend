@@ -1,0 +1,23 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+
+
+html,body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.routes-list{
+    list-style: none;
+    display: flex;
+    gap: 4em;
+}
+
+.route:last-child{
+    justify-self: flex-end;
+}

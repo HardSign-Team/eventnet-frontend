@@ -1,0 +1,11 @@
+.header2 {
+    text-align: center;
+    padding: 20px 5px;
+}
+
+.label {
+    display: inline-block;
+    width: 100px;
+    margin: 0 0 0 1rem;
+    padding: 0;
+}
