@@ -3,11 +3,17 @@ import Logo from "../shared/Logo";
 import {Gapped, Input, PasswordInput} from "@skbkontur/react-ui";
 import './Login.css'
 
-const Login = () => {
-    const [userName, setUserName] = useState();
-    const [password, setPassword] = useState();
-    const [errors, setErrors] = useState({name:'', password: ''});
+type userInfo = {
+    name: string,
+    password: string
+}
 
+const Login = () => {
+    const [userName, setUserName] = useState('');
+    const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState({name:'', password: ''});
+    const [errorName, setErrorName] = useState(true);
+    const [errorPassword, setErrorPassword] = useState(true);
     return (<div className="login">
         <div className="logo-login">
         <Logo className="logo_dess" width={200} height={200} />
@@ -15,11 +21,12 @@ const Login = () => {
         <Gapped gap={30} vertical>
             <div className="userName">
                 <p>Эл.Почта или имя пользователя</p>
-                <Input width={'100%'}>Логин</Input>
+                <Input width={'100%'} onValueChange={(value) => setUserName(value)}>Логин</Input>
             </div>
             <div className="password">
+                {errorPassword && <p className='Error'>Неправильный логин или пароль</p>}
                 <p>Пароль</p>
-                <PasswordInput detectCapsLock width={320}>password</PasswordInput>
+                <PasswordInput  detectCapsLock onValueChange={(value) => setPassword(value)} width={320}>password</PasswordInput>
             </div>
             <Gapped gap={5}  className="password_handler">
                 <div className="label_helpers_source">
