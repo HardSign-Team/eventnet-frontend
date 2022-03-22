@@ -1,133 +1,74 @@
-import React from 'react';
-import { Button, Input, Gapped, Modal } from '@skbkontur/react-ui';
+import React, { useState } from 'react';
+import { Input, Gapped } from '@skbkontur/react-ui';
 import './Toolbar.css';
+import EventStore from "./EventStore";
 
 type FormData = {
-    name: string;
-    surname: string;
-    patronymic: string;
-    city: string;
-    unknown: string;
+    eventName: string;
+    coordinates: string;
+    tags: Array<string>;
 };
 
-type FormState = {
-    modalOpened: boolean;
-    saved: FormData;
-    current: FormData;
+const buttonStyleOpen = {
+    transform: 'matrix(0, 1, -1, 0, 0, 0)'
+};
+
+const buttonStyleClose = {
+    transform: 'matrix(0, -1, 1, 0, 0, 0)'
 };
 
 const defaultData = {
-    name: '',
-    surname: '',
-    patronymic: '',
-    unknown: '',
-    city: 'Jopa'
+    eventName: '',
+    coordinates: '',
+    tags: []
 };
 
-const buttonStyle = {
-    position: 'relative',
-    margin: '0 auto'
-} as const;
+export default function Toolbar(): JSX.Element {
+    const [state, setState] = useState<FormData>(defaultData);
+    const [isOpenEvent, setIsOpenEvent] = useState<boolean>(false);
 
-export default class Toolbar extends React.Component<unknown, FormState> {
-    public state: FormState = {
-        modalOpened: false,
-        saved: { ...defaultData },
-        current: { ...defaultData }
-    };
-
-    public render() {
-        const { modalOpened } = this.state;
-        return (
-            <div>
-                <h2 className="header2">Информация о пользователе</h2>
-                {this.renderForm()}
-                {modalOpened && this.renderModal()}
-            </div>
-        );
-    }
-
-    private renderForm() {
-        const { name, surname, patronymic, unknown } = this.state.current;
-        return (
-            <form>
-                <Gapped gap={50} vertical>
-                    <label>
-                        <div className="label">Имя</div>
-                        <Input
-                            placeholder="Введите имя пользователя"
-                            value={name}
-                            onValueChange={this.onChange('name')}
-                        />
-                    </label>
-                    <label>
-                        <div className="label">Фамилия</div>
-                        <Input
-                            placeholder="Введите имя пользователя"
-                            value={surname}
-                            onValueChange={this.onChange('surname')}
-                        />
-                    </label>
-
-                    <label>
-                        <div className="label">Отчество</div>
-                        <Input
-                            placeholder="Введите отчество пользователя"
-                            value={patronymic}
-                            onValueChange={this.onChange('patronymic')}
-                        />
-                    </label>
-                    <label>
-                        <div className="label">Отрочество</div>
-                        <Input
-                            placeholder="Введите отрочество пользователя"
-                            value={unknown}
-                            onValueChange={this.onChange('unknown')}
-                        />
-                    </label>
-                    <Button style={buttonStyle} use="primary" size="large" width={'60%'} onClick={this.openModal}>
-                        Сохранить
-                    </Button>
-                </Gapped>
-            </form>
-        );
-    }
-
-    private renderModal() {
-        const { saved, current } = this.state;
-        const isNothingChanged = (Object.keys(current) as (keyof FormData)[]).every(key => saved[key] === current[key]);
-        return (
-            <Modal onClose={this.closeModal}>
-                <Modal.Header>Пользователь сохранен</Modal.Header>
-                <Modal.Body>{isNothingChanged ? 'ничего' : 'Результаты записаны'}</Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={this.closeModal}>Закрыть</Button>
-                </Modal.Footer>
-            </Modal>
-        );
-    }
-
-    private openModal = () => {
-        this.setState({
-            modalOpened: true
-        });
-    };
-
-    private closeModal = () => {
-        this.setState({
-            modalOpened: false,
-            saved: { ...this.state.current }
-        });
-    };
-
-    private onChange = (field: keyof FormData) => {
+    const onChange = (field: keyof FormData) => {
         return (value: string) => {
-            this.setState({
-                current: {
-                    ...this.state.current,
-                    [field]: value
-                }
+            setState({
+                ...state,
+                [field]: value
             });
         };
     };
+
+    const onClick = (e: any) => {
+        e.preventDefault();
+        setIsOpenEvent(!isOpenEvent);
+    };
+
+    const getLabel = (text: string, value: string, onChangeField: keyof FormData) => {
+        return (
+            <label>
+                <div className="label">{text}</div>
+                <Input value={value} onValueChange={onChange(onChangeField)} />
+            </label>
+        );
+    };
+
+    const renderForm = () => {
+        const { eventName, coordinates, tags } = state;
+        return (
+            <form>
+                <Gapped gap={15} vertical>
+                    {getLabel('Введите название события', eventName, 'eventName')}
+                    {getLabel('Введите координаты события', coordinates, 'coordinates')}
+                    {getLabel('Выберите подходящие теги', tags[0], 'tags')}
+                </Gapped>
+                <button
+                    className="button sidebar-btn"
+                    onClick={onClick}
+                    style={isOpenEvent ? buttonStyleOpen : buttonStyleClose}
+                >
+                    <span className="down-arrow">{'<'}</span>
+                </button>
+                {isOpenEvent && <EventStore />}
+            </form>
+        );
+    };
+    return <div>{renderForm()}</div>;
 }

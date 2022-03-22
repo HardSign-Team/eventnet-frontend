@@ -29,12 +29,14 @@ const LOGO_WIDTH: number = window.screen.width / 32;
 export default function Header() {
     return (
         <header>
+            <Link  to="/">
             <div className="logo-with-name">
                 <Logo className="logo" width={LOGO_WIDTH} height={LOGO_WIDTH} />
                 <span className="logo-name">
                     event<span className="logo-name-end">net</span>
                 </span>
             </div>
+            </Link>
             <nav className="nav navbar">
                 <ul className="routes-list">
                     <li className="route">

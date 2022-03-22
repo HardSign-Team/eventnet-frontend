@@ -1,11 +1,11 @@
 interface IEventInformation {
-    setName(name: string): void;
-    setDateOfBeginning(date: Date): void;
-    setDateOfEnding(date: Date): void;
-    setDescription(description: string): void;
-    setLikes(number: number): void;
-    addLike(): void;
-    setPhotos(...photos: Array<ArrayBuffer>): void;
+    setName(name: string): undefined | EventInformation;
+    setDateOfBeginning(date: Date): undefined | EventInformation;
+    setDateOfEnding(date: Date): undefined | EventInformation;
+    setDescription(description: string): undefined | EventInformation;
+    setLikes(number: number): undefined | EventInformation;
+    addLike(): undefined | EventInformation;
+    setPhotos(...photos: Array<ArrayBuffer>): undefined | EventInformation;
 
     getName(): string;
     getDateOfBeginning(): Date;
@@ -28,8 +28,20 @@ export default class EventInformation implements IEventInformation {
         this.name = name || '';
     }
 
-    addLike(): void {
+    getAllInfo(){
+        return {
+            dateOfBeginning: this.dateOfBeginning,
+            name: this.name,
+            dateOfEnding: this.dateOfEnding,
+            description: this.description,
+            likes: this.likes,
+            photos: this.photos,
+        }
+    }
+
+    addLike(): undefined | EventInformation {
         if (this.likes) this.likes++;
+        return this;
     }
 
     getDateOfBeginning(): Date {
@@ -56,28 +68,34 @@ export default class EventInformation implements IEventInformation {
         return this.photos;
     }
 
-    setDateOfBeginning(date: Date): void {
+    setDateOfBeginning(date: Date): undefined | EventInformation {
         this.dateOfBeginning = date;
+        return this;
     }
 
-    setDateOfEnding(date: Date): void {
+    setDateOfEnding(date: Date): undefined | EventInformation {
         this.dateOfEnding = date;
+        return this;
     }
 
-    setDescription(description: string): void {
+    setDescription(description: string): undefined | EventInformation {
         this.description = description;
+        return this;
     }
 
-    setLikes(number: number): void {
+    setLikes(number: number): undefined | EventInformation {
         this.likes = number;
+        return this;
     }
 
-    setName(name: string): void {
+    setName(name: string): undefined | EventInformation {
         this.name = name;
+        return this;
     }
 
-    setPhotos(...photos: Array<ArrayBuffer>): void {
+    setPhotos(...photos: Array<ArrayBuffer>): undefined | EventInformation {
         if (this.photos) this.photos = [...this.photos, ...photos];
         else this.photos = [...photos];
+        return this;
     }
 }

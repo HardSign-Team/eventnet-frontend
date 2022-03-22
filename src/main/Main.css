@@ -4,10 +4,11 @@
 }
 .main-page {
     position: absolute;
-    display: flex;
+    display: grid;
     height: calc(100% - 70px);
     width: 100%;
 }
+
 
 .slide-bar{
     text-align: center;
@@ -15,7 +16,6 @@
 
 .bm-item {
     display: inline-block;
-    width: 25%;
     text-decoration: none;
     margin-bottom: 10px;
     color: #d1d1d1;
@@ -28,10 +28,24 @@
 
 .bm-burger-button {
     position: fixed;
-    width: 36px;
-    height: 30px;
-    left: 36px;
-    top: 12%;
+    width: 55px;
+    height: 55px;
+    top: 50%;
+    border-radius: 50%;
+    color: #59C7C7;
+}
+
+
+.button{
+    background-color: #59C7C7;
+    border-radius: 50%;
+    border: none;
+    color: #008D8E;
+}
+
+.buttonMenu {
+    position: relative;
+    font-size: 44px;
 }
 
 .bm-burger-bars {
@@ -39,17 +53,12 @@
 }
 
 .bm-cross-button {
-    height: 24px;
-    width: 24px;
-}
-
-.bm-cross {
-    background: #bdc3c7;
+    left: calc(100% - 28px);
 }
 
 .bm-menu {
     background: #D7DCD7;
-    padding: 2.5em 1.5em 0;
+    padding: 2.5em 2em 0;
     font-size: 1.15em;
 }
 
@@ -67,10 +76,14 @@
     color: #b8b7ad;
 }
 
-.bm-overlay {
-    background: rgba(0, 0, 0, 0.3);
+.down-arrow{
+    color: #008D8E;
+    font-weight: 400;
+    font-size: 18px;
 }
 
-#root{
-    height: 100vh;
+.sidebar-btn{
+    width: 30px;
+    height: 30px;
+    margin: 1rem auto;
 }

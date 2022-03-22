@@ -1,0 +1,8 @@
+
+.event-card{
+    color: #171f1d;
+}
+
+.event-card-data, .description-card-data{
+    text-align: left;
+}
