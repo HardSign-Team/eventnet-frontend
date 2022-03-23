@@ -29,7 +29,7 @@ function getCustomMenuButton() {
             className="button buttonMenu"
             style={!isOpen ? buttonStyleOpen : buttonStyleClose}
         >
-            {'<'}
+            {'>'}
         </button>
     );
 }
