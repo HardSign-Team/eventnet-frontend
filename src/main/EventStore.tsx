@@ -1,12 +1,28 @@
 import React from 'react';
-import EventInformation from '../shared/event';
 import EventCard from './EventCard';
 import "./EventStore.css"
-function getEvents(): Array<EventInformation> {
-    const event1 = new EventInformation('День пикачу', new Date(2021, 10, 15));
-    const event2 = new EventInformation('01.06.2022', new Date(2022, 6, 1));
-    event1.addLike()?.setDescription('Абемнта купили называется')?.setDateOfEnding(new Date(2021, 10, 15));
-    event2.addLike()?.setDescription('Челлендж окончен')?.setDateOfEnding(new Date(2022, 6, 2));
+import {EventType} from "../shared/EventType";
+
+function getEvents(): Array<EventType> {
+    const event1: EventType = {
+        id: 1,
+        name: 'День пикачу',
+        coordinates: [56.817076, 60.611855],
+        dateOfBeginning: new Date(2021, 10, 15),
+        likes: 2,
+        description: 'Абемнта купили называется',
+        dateOfEnding: new Date(2021, 10, 15)
+    }
+
+    const event2: EventType = {
+        id: 2,
+        coordinates: [55.817076, 61.611855],
+        name: '01.06.2022',
+        dateOfBeginning: new Date(2022, 6, 1),
+        likes: 0,
+        description: 'Челлендж окончен',
+        dateOfEnding: new Date(2022, 6, 2)
+    }
     return [event1, event2];
 }
 

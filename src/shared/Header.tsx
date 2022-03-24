@@ -10,31 +10,9 @@ const commonLinkStyle = {
     'text-decoration': 'none'
 };
 
-const linkStyle = {
-    ...commonLinkStyle,
-    margin: 'auto 0',
-    padding: '1rem 2rem',
-    verticalAlign: 'middle'
-};
-
-const linkStyleProfile = {
-    ...commonLinkStyle,
-    margin: '0 2rem',
-    padding: '0'
-};
-
 const LOGO_WIDTH: number = window.screen.width / 32;
 
 export default function Header() {
-    const [isOpenDropdownMenu, setIsOpenDropdownMenu] = useState<boolean>(false);
-    const onMouseOutCapture = () => {
-        setIsOpenDropdownMenu(false);
-    };
-
-    const onMouseOverCapture = () => {
-        setIsOpenDropdownMenu(true);
-    };
-
     return (
         <header>
             <Link to="/">
@@ -51,11 +29,7 @@ export default function Header() {
                         <nav className="header__ghost-container-down">
                             <ul className="header_ghosts-container-topmenu">
                                 <li>
-                                    <figure
-                                        className="profile-photo"
-                                        onMouseOverCapture={onMouseOverCapture}
-                                        onMouseOutCapture={onMouseOutCapture}
-                                    >
+                                    <figure className="profile-photo">
                                         <img src={avatar} alt="Avatar" className="avatar" />
                                     </figure>
                                     <ul className="header__ghosts-container-submenu">

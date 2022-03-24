@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Gapped } from '@skbkontur/react-ui';
 import './Toolbar.css';
-import EventStore from "./EventStore";
+import EventStore from './EventStore';
 
 type FormData = {
     eventName: string;
@@ -53,12 +53,14 @@ export default function Toolbar(): JSX.Element {
     const renderForm = () => {
         const { eventName, coordinates, tags } = state;
         return (
-            <form>
-                <Gapped gap={15} vertical>
-                    {getLabel('Введите название события', eventName, 'eventName')}
-                    {getLabel('Введите координаты события', coordinates, 'coordinates')}
-                    {getLabel('Выберите подходящие теги', tags[0], 'tags')}
-                </Gapped>
+            <form className="form-horizontal">
+                {isOpenEvent && (
+                    <Gapped gap={15} vertical>
+                        {getLabel('Введите название события', eventName, 'eventName')}
+                        {getLabel('Введите координаты события', coordinates, 'coordinates')}
+                        {getLabel('Выберите подходящие теги', tags[0], 'tags')}
+                    </Gapped>
+                )}
                 <button
                     className="button sidebar-btn"
                     onClick={onClick}
@@ -66,7 +68,7 @@ export default function Toolbar(): JSX.Element {
                 >
                     <span className="down-arrow">{'<'}</span>
                 </button>
-                {isOpenEvent && <EventStore />}
+                <EventStore />
             </form>
         );
     };
