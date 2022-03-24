@@ -1,8 +1,6 @@
 .login {
-    margin-right: auto;
-    margin-left: auto;
-    width: 20em;
-    margin-top: 35px;
+    margin: 35px auto auto;
+    display: inline-block;
 }
 
 .password_handler {
@@ -10,13 +8,15 @@
     width: 320px;
 }
 
-.registration_button{
+.change_rout_to_registration{
     font-size: 14px;
     text-decoration: none;
     color: #008d8e;
     text-align: center;
     margin-right: auto;
-    margin-right: auto;
+    display: block;
+    margin-left: auto;
+    width: 200px;
 }
 
 .not_acc {
@@ -43,13 +43,6 @@
     font-size: 10px;
 }
 
-.registration_button {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 200px;
-}
-
 .login__button {
     background: #008d8e;
     width: 190px;
@@ -57,14 +50,12 @@
     color: #D7DCD7;
     border-radius: 15px;
     border: #008d8e;
-}
 
-
-.label_login_button {
     margin-left: 20px;
-    width: 100%;
-    height: 100%;
+
 }
+
+
 
 .Error {
     font-size: 18px;
