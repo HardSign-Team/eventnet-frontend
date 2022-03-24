@@ -68,7 +68,7 @@ const Login = () => {
                     <input id = "checked" type="checkbox" className="checked_remember_password"/>
                     <label className='label_checked' htmlFor="checked">Запомнить меня</label>
                 </div>
-                <CustomButton page="Войти" className='login__button' onClick={() => checkLogin(userName, password)} classNameDiv="label_login_button"/>
+                <CustomButton label="Войти" className='login__button' onClick={() => checkLogin(userName, password)} classNameDiv="label_login_button"/>
             </Gapped>
             <div className="change_to_registration">
                 <a className="not_acc">Нет аккаунта?</a>
