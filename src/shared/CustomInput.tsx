@@ -14,7 +14,7 @@ interface Props {
 const CustomInput = ({className, value, onChange, placeholder, label , mask}: Props) => {
     return (
         <div>
-            <p >{label}</p>
+            <p>{label}</p>
             <Input mask={mask} className={className} value={value} placeholder={placeholder} onValueChange={() => onChange}/>
         </div>
     )
