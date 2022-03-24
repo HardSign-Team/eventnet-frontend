@@ -10,8 +10,9 @@ html,body{
     padding: 0;
     font-family: 'Public Sans', sans-serif;
     text-align: center;
-    overflow: scroll;
 }
+
+
 
 .routes-list{
     list-style: none;
