@@ -6,7 +6,6 @@ interface Props {
     readonly onClick?: (...rest: never) => void;
     readonly label: string;
     readonly checked?: boolean;
-
 }
 
 const CustomCheckbox = (props: Props) => {

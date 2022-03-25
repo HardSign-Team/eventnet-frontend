@@ -3,7 +3,7 @@ import './CustomButton.css'
 
 interface Props {
     readonly className?: string;
-    readonly onClick?: (...rest: never) => void;
+    readonly onClick?: (...rest: any) => void;
     readonly label: string;
     readonly classNameDiv?: string;
     readonly width?: number;
