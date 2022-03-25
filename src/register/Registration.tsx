@@ -4,8 +4,12 @@ import './Registration.css'
 import { DateInput, Gapped } from '@skbkontur/react-ui';
 import CustomInput from '../shared/CustomInput';
 import CustomButton from '../shared/CustomButton';
+import GenderSelector from '../shared/GenderSelector';
 
 const Registration = () => {
+    const registration = () => {
+        console.log(1323)
+    }
     return (
         <div className="registration">
             <Logo className="logo_registration" width={200} height={200} />
@@ -19,20 +23,8 @@ const Registration = () => {
                     <p>Введите дату рождения</p>
                     <DateInput/>
                 </div>
-                <div className='sex_registration'>
-                    <p>Укажите свой пол</p>
-                    <div className='change_sex'>
-                        <span className='male_sex'>
-                            <input type='checkbox'/>
-                            Мужчина
-                        </span>
-                        <span className='female_sex'>
-                            <input type='checkbox'/>
-                            Женщина
-                        </span>
-                    </div>
-                </div>
-                <CustomButton classNameDiv="label_button"  className="registration_button" label="Зарегистрироваться"/>
+                <GenderSelector label="Укажите свой пол" classNameDiv="gender_selector"/>
+                <CustomButton onClick={registration} classNameDiv="label_button"  className="registration_button" label="Зарегистрироваться"/>
             </Gapped>
         </div>
     )

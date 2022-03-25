@@ -3,7 +3,7 @@ import './CustomButton.css'
 
 interface Props {
     readonly className?: string;
-    readonly onClick?: (value: string) => void;
+    readonly onClick?: (...rest: never) => void;
     readonly label: string;
     readonly classNameDiv?: string;
     readonly width?: number;
@@ -13,7 +13,7 @@ interface Props {
 const CustomButton = ({className, onClick, label, classNameDiv, width, height}: Props) => {
     return (
         <div className={classNameDiv}>
-            <button style={{height: height, width: width}} className={className ?? 'custom_button'} onClick={() => onClick} >{label}</button>
+            <button style={{height: height, width: width}} className={className ?? 'custom_button'} onClick={onClick} >{label}</button>
         </div>
     )
 }
