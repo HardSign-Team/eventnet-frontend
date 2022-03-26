@@ -22,7 +22,7 @@ const Registration = () => {
     return (
         <div className='registration'>
             <Logo className='logo_registration' width={200} height={200} />
-            <Gapped gap={15} vertical className='form__registration'>
+            <Gapped gap={7} vertical className='form__registration'>
                 <CustomInput label='Ваш адрес эл.почты' onChange={setMail} />
                 <CustomInput label='Придумайте себе пароль' onChange={setPassword} />
                 <CustomInput label='Подтвердите пароль' onChange={setAcceptedPassword} />

@@ -14,7 +14,7 @@ const CustomCheckbox = (props: Props) => {
             <label className='container'>
                 {props.label}
                 <input className={props.className ?? 'radio_button'} type='radio' onClick={props.onClick}
-                       checked={props.checked} />
+                       defaultChecked={props.checked} />
                 <span className='checkmark'></span>
             </label>
         </div>
