@@ -2,9 +2,9 @@
     display: flex;
     justify-content: space-between;
     padding: 0 130px 0 0;
-    margin-top: 10px;
 }
 
 .label__gender_selector {
     text-align: left;
+    margin-bottom: 10px;
 }

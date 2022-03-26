@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "./GenderSelector.css"
+import './GenderSelector.css';
 import CustomCheckbox from './CustomCheckbox';
 
 interface Props {
@@ -13,28 +13,28 @@ const GenderSelector = (props: Props) => {
     const [isMale, setIsMale] = useState(false);
     const changeGender = (gender: boolean) => {
         if (gender) {
-            setIsMale(true)
+            setIsMale(true);
             if (props.onChange)
-                props.onChange('Male')
+                props.onChange('Male');
         } else {
-            setIsMale(false)
+            setIsMale(false);
             if (props.onChange)
-                props.onChange('Female')
+                props.onChange('Female');
         }
-    }
+    };
     return (
-        <div className={props.classNameDiv ?? "gender_selector"}>
-            <p className={props.classNameLabel ?? "label__gender_selector"}>{props.label}</p>
+        <div className={props.classNameDiv ?? 'gender_selector'}>
+            <p className={props.classNameLabel ?? 'label__gender_selector'}>{props.label}</p>
             <div className='change_gender'>
                             <span className='male_sex'>
-                                <CustomCheckbox label="Мужчина" checked={isMale} onClick={() => changeGender(true)}/>
+                                <CustomCheckbox label='Мужчина' checked={isMale} onClick={() => changeGender(true)} />
                             </span>
                 <span className='female_sex'>
-                               <CustomCheckbox label="Женщина" checked={!isMale} onClick={() => changeGender(false)}/>
+                               <CustomCheckbox label='Женщина' checked={!isMale} onClick={() => changeGender(false)} />
                 </span>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default GenderSelector
+export default GenderSelector;

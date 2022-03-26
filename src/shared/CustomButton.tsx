@@ -1,5 +1,6 @@
 import React from 'react';
 import './CustomButton.css'
+import { Gapped } from '@skbkontur/react-ui';
 
 interface Props {
     readonly className?: string;
@@ -8,13 +9,14 @@ interface Props {
     readonly classNameDiv?: string;
     readonly width?: number;
     readonly height?: number;
+    readonly fontSize?: number;
 }
 
-const CustomButton = ({className, onClick, label, classNameDiv, width, height}: Props) => {
+const CustomButton = ({className, onClick, label, classNameDiv, width, height, fontSize}: Props) => {
     return (
-        <div className={classNameDiv}>
-            <button style={{height: height, width: width}} className={className ?? 'custom_button'} onClick={onClick} >{label}</button>
-        </div>
+        <Gapped vertical gap={7} className={classNameDiv}>
+            <button style={{height: height, width: width, fontSize: fontSize}} className={className ?? 'custom_button'} onClick={onClick} >{label}</button>
+        </Gapped>
     )
 }
 
