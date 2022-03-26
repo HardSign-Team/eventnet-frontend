@@ -3,7 +3,7 @@ import './CustomButton.css'
 
 interface Props {
     readonly className?: string;
-    readonly onClick?: (value: string) => void;
+    readonly onClick?: (...rest: any) => void;
     readonly label: string;
     readonly classNameDiv?: string
 }
@@ -11,7 +11,7 @@ interface Props {
 const CustomButton = ({className, onClick, label, classNameDiv}: Props) => {
     return (
         <div className={classNameDiv}>
-            <button className={className ?? 'custom_button'} onClick={() => onClick} >{label}</button>
+            <button className={className ?? 'custom_button'} onClick={onClick} >{label}</button>
         </div>
     )
 }
