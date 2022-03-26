@@ -26,10 +26,10 @@ const GenderSelector = (props: Props) => {
         <div className={props.classNameDiv ?? 'gender_selector'}>
             <p className={props.classNameLabel ?? 'label__gender_selector'}>{props.label}</p>
             <div className='change_gender'>
-                            <span className='male_sex'>
+                            <span className='male_gender'>
                                 <CustomCheckbox label='Мужчина' checked={isMale} onClick={() => changeGender(true)} />
                             </span>
-                <span className='female_sex'>
+                <span className='female_gender'>
                                <CustomCheckbox label='Женщина' checked={!isMale} onClick={() => changeGender(false)} />
                 </span>
             </div>

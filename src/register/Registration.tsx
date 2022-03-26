@@ -16,7 +16,7 @@ const Registration = () => {
     const [dateBirthday, setDateBirthday] = useState('');
     const [gender, setGender] = useState('Male');
     const registration = () => {
-        console.log(1323);
+        console.log("Registration");
     };
 
     return (
