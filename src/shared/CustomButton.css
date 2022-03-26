@@ -3,6 +3,7 @@
     width: 190px;
     height: 30px;
     color: #D7DCD7;
-    border-radius: 15px;
+    border-radius: 100px;
     border: #008d8e;
+    cursor: pointer;
 }
