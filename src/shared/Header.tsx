@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import React from 'react';
+import React, { useState } from 'react';
 import Logo from './Logo';
 import './Header.css';
 import avatar from 'assets/avatar.jpg';
@@ -8,21 +8,7 @@ const commonLinkStyle = {
     textDecoration: 'none',
     color: '#171f1d',
     display: 'block',
-    "text-decoration": 'none'
-}
-
-
-const linkStyle = {
-    ...commonLinkStyle,
-    margin: 'auto 0',
-    padding: '1rem 2rem',
-    verticalAlign: 'middle'
-};
-
-const linkStyleProfile = {
-    ...commonLinkStyle,
-    margin: '0 2rem',
-    padding: '0',
+    'text-decoration': 'none'
 };
 
 const LOGO_WIDTH: number = window.screen.width / 32;
@@ -30,35 +16,34 @@ const LOGO_WIDTH: number = window.screen.width / 32;
 export default function Header() {
     return (
         <header>
-            <div className="logo-with-name">
-                <Logo className="logo" width={LOGO_WIDTH} height={LOGO_WIDTH} />
-                <span className="logo-name">
-                    event<span className="logo-name-end">net</span>
-                </span>
-            </div>
+            <Link to="/">
+                <div className="logo-with-name">
+                    <Logo className="logo" width={LOGO_WIDTH} height={LOGO_WIDTH} />
+                    <span className="logo-name">
+                        event<span className="logo-name-end">net</span>
+                    </span>
+                </div>
+            </Link>
             <nav className="nav navbar">
                 <ul className="routes-list">
                     <li className="route">
-                        <Link to="/" style={linkStyle}>
-                            Home
-                        </Link>
-                    </li>
-                    <li className="route">
-                        <Link to="/register" style={linkStyle}>
-                            Registration
-                        </Link>
-                    </li>
-                    <li className="route">
-                        <Link to="/login" style={linkStyle}>
-                            Login
-                        </Link>
-                    </li>
-                    <li className="route">
-                        <Link to="/profile" style={linkStyleProfile}>
-                            <figure>
-                                <img src={avatar} alt="Avatar" className="avatar" />
-                            </figure>
-                        </Link>
+                        <nav className="header__ghost-container-down">
+                            <ul className="header_ghosts-container-topmenu">
+                                <li>
+                                    <figure className="profile-photo">
+                                        <img src={avatar} alt="Avatar" className="avatar" />
+                                    </figure>
+                                    <ul className="header__ghosts-container-submenu">
+                                        <li>
+                                            <Link to={'/profile'}>Профиль</Link>
+                                        </li>
+                                        <li>
+                                            <Link to={'/login'}>LogOut</Link>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
                     </li>
                 </ul>
             </nav>
