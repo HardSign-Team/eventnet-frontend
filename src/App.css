@@ -4,13 +4,15 @@
 }
 
 
-
 html,body{
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    font-family: 'Public Sans', sans-serif;
+    text-align: center;
 }
+
+
 
 .routes-list{
     list-style: none;

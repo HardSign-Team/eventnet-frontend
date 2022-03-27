@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Logo from './Logo';
 import './Header.css';
 import avatar from 'assets/avatar.jpg';
+
 const commonLinkStyle = {
     textDecoration: 'none',
     color: '#171f1d',
