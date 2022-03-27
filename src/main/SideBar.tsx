@@ -7,7 +7,7 @@ type BarProps = {
     width?: number | string | undefined;
 };
 
-function getCustomMenuButton() {
+function CustomMenuButton() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const onClick = (e: any) => {
@@ -28,8 +28,8 @@ export default function props({ className, width }: BarProps) {
             {...props}
             className={className}
             width={width}
-            customBurgerIcon={getCustomMenuButton()}
-            customCrossIcon={getCustomMenuButton()}
+            customBurgerIcon={CustomMenuButton()}
+            customCrossIcon={CustomMenuButton()}
             styles={{
                 bmCrossButton: {
                     position: 'absolute',

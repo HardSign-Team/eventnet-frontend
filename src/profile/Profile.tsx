@@ -1,5 +1,5 @@
 import React from 'react';
-import avatar from 'assets/avatar.jpg';
+import avatar from '../assets/avatar.jpg';
 import './Profile.css';
 import {DateInput, Gapped} from "@skbkontur/react-ui";
 import CustomButton from "../shared/CustomButton";

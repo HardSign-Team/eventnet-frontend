@@ -1,15 +1,9 @@
 import { Link } from 'react-router-dom';
-import React, { useState } from 'react';
+import React from 'react';
 import Logo from './Logo';
 import './Header.css';
-import avatar from 'assets/avatar.jpg';
+import avatar from '../assets/avatar.jpg';
 
-const commonLinkStyle = {
-    textDecoration: 'none',
-    color: '#171f1d',
-    display: 'block',
-    'text-decoration': 'none'
-};
 
 const LOGO_WIDTH: number = window.screen.width / 32;
 
