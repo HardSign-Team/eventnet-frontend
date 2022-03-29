@@ -1,6 +1,6 @@
 import React from 'react';
-import { Input, PasswordInput } from '@skbkontur/react-ui';
-import "./CustomInput.css"
+import { Gapped, Input, PasswordInput } from '@skbkontur/react-ui';
+import './CustomInput.css';
 
 interface Props {
     readonly type?: string;
@@ -12,21 +12,30 @@ interface Props {
     readonly mask?: string;
 }
 
-const CustomInput = ({className, value, onChange = () => console.log('Input'), placeholder, label, mask, type = 'default'}: Props) => {
-        if (type === 'default')
+const CustomInput = ({
+                         className,
+                         value,
+                         onChange = () => console.log('Input'),
+                         placeholder,
+                         label,
+                         mask,
+                         type = 'default'
+                     }: Props) => {
+    if (type === 'default')
         return (
-         <div>
-            <p className={'custom-input_label'}>{label}</p>
-            <Input style={{"width": "320px","height": "36px"}} mask={mask} className={className} value={value} placeholder={placeholder}
-                   onValueChange={value => onChange(value)}/>
-        </div>
-    ); else
-        return (
-            <div>
+            <Gapped vertical gap={7}>
                 <p className={'custom-input_label'}>{label}</p>
-                <PasswordInput className={className} value={value} detectCapsLock  onValueChange={value => onChange ? onChange(value) : null} width={320} style={{"height": "36px"}} />
-            </div>
-        )
-}
+                <Input width={320} mask={mask} className={className} value={value} placeholder={placeholder}
+                       onValueChange={value => onChange(value)} style={{ 'height': '38px' }} />
+            </Gapped>
+        ); else
+        return (
+            <Gapped vertical gap={7}>
+                <p className={'custom-input_label'}>{label}</p>
+                <PasswordInput style={{ 'height': '38px' }} className={className} value={value} detectCapsLock
+                               onValueChange={value => onChange ? onChange(value) : null} width={320} />
+            </Gapped>
+        );
+};
 
-export default CustomInput
+export default CustomInput;

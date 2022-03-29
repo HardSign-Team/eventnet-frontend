@@ -1,11 +1,12 @@
 .header2 {
-    text-align: center;
+    text-align: left;
     padding: 20px 5px;
 }
 
 .label {
     display: inline-block;
-    width: 100px;
-    margin: 0 0 0 1rem;
+    width: 100%;
+    font-size: 16px;
     padding: 0;
 }
+

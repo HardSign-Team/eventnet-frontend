@@ -1,5 +1,5 @@
 import React from 'react';
-import "./CustomCheckbox.css"
+import './CustomCheckbox.css';
 
 interface Props {
     readonly className?: string;
@@ -10,14 +10,15 @@ interface Props {
 
 const CustomCheckbox = (props: Props) => {
     return (
-        <div className="custom_checkbox">
-            <label className="container">
+        <div className='custom_checkbox'>
+            <label className='container'>
                 {props.label}
-                <input className={props.className ?? "radio_button"} type='radio' onClick={props.onClick} checked={props.checked}/>
-                <span className="checkmark"></span>
+                <input className={props.className ?? 'radio_button'} type='radio' onClick={props.onClick}
+                       defaultChecked={props.checked} />
+                <span className='checkmark'></span>
             </label>
         </div>
-    )
-}
+    );
+};
 
-export default CustomCheckbox
+export default CustomCheckbox;

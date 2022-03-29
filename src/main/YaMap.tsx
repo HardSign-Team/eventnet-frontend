@@ -1,6 +1,7 @@
 import { Circle, Clusterer, Map, YMaps } from 'react-yandex-maps';
 import React from 'react';
 import './Main.css';
+import { EventType } from '../shared/EventType';
 
 const DEFAULT_ZOOM = 6;
 const CIRCLE_RADIUS = 150;
@@ -14,57 +15,48 @@ const mockMapState = {
     behaviors: ['default', 'scrollZoom']
 };
 
-function getRandomPosition(): [[number, number], number] {
-    const degree = 100;
-    return [[Math.random() * degree, Math.random() * degree], CIRCLE_RADIUS];
-}
-
-function getPointOptions() {
-    return {
-        fillColor: '#008D8E',
-        strokeColor: '#008D8E',
-        strokeOpacity: 0.9,
-        strokeWidth: 10
-    };
-}
-
-function createCircles() {
-    const rndNumber = Math.random() * 1000 + 1;
-    const circles = [];
-    for (let i = 0; i < rndNumber; i++) {
-        circles.push(<Circle geometry={getRandomPosition()} options={getPointOptions()} key={i} />);
-    }
+const circleOptions = {
+    fillColor: '#008D8E',
+    strokeColor: '#008D8E',
+    strokeOpacity: 0.9,
+    strokeWidth: 10
+};
+function createCircles(events: Array<EventType>) {
+    const circles: Array<JSX.Element> = [];
+    events.forEach(event => {
+        circles.push(<Circle geometry={[event.coordinates, CIRCLE_RADIUS]} options={circleOptions} key={event.id} />);
+    });
     return circles;
 }
 
-
-const style = {
+const mapStyle = {
     position: 'absolute',
-    margin: "0",
-    padding: "0",
+    margin: '0',
+    padding: '0',
     width: '100%',
     height: '100%'
 } as const;
 
+const mapOptions = {
+    exitFullscreenByEsc: true,
+    maxZoom: MAX_ZOOM,
+    minZoom: MIN_ZOOM,
+    yandexMapAutoSwitch: true
+};
 
-
-export default function YaMap({className} : {className: string}) {
+export default function YaMap({ className }: { className: string; }) {
+    const events = Array<EventType>();//TODO: JOPA. WE NEED MOBX
     return (
         <YMaps>
             <Map
-                style={style}
+                style={mapStyle}
                 defaultState={mockMapState}
                 width={WINDOW_WIDTH}
                 height={WINDOW_HEIGHT}
                 className={className}
-                options={{
-                    exitFullscreenByEsc: true,
-                    maxZoom: MAX_ZOOM,
-                    minZoom: MIN_ZOOM,
-                    yandexMapAutoSwitch: true
-                }}
+                options={mapOptions}
             >
-                <Clusterer>{createCircles()}</Clusterer>
+                <Clusterer>{createCircles(events)}</Clusterer>
             </Map>
         </YMaps>
     );
