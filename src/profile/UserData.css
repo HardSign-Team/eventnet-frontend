@@ -1,0 +1,11 @@
+.user-data {
+    text-align: left;
+}
+
+.user-data_text {
+    display: flex;
+    align-items: center;
+    height: 36px;
+    padding-left: 10px;
+    background: #D7DCD7;
+}
