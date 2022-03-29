@@ -4,7 +4,7 @@
 }
 
 .password_handler {
-    display: inline-block;
+    display: flex;
     width: 320px;
 }
 
@@ -52,10 +52,11 @@
     border: #008d8e;
 
     margin-left: 20px;
-
 }
 
-
+.checked_remember_password {
+    margin-top: 7px;
+}
 
 .Error {
     font-size: 18px;

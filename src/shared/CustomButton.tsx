@@ -5,13 +5,15 @@ interface Props {
     readonly className?: string;
     readonly onClick?: (...rest: any) => void;
     readonly label: string;
-    readonly classNameDiv?: string
+    readonly classNameDiv?: string;
+    readonly width?: number;
+    readonly height?: number;
 }
 
-const CustomButton = ({className, onClick, label, classNameDiv}: Props) => {
+const CustomButton = ({className, onClick, label, classNameDiv, width, height}: Props) => {
     return (
         <div className={classNameDiv}>
-            <button className={className ?? 'custom_button'} onClick={onClick} >{label}</button>
+            <button style={{height: height, width: width}} className={className ?? 'custom_button'} onClick={onClick} >{label}</button>
         </div>
     )
 }
