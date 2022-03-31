@@ -4,8 +4,8 @@ import './Registration.css';
 import { Gapped } from '@skbkontur/react-ui';
 import CustomInput from '../shared/CustomInput';
 import CustomButton from '../shared/CustomButton';
-import GenderSelector from '../shared/GenderSelector';
-import CustomSelectDate from '../shared/CustomSelectDate';
+import { GenderSelector } from '../shared/GenderSelector';
+import { CustomSelectDate } from '../shared/CustomSelectDate';
 
 const Registration = () => {
     const [userName, setUserName] = useState('');
@@ -28,7 +28,7 @@ const Registration = () => {
                 <CustomInput label='Подтвердите пароль' onChange={setAcceptedPassword} />
                 <CustomInput label='Введите номер телефона' onChange={setPhoneNumber} />
                 <CustomInput label='Укажите  имя пользователя' onChange={setUserName} />
-                <CustomSelectDate label='Введите дату рождения' onChange={setDateBirthday} />
+                <CustomSelectDate date={dateBirthday} label='Введите дату рождения' onChange={setDateBirthday} />
                 <GenderSelector label='Укажите свой пол' classNameDiv='gender_selector' onChange={setGender} />
                 <CustomButton onClick={registration} classNameDiv='label_button' className='registration_button'
                               label='Зарегистрироваться' />

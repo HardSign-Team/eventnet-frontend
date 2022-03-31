@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './GenderSelector.css';
-import CustomCheckbox from './CustomCheckbox';
+import { CustomCheckbox } from './CustomCheckbox';
 
 interface Props {
     readonly classNameLabel?: string;
@@ -9,32 +9,30 @@ interface Props {
     readonly onChange?: (...rest: any) => void;
 }
 
-const GenderSelector = (props: Props) => {
-    const [isMale, setIsMale] = useState(false);
+export const GenderSelector: React.FC<Props> = ({
+                                                    classNameLabel,
+                                                    classNameDiv,
+                                                    label,
+                                                    onChange = () => console.log('change gender')
+                                                }) => {
+    const [isMale, setIsMale] = useState(true);
+
     const changeGender = (gender: boolean) => {
-        if (gender) {
-            setIsMale(true);
-            if (props.onChange)
-                props.onChange('Male');
-        } else {
-            setIsMale(false);
-            if (props.onChange)
-                props.onChange('Female');
-        }
+        setIsMale(gender);
+        onChange(gender ? 'Male' : 'Female');
     };
+
     return (
-        <div className={props.classNameDiv ?? 'gender_selector'}>
-            <p className={props.classNameLabel ?? 'label__gender_selector'}>{props.label}</p>
+        <div className={classNameDiv ?? 'gender_selector'}>
+            <p className={classNameLabel ?? 'label__gender_selector'}>{label}</p>
             <div className='change_gender'>
-                            <span className='male_gender'>
-                                <CustomCheckbox label='Мужчина' checked={isMale} onClick={() => changeGender(true)} />
-                            </span>
+                <span className='male_gender'>
+                    <CustomCheckbox label='Мужчина' checked={isMale} onClick={() => changeGender(true)} />
+                </span>
                 <span className='female_gender'>
-                               <CustomCheckbox label='Женщина' checked={!isMale} onClick={() => changeGender(false)} />
+                    <CustomCheckbox label='Женщина' checked={!isMale} onClick={() => changeGender(false)} />
                 </span>
             </div>
         </div>
     );
 };
-
-export default GenderSelector;

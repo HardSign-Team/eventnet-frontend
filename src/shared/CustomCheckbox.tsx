@@ -3,22 +3,20 @@ import './CustomCheckbox.css';
 
 interface Props {
     readonly className?: string;
-    readonly onClick?: (...rest: never) => void;
+    readonly onClick: (...rest: any) => void;
     readonly label: string;
     readonly checked?: boolean;
 }
 
-const CustomCheckbox = (props: Props) => {
+export const CustomCheckbox: React.FC<Props> = ({className, onClick, label, checked}) => {
     return (
         <div className='custom_checkbox'>
             <label className='container'>
-                {props.label}
-                <input className={props.className ?? 'radio_button'} type='radio' onClick={props.onClick}
-                       defaultChecked={props.checked} />
+                {label}
+                <input className={className ?? 'radio_button'} type='radio' onClick={() => onClick()}
+                       checked={checked} />
                 <span className='checkmark'></span>
             </label>
         </div>
     );
 };
-
-export default CustomCheckbox;

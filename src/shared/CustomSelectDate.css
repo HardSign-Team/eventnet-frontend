@@ -1,33 +1,3 @@
-/*.datepicker-toggle {*/
-/*    display: inline-block;*/
-/*    position: relative;*/
-/*    border: #b8b8b8 1px solid;*/
-/*}*/
-
-/*.datepicker-toggle-button {*/
-/*    position: absolute;*/
-/*    left: 0;*/
-/*    top: 0;*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-/*}*/
-
-.label_select_date {
+.custom-input_label {
     text-align: left;
-    padding: 0 0 5px 0;
-}
-
-.datepicker-toggle {
-    display: inline-block;
-    position: relative;
-    width: 18px;
-    height: 19px;
-}
-.datepicker-toggle-button {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('data:image/svg+xml;base64,...');
 }
