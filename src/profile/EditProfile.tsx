@@ -1,5 +1,5 @@
 import { Gapped } from "@skbkontur/react-ui";
-import CustomInput from "../shared/CustomInput";
+import { CustomInput } from "../shared/CustomInput";
 import { CustomSelectDate } from '../shared/CustomSelectDate';
 import { GenderSelector } from "../shared/GenderSelector";
 import React from "react";
