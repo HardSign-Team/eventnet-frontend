@@ -17,7 +17,7 @@ export const ResetPassword: React.FC = () => {
     return (
         <Gapped vertical gap={7} className='resetPassword'>
             {!isMailEntered && <>
-                <CustomInput label='Введите адорес эл. почты' onChange={setMail} />
+                <CustomInput label='Введите адрес эл.почты' onChange={setMail} />
                 <CustomButton classNameDiv='button__resetPassword' label='Отправить код' onClick={sendCodeToMail}/>
             </>}
             {isMailEntered
