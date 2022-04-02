@@ -1,18 +1,22 @@
-import React from 'react';
-import './EventCard.css';
-import { EventType } from '../shared/EventType';
+import React from "react";
+import "./EventCard.css";
+import Event from "../models/Event";
 
 type EventCardProps = {
-    eventInfo: EventType;
+  event: Event;
 };
 
-export default function EventCard(event: EventCardProps) {
-    return (
-        <div className="event-card">
-            <h2>{event.eventInfo.name}</h2>
-            <div className="description">{event.eventInfo.description}</div>
-            <div className="event-card-data">Дата начала: {event.eventInfo.dateOfBeginning?.toLocaleDateString()}</div>
-            <div className="event-card-data">Дата конца: {event.eventInfo.dateOfEnding?.toLocaleDateString()}</div>
-        </div>
-    );
+export default function EventCard({ event }: EventCardProps) {
+  return (
+    <div className="event-card">
+      <h2>{event.info.name}</h2>
+      <div className="description">{event.info.description}</div>
+      <div className="event-card-data">
+        Дата начала: {event.info.dateStart?.toLocaleDateString()}
+      </div>
+      <div className="event-card-data">
+        Дата конца: {event.info.dateEnd?.toLocaleDateString()}
+      </div>
+    </div>
+  );
 }
