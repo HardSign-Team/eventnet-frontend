@@ -129,15 +129,7 @@ export default function Toolbar(): JSX.Element {
               placeholder="Выберите подходящие теги"
               onValueChange={setSelectedItems}
               renderToken={(item, tokenProps) => (
-                <Token
-                  key={item}
-                  colors={
-                    tokenColors[
-                      getRandomInt(Object.keys(tokenColors).length - 1)
-                    ] || tokenColors.default
-                  }
-                  {...tokenProps}
-                >
+                <Token key={item} {...tokenProps}>
                   {item}
                 </Token>
               )}
