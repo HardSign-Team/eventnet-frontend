@@ -23,7 +23,8 @@ const Registration = () => {
     <div className="registration">
       <Logo className="logo_registration" width={200} height={200} />
       <Gapped gap={7} vertical className="form__registration">
-        <CustomInput label="Ваш адрес эл почты" onChange={setMail} />
+        <CustomInput label="Укажите имя пользователя" onChange={setUserName} />
+        <CustomInput label="Ваш адрес эл. почты" onChange={setMail} />
         <CustomInput
           type="password"
           label="Придумайте себе пароль"
@@ -35,7 +36,6 @@ const Registration = () => {
           onChange={setAcceptedPassword}
         />
         <CustomInput label="Введите номер телефона" onChange={setPhoneNumber} />
-        <CustomInput label="Укажите имя пользователя" onChange={setUserName} />
         <CustomSelectDate
           date={dateBirthday}
           label="Введите дату рождения"
