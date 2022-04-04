@@ -51,7 +51,7 @@ const mapOptions = {
 };
 
 export default function YaMap({ className }: { className: string }) {
-  const events = Array<Event>(); //TODO: JOPA. WE NEED CONTEXT
+  const events = Array<Event>();
 
   return (
     <YMaps>

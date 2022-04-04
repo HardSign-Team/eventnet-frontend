@@ -12,11 +12,13 @@ export default function EventCard({ event }: EventCardProps) {
       <h2>{event.info.name}</h2>
       <div className="description">{event.info.description}</div>
       <div className="event-card-data">
-        Дата начала: {event.info.dateStart?.toLocaleDateString()}
+        Дата начала: {event.info.dateStart.toLocaleDateString()}
       </div>
-      <div className="event-card-data">
-        Дата конца: {event.info.dateEnd?.toLocaleDateString()}
-      </div>
+      {event.info.dateEnd && (
+        <div className="event-card-data">
+          Дата конца: {event.info.dateEnd.toLocaleDateString()}
+        </div>
+      )}
     </div>
   );
 }
