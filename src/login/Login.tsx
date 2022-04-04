@@ -52,7 +52,7 @@ const Login = () => {
       </div>
       <Gapped gap={7} vertical>
         <CustomInput
-          label="Эл. Почта или имя пользователя"
+          label="Эл Почта или имя пользователя"
           onChange={setUserName}
         />
         {(errorPassword || errorName) && (
