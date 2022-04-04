@@ -5,6 +5,7 @@ import EventList from "../EventList/EventList";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import { Token } from "@skbkontur/react-ui";
 import { TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
+import { useGlobalContext } from "../Context";
 
 const tags = [
   "ЖОПА",
@@ -21,10 +22,6 @@ const tags = [
   "архитектура",
 ];
 
-function getRandomInt(max: number): number {
-  return Math.floor(Math.random() * max);
-}
-
 const getItems = (q: string): Promise<never[]> =>
   Promise.resolve(
     tags.filter(
@@ -32,51 +29,21 @@ const getItems = (q: string): Promise<never[]> =>
     )
   ).then();
 
-const tokenColors: Record<number | string, { idle: any; active: any }> = {
-  0: {
-    idle: "grayIdle",
-    active: "grayActive",
-  },
-  1: {
-    idle: "blueIdle",
-    active: "blueActive",
-  },
-  2: {
-    idle: "greenIdle",
-    active: "greenActive",
-  },
-  3: {
-    idle: "yellowIdle",
-    active: "yellowActive",
-  },
-  4: {
-    idle: "redIdle",
-    active: "redActive",
-  },
-  5: {
-    idle: "white",
-    active: "black",
-  },
-  default: {
-    idle: "defaultIdle",
-    active: "defaultActive",
-  },
-};
-
 type FormData = {
   eventName: string;
-  coordinates: string;
+  currentCoordinates: string;
 };
 
 const defaultData = {
   eventName: "",
-  coordinates: "",
+  currentCoordinates: "",
 };
 
 export default function Toolbar(): JSX.Element {
   const [state, setState] = useState<FormData>(defaultData);
   const [isOpenEvent, setIsOpenEvent] = useState<boolean>(true);
   const [selectedItems, setSelectedItems] = React.useState([]);
+  const { setCoordinates } = useGlobalContext();
 
   const onChangeEventName = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -88,10 +55,13 @@ export default function Toolbar(): JSX.Element {
 
   const onChangeCoordinates = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
+    const coordString = e.target.value;
+    const [latitude, longitude] = coordString.split(", ").map((x) => +x);
     setState({
       ...state,
-      coordinates: e.target.value,
+      currentCoordinates: e.target.value,
     });
+    if (latitude && longitude) setCoordinates([latitude, longitude]);
   };
 
   const onClick = (e: any) => {
@@ -99,7 +69,7 @@ export default function Toolbar(): JSX.Element {
     setIsOpenEvent(!isOpenEvent);
   };
 
-  const { eventName, coordinates } = state;
+  const { eventName, currentCoordinates } = state;
 
   return (
     <div>
@@ -117,7 +87,7 @@ export default function Toolbar(): JSX.Element {
             <label>
               <div className="label">Введите координаты события</div>
               <Input
-                value={coordinates}
+                value={currentCoordinates}
                 placeholder="56.817076, 60.611855"
                 onChange={onChangeCoordinates}
               />
