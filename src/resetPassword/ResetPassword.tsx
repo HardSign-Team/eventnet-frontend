@@ -1,7 +1,7 @@
 import "./ResetPassword.scss";
 import React, { useState } from "react";
-import { CustomInput } from "../shared/CustomInput";
-import CustomButton from "../shared/CustomButton";
+import { CustomInput } from "../shared/CustomInput/CustomInput";
+import CustomButton from "../shared/CustomButton/CustomButton";
 import { Gapped } from "@skbkontur/react-ui";
 
 export const ResetPassword: React.FC = () => {

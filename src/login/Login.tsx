@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Logo from "../shared/Logo";
 import { Gapped, Input, PasswordInput } from "@skbkontur/react-ui";
 import "./Login.css";
-import CustomButton from "../shared/CustomButton";
-import { CustomInput } from "../shared/CustomInput";
+import CustomButton from "../shared/CustomButton/CustomButton";
+import { CustomInput } from "../shared/CustomInput/CustomInput";
 
 type userInfo = {
   login: string;
