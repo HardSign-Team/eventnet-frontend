@@ -5,7 +5,7 @@ import EventList from "../EventList/EventList";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import { Token } from "@skbkontur/react-ui";
 import { TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
-import { useGlobalContext } from "../Context";
+import { useGlobalContext } from "../../contexts/MapContext";
 
 const tags = [
   "ЖОПА",

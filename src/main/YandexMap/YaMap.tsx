@@ -2,9 +2,9 @@ import { Circle, Clusterer, Map, YMaps } from "react-yandex-maps";
 import React, { useState } from "react";
 import "../Main.css";
 import Event from "../../models/Event";
-import { useGlobalContext } from "../Context";
+import { useGlobalContext } from "../../contexts/MapContext";
+import { useEventStore } from "../../contexts/EventContext";
 
-const DEFAULT_ZOOM = 6;
 const CIRCLE_RADIUS = 150;
 const WINDOW_WIDTH: number = window.screen.width;
 const WINDOW_HEIGHT: number = window.screen.height;
@@ -47,31 +47,30 @@ const mapOptions = {
 };
 
 export default function YaMap({ className }: { className: string }) {
-  const events = Array<Event>();
+  const eventStore = useEventStore();
   const { coordinates } = useGlobalContext();
-  const defaultMapState = {
-    center: [56.817076, 60.611855],
-    zoom: DEFAULT_ZOOM,
+
+  const currentMapState = {
+    center: coordinates,
+    zoom: MAX_ZOOM,
     behaviors: ["default", "scrollZoom"],
   };
 
-  const currentMapState = {
-    center: coordinates || defaultMapState.center,
-    zoom: MAX_ZOOM,
-    behaviors: ["default", "scrollZoom"],
+  const onMapClick = (event: any) => {
+    const currentCoordinates = event.get("coords");
   };
   return (
     <YMaps>
       <Map
         style={mapStyle}
-        defaultState={defaultMapState}
         state={currentMapState}
         width={WINDOW_WIDTH}
         height={WINDOW_HEIGHT}
         className={className}
         options={mapOptions}
+        onClick={onMapClick}
       >
-        <Clusterer>{createCircles(events)}</Clusterer>
+        <Clusterer>{createCircles(eventStore.events)}</Clusterer>
       </Map>
     </YMaps>
   );

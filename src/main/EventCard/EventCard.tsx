@@ -8,7 +8,7 @@ type EventCardProps = {
 
 export default function EventCard({ event }: EventCardProps) {
   return (
-    <div className="event-card">
+    <section className="event-card">
       <h2>{event.info.name}</h2>
       <div className="description">{event.info.description}</div>
       <div className="event-card-data">
@@ -19,6 +19,6 @@ export default function EventCard({ event }: EventCardProps) {
           Дата конца: {event.info.dateEnd.toLocaleDateString()}
         </div>
       )}
-    </div>
+    </section>
   );
 }
