@@ -64,7 +64,6 @@ const Login = () => {
             <a className="reset_password" href="../resetPassword">
               Забыли пароль?
             </a>
-            <br />
             <div className="remember_password">
               <input
                 id="checked"

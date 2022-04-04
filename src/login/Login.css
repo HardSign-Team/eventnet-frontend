@@ -41,6 +41,9 @@
 
 .label_checked{
     font-size: 10px;
+    position: relative;
+    top: -2px;
+    right: 3px;
 }
 
 .login__button {
@@ -55,7 +58,8 @@
 }
 
 .checked_remember_password {
-    margin-top: 7px;
+    position: relative;
+    right: 8px;
 }
 
 .Error {
