@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import React from "react";
-import Logo from "./Logo";
+import Logo from "../Logo/Logo";
 import "./Header.css";
-import avatar from "../assets/avatar.jpg";
+import avatar from "../../assets/avatar.jpg";
 
 const LOGO_WIDTH: number = window.screen.width / 32;
 
@@ -20,13 +20,13 @@ export default function Header() {
       <nav className="nav navbar">
         <ul className="routes-list">
           <li className="route">
-            <nav className="header__ghost-container-down">
-              <ul className="header_ghosts-container-topmenu">
+            <nav className="header__menu-down">
+              <ul className="header_topmenu-container">
                 <li>
-                  <figure className="profile-photo">
+                  <figure className="header__profile-photo">
                     <img src={avatar} alt="Avatar" className="avatar" />
                   </figure>
-                  <ul className="header__ghosts-container-submenu">
+                  <ul className="header__submenu-container">
                     <li>
                       <Link to={"/profile"}>Профиль</Link>
                     </li>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./GenderSelector.css";
-import CustomCheckbox from "./CustomCheckbox";
+import CustomCheckbox from "../CustomCheckbox/CustomCheckbox";
 
 interface Props {
   readonly classNameLabel?: string;

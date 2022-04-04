@@ -1,7 +1,7 @@
 import React from "react";
-import EventCard from "./EventCard";
+import EventCard from "../EventCard/EventCard";
 import "./EventList.css";
-import Event from "../models/Event";
+import Event from "../../models/Event";
 
 function getEvents(): Array<Event> {
   const event1: Event = {

@@ -1,6 +1,6 @@
 import React from "react";
 import "./EventCard.css";
-import Event from "../models/Event";
+import Event from "../../models/Event";
 
 type EventCardProps = {
   event: Event;

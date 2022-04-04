@@ -1,7 +1,7 @@
 import { Circle, Clusterer, Map, YMaps } from "react-yandex-maps";
 import React from "react";
-import "./Main.css";
-import Event from "../models/Event";
+import "../Main.css";
+import Event from "../../models/Event";
 
 const DEFAULT_ZOOM = 6;
 const CIRCLE_RADIUS = 150;

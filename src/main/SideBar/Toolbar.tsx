@@ -1,20 +1,13 @@
 import React, { useState } from "react";
 import { Input, Gapped } from "@skbkontur/react-ui";
 import "./Toolbar.css";
-import EventList from "./EventList";
+import EventList from "../EventList/EventList";
+import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 
 type FormData = {
   eventName: string;
   coordinates: string;
   tags: Array<string>;
-};
-
-const buttonStyleOpen = {
-  transform: "matrix(0, 1, -1, 0, 0, 0)",
-};
-
-const buttonStyleClose = {
-  transform: "matrix(0, -1, 1, 0, 0, 0)",
 };
 
 const defaultData = {
@@ -65,12 +58,8 @@ export default function Toolbar(): JSX.Element {
             {getLabel("Выберите подходящие теги", tags[0], "tags")}
           </Gapped>
         )}
-        <button
-          className="button sidebar-btn"
-          onClick={onClick}
-          style={isOpenEvent ? buttonStyleOpen : buttonStyleClose}
-        >
-          <span className="down-arrow">{"<"}</span>
+        <button className="button sidebar-btn" onClick={onClick}>
+          {isOpenEvent ? <AiOutlineDown /> : <AiOutlineUp />}
         </button>
         <EventList />
       </form>
