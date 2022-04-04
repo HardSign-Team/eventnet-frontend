@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import "./GenderSelector.css";
 import { CustomCheckbox } from "../CustomCheckbox/CustomCheckbox";
 
+enum genders {
+  Male = 'Male',
+  Female = 'Female'
+}
+
 interface Props {
   readonly classNameLabel?: string;
   readonly label: string;
@@ -19,7 +24,7 @@ export const GenderSelector: React.FC<Props> = ({
 
   const changeGender = (gender: boolean) => {
     setIsMale(gender);
-    onChange(gender ? "Male" : "Female");
+    onChange(gender ? genders.Male :genders.Female);
   };
 
   return (
