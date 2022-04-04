@@ -2,8 +2,9 @@ import React from "react";
 import EventCard from "../EventCard/EventCard";
 import "./EventList.css";
 import { useEventStore } from "../../contexts/EventContext";
+import { observer } from "mobx-react-lite";
 
-export default function EventList() {
+const EventList = observer(() => {
   const eventStore = useEventStore();
   return (
     <div className="event-container">
@@ -12,4 +13,6 @@ export default function EventList() {
       ))}
     </div>
   );
-}
+});
+
+export default EventList;

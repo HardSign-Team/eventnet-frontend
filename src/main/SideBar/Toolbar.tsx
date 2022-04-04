@@ -6,6 +6,7 @@ import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import { Token } from "@skbkontur/react-ui";
 import { TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
 import { useGlobalContext } from "../../contexts/MapContext";
+import { observer } from "mobx-react-lite";
 
 const tags = [
   "ЖОПА",
@@ -39,7 +40,7 @@ const defaultData = {
   currentCoordinates: "",
 };
 
-export default function Toolbar(): JSX.Element {
+const Toolbar = observer(() => {
   const [state, setState] = useState<FormData>(defaultData);
   const [isOpenEvent, setIsOpenEvent] = useState<boolean>(true);
   const [selectedItems, setSelectedItems] = React.useState([]);
@@ -72,7 +73,7 @@ export default function Toolbar(): JSX.Element {
   const { eventName, currentCoordinates } = state;
 
   return (
-    <div>
+    <div className="toolbar-container">
       <form className="form-horizontal">
         {isOpenEvent && (
           <Gapped gap={15} vertical>
@@ -92,18 +93,20 @@ export default function Toolbar(): JSX.Element {
                 onChange={onChangeCoordinates}
               />
             </label>
-            <TokenInput
-              type={TokenInputType.Combined}
-              getItems={getItems}
-              selectedItems={selectedItems}
-              placeholder="Выберите подходящие теги"
-              onValueChange={setSelectedItems}
-              renderToken={(item, tokenProps) => (
-                <Token key={item} {...tokenProps}>
-                  {item}
-                </Token>
-              )}
-            />
+            <label>
+              <div className="label">Выберите подходящие теги</div>
+              <TokenInput
+                type={TokenInputType.Combined}
+                getItems={getItems}
+                selectedItems={selectedItems}
+                onValueChange={setSelectedItems}
+                renderToken={(item, tokenProps) => (
+                  <Token key={item} {...tokenProps}>
+                    {item}
+                  </Token>
+                )}
+              />
+            </label>
           </Gapped>
         )}
         <button className="button sidebar-btn" onClick={onClick}>
@@ -113,4 +116,6 @@ export default function Toolbar(): JSX.Element {
       </form>
     </div>
   );
-}
+});
+
+export default Toolbar;

@@ -42,7 +42,7 @@ export class EventStore {
         },
       },
     ];
-    for (let i = 3; i < 250; i++) {
+    for (let i = 3; i < 2; i++) {
       result.push({
         id: i,
         info: {

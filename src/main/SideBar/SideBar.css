@@ -46,12 +46,11 @@
 .bm-overlay {
   background: transparent;
   z-index: 0;
-  overflow-y: scroll;
 }
 
 .bm-menu {
   background: #d7dcd7;
-  padding: 1em 2em 0;
+  padding: 1em 1em 0;
   font-size: 1.15em;
 }
 
