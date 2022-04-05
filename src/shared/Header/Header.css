@@ -22,6 +22,11 @@ header {
     justify-content: center;
 }
 
+.logo{
+    min-width: 50px;
+    min-height: 50px;
+}
+
 .route {
     align-content: center;
     line-height: 35px;

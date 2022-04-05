@@ -75,3 +75,7 @@ export class EventStore {
     this.events = this.events.filter((ev) => ev.id === event.id);
   }
 }
+
+const eventStore = new EventStore();
+
+export default eventStore;

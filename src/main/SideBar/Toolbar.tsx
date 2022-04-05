@@ -5,8 +5,8 @@ import EventList from "../EventList/EventList";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import { Token } from "@skbkontur/react-ui";
 import { TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
-import { useGlobalContext } from "../../contexts/MapContext";
 import { observer } from "mobx-react-lite";
+import mapStore from "../../stores/MapStore";
 
 const tags = [
   "ЖОПА",
@@ -44,7 +44,6 @@ const Toolbar = observer(() => {
   const [state, setState] = useState<FormData>(defaultData);
   const [isOpenEvent, setIsOpenEvent] = useState<boolean>(true);
   const [selectedItems, setSelectedItems] = React.useState([]);
-  const { setCoordinates } = useGlobalContext();
 
   const onChangeEventName = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -62,7 +61,7 @@ const Toolbar = observer(() => {
       ...state,
       currentCoordinates: e.target.value,
     });
-    if (latitude && longitude) setCoordinates([latitude, longitude]);
+    if (latitude && longitude) mapStore.setCoordinates([latitude, longitude]);
   };
 
   const onClick = (e: any) => {

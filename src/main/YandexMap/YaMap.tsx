@@ -2,9 +2,9 @@ import { Circle, Clusterer, Map, YMaps } from "react-yandex-maps";
 import React from "react";
 import "../Main.css";
 import Event from "../../models/Event";
-import { useGlobalContext } from "../../contexts/MapContext";
-import { useEventStore } from "../../contexts/EventContext";
 import { observer } from "mobx-react-lite";
+import mapStore from "../../stores/MapStore";
+import eventStore from "../../stores/EventStore";
 
 const CIRCLE_RADIUS = 150;
 const WINDOW_WIDTH: number = window.screen.width;
@@ -48,12 +48,9 @@ const mapOptions = {
 };
 
 const YaMap = observer(({ className }: { className: string }) => {
-  const eventStore = useEventStore();
-  const { coordinates } = useGlobalContext();
-
   const currentMapState = {
-    center: coordinates,
-    zoom: MAX_ZOOM,
+    center: mapStore.coordinates,
+    zoom: 10,
     behaviors: ["default", "scrollZoom"],
   };
 
