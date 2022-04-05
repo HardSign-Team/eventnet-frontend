@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import YaMap from "./YandexMap/YaMap";
 import SideBar from "./SideBar/SideBar";
 
