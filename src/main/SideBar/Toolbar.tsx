@@ -21,6 +21,32 @@ const tags = [
   "история",
   "музеи",
   "архитектура",
+  "музыка",
+  "красота",
+  "природа",
+  "музеи",
+  "горы",
+  "храмы",
+  "история",
+  "пещеры",
+  "красота",
+  "история",
+  "море",
+  "пляж",
+  "курорт",
+  "красота",
+  "жара",
+  "отпуск",
+  "отдых",
+  "пейзажи",
+  "горы",
+  "природа",
+  "минеральные воды",
+  "кавказ",
+  "красота",
+  "горы",
+  "живопись",
+  "есентуки",
 ];
 
 const getItems = (q: string): Promise<never[]> =>
@@ -97,7 +123,9 @@ const Toolbar = observer(() => {
               <TokenInput
                 type={TokenInputType.Combined}
                 getItems={getItems}
+                style={{ paddingLeft: "5px" }}
                 selectedItems={selectedItems}
+                className="token-input"
                 onValueChange={setSelectedItems}
                 renderToken={(item, tokenProps) => (
                   <Token key={item} {...tokenProps}>
