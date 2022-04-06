@@ -7,15 +7,17 @@ interface Props {
   readonly className?: string;
   readonly value?: string;
   readonly onChange?: (...rest: any) => void;
+  readonly onFocus?: (...rest: any) => void;
   readonly placeholder?: string;
   readonly label: string;
   readonly mask?: string;
 }
 
-export const CustomInput:React.FC<Props> = ({
+export const CustomInput: React.FC<Props> = ({
   className,
   value,
   onChange = () => console.log("Input"),
+  onFocus,
   placeholder,
   label,
   mask,
@@ -32,6 +34,7 @@ export const CustomInput:React.FC<Props> = ({
           value={value}
           placeholder={placeholder}
           onValueChange={(value) => onChange(value)}
+          onFocus={onFocus}
           style={{ height: 34 }}
         />
       </Gapped>
@@ -46,6 +49,7 @@ export const CustomInput:React.FC<Props> = ({
           value={value}
           detectCapsLock
           onValueChange={(value) => (onChange ? onChange(value) : null)}
+          onFocus={onFocus}
           width={320}
         />
       </Gapped>
