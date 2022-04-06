@@ -1,12 +1,12 @@
-import React from 'react';
-import YaMap from './YaMap';
-import SideBar from "./SideBar"
+import React from "react";
+import YaMap from "./YandexMap/YaMap";
+import SideBar from "./SideBar/SideBar";
 
 export default function Main() {
-    return (
-        <div className="main-page">
-            <SideBar className="slide-bar" width={"20%"}/>
-            <YaMap className="ya-map"/>
-        </div>
-    );
+  return (
+    <div className="main-page">
+      <SideBar className="slide-bar" />
+      <YaMap className="ya-map" />
+    </div>
+  );
 }

@@ -1,10 +1,10 @@
 import { Gapped } from "@skbkontur/react-ui";
-import { CustomInput } from "../shared/CustomInput/CustomInput";
-import { CustomSelectDate } from "../shared/CustomSelectDate/CustomSelectDate";
-import { GenderSelector } from "../shared/GenderSelector/GenderSelector";
-import React, { useState } from "react";
-import CustomButton from "../shared/CustomButton/CustomButton";
-import ChangePasswordModal from './ChangePasswordModal';
+import { useState } from "react";
+import ChangePasswordModal from "../ChangePasswordModal";
+import { CustomInput } from "../../shared/CustomInput/CustomInput";
+import { CustomSelectDate } from "../../shared/CustomSelectDate/CustomSelectDate";
+import { GenderSelector } from "../../shared/GenderSelector/GenderSelector";
+import CustomButton from "../../shared/CustomButton/CustomButton";
 
 const EditProfile = () => {
   const [date, setDate] = useState("");

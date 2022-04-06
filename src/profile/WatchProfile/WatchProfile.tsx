@@ -1,5 +1,5 @@
 import { Gapped } from "@skbkontur/react-ui";
-import UserData from "./UserData";
+import UserData from "../UserData/UserData";
 import React from "react";
 
 const WatchProfile = () => {

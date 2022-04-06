@@ -1,25 +1,23 @@
-*{
-    margin: 0;
-    padding: 0;
+* {
+  margin: 0;
+  padding: 0;
 }
 
-
-html,body{
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: 'Public Sans', sans-serif;
-    text-align: center;
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Public Sans", sans-serif;
+  text-align: center;
 }
 
-
-
-.routes-list{
-    list-style: none;
-    display: flex;
-    gap: 4em;
+.routes-list {
+  list-style: none;
+  display: flex;
+  gap: 4em;
 }
 
-.route:last-child{
-    justify-self: flex-end;
+.route:last-child {
+  justify-self: flex-end;
 }
