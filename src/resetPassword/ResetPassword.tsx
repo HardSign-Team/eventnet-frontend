@@ -1,7 +1,7 @@
 import "./ResetPassword.scss";
 import React, { useState } from "react";
-import { CustomInput } from "../shared/CustomInput";
-import CustomButton from "../shared/CustomButton";
+import { CustomInput } from "../shared/CustomInput/CustomInput";
+import CustomButton from "../shared/CustomButton/CustomButton";
 import { Gapped } from "@skbkontur/react-ui";
 
 export const ResetPassword: React.FC = () => {
@@ -18,7 +18,7 @@ export const ResetPassword: React.FC = () => {
     <Gapped vertical gap={7} className="resetPassword">
       {!isMailEntered && (
         <Gapped vertical gap={7}>
-          <CustomInput label="Введите адрес эл.почты" onChange={setMail} />
+          <CustomInput label="Введите адрес эл. почты" onChange={setMail} />
           <CustomButton
             classNameDiv="button__resetPassword"
             label="Отправить код"

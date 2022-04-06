@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import Logo from "../shared/Logo";
 import "./Registration.css";
 import { Gapped } from "@skbkontur/react-ui";
-import { CustomInput } from "../shared/CustomInput";
-import CustomButton from "../shared/CustomButton";
-import { GenderSelector } from "../shared/GenderSelector";
-import { CustomSelectDate } from "../shared/CustomSelectDate";
+import { CustomInput } from "../shared/CustomInput/CustomInput";
+import CustomButton from "../shared/CustomButton/CustomButton";
+import { GenderSelector } from "../shared/GenderSelector/GenderSelector";
+import { CustomSelectDate } from "../shared/CustomSelectDate/CustomSelectDate";
 
 const Registration = () => {
   const [userName, setUserName] = useState("");
@@ -23,14 +23,19 @@ const Registration = () => {
     <div className="registration">
       <Logo className="logo_registration" width={200} height={200} />
       <Gapped gap={7} vertical className="form__registration">
-        <CustomInput label="Ваш адрес эл.почты" onChange={setMail} />
-        <CustomInput label="Придумайте себе пароль" onChange={setPassword} />
+        <CustomInput label="Укажите имя пользователя" onChange={setUserName} />
+        <CustomInput label="Ваш адрес эл. почты" onChange={setMail} />
         <CustomInput
+          type="password"
+          label="Придумайте себе пароль"
+          onChange={setPassword}
+        />
+        <CustomInput
+          type="password"
           label="Подтвердите пароль"
           onChange={setAcceptedPassword}
         />
         <CustomInput label="Введите номер телефона" onChange={setPhoneNumber} />
-        <CustomInput label="Укажите имя пользователя" onChange={setUserName} />
         <CustomSelectDate
           date={dateBirthday}
           label="Введите дату рождения"

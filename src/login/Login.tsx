@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Logo from "../shared/Logo";
 import { Gapped, Input, PasswordInput } from "@skbkontur/react-ui";
 import "./Login.css";
-import CustomButton from "../shared/CustomButton";
-import { CustomInput } from "../shared/CustomInput";
+import CustomButton from "../shared/CustomButton/CustomButton";
+import { CustomInput } from "../shared/CustomInput/CustomInput";
 
 type userInfo = {
   login: string;
@@ -52,7 +52,7 @@ const Login = () => {
       </div>
       <Gapped gap={7} vertical>
         <CustomInput
-          label="Эл. Почта или имя пользователя"
+          label="Эл. почта или имя пользователя"
           onChange={setUserName}
         />
         {(errorPassword || errorName) && (
@@ -64,7 +64,6 @@ const Login = () => {
             <a className="reset_password" href="../resetPassword">
               Забыли пароль?
             </a>
-            <br />
             <div className="remember_password">
               <input
                 id="checked"

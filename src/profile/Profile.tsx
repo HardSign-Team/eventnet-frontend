@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import avatar from "../assets/avatar.jpg";
 import "./Profile.css";
-import CustomButton from "../shared/CustomButton";
+import CustomButton from "../shared/CustomButton/CustomButton";
 import WatchProfile from "./WatchProfile";
 import EditProfile from "./EditProfile";
 

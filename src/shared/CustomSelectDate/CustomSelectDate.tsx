@@ -26,7 +26,12 @@ export const CustomSelectDate: React.FC<PropsDateInput> = ({
   const [tooltip, setTooltip] = useState(false);
 
   const minDate = "01.01.1900";
-  const maxDate = "01.01.2020";
+  const maxDate =
+    new Date().getDate() +
+    "/" +
+    (new Date().getMonth() + 1) +
+    "/" +
+    new Date().getFullYear();
 
   const unvalidate = () => {
     setError(false);
