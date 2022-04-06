@@ -6,6 +6,7 @@ import Profile from './profile/Profile';
 import Login from './login/Login';
 import './App.css';
 import Header from './shared/Header';
+import { ResetPassword } from './resetPassword/ResetPassword';
 
 export default function App() {
     return (
@@ -16,6 +17,7 @@ export default function App() {
                     <Route path="/register" element={<Registration />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/resetPassword" element={<ResetPassword />} />
                     <Route path="/" element={<Main />} />
                 </Routes>
             </div>
