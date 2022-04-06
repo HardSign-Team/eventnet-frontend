@@ -1,7 +1,6 @@
 import React from "react";
 import "./EventCreation.scss";
 import { Gapped } from "@skbkontur/react-ui";
-import { CustomInput } from "../shared/CustomInput";
 
 const EVENT_NAME_PLACEHOLDER = "Введите название...";
 
