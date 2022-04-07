@@ -1,5 +1,5 @@
-import { Gapped } from "@skbkontur/react-ui";
-import { useState } from "react";
+import { Gapped, Input } from "@skbkontur/react-ui";
+import React, { useState } from "react";
 import ChangePasswordModal from "../ChangePasswordModal";
 import { CustomInput } from "../../shared/CustomInput/CustomInput";
 import { CustomSelectDate } from "../../shared/CustomSelectDate/CustomSelectDate";
@@ -23,25 +23,31 @@ const EditProfile = () => {
   };
 
   return (
-    <Gapped className={"profile_info-wrapper"} gap={7} vertical>
+    <>
       {modalOpened && <ChangePasswordModal onClose={closeModal} />}
-      <CustomInput label="Имя пользователя" placeholder={"lapakota"} />
-      <CustomInput label="Почта" placeholder={"stalkerzone955@gmail.com"} />
-      <CustomInput label="Номер телефона" placeholder={"+78005553535"} />
-      <CustomInput
-        label="Пароль"
-        placeholder={"*********"}
-        onFocus={openModal}
-      />
-      <CustomSelectDate date="" label="Дата рождения" onChange={setDate} />
-      <GenderSelector label="Пол" classNameDiv="gender_selector" />
-      <CustomButton
-        onClick={saveProfileState}
-        classNameDiv={"save_button"}
-        label={"Сохранить"}
-        height={36}
-      />
-    </Gapped>
+      <Gapped className={"profile_info-wrapper"} gap={7} vertical>
+        <CustomInput label="Имя пользователя" placeholder={"lapakota"} />
+        <CustomInput label="Почта" placeholder={"stalkerzone955@gmail.com"} />
+        <CustomInput label="Номер телефона" placeholder={"+78005553535"} />
+        <Gapped vertical gap={7}>
+          <p className={"custom-input_label"}>Пароль</p>
+          <CustomButton
+            classNameDiv={"change-password_button"}
+            label={"Изменить"}
+            width={160}
+            onClick={openModal}
+          />
+        </Gapped>
+        <CustomSelectDate date="" label="Дата рождения" onChange={setDate} />
+        <GenderSelector label="Пол" classNameDiv="gender_selector" />
+        <CustomButton
+          onClick={saveProfileState}
+          classNameDiv={"save_button"}
+          label={"Сохранить"}
+          height={36}
+        />
+      </Gapped>
+    </>
   );
 };
 

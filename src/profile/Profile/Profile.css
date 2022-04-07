@@ -27,6 +27,7 @@
 }
 
 .change-avatar_button {
+  all: unset;
   margin: 10px 0 25px;
   font-size: 15px;
   text-decoration: none;
@@ -34,4 +35,8 @@
   background: none;
   color: #008d8e;
   cursor: pointer;
+}
+
+.change-password_button {
+  margin-left: -160px;
 }
