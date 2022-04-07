@@ -54,11 +54,17 @@ const Login = () => {
         <CustomInput
           label="Эл. почта или имя пользователя"
           onChange={setUserName}
+          value={userName}
         />
         {(errorPassword || errorName) && (
           <p className="Error">Неправильный логин или пароль</p>
         )}
-        <CustomInput label="Пароль" onChange={setPassword} type="password" />
+        <CustomInput
+          label="Пароль"
+          onChange={setPassword}
+          type="password"
+          value={password}
+        />
         <div className="password_handler">
           <div className="label_helpers_source">
             <a className="reset_password" href="../resetPassword">

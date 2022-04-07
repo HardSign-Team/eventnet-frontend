@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction} from "react";
 import "./GenderSelector.css";
 import { CustomSelector } from "../CustomSelector/CustomSelector";
 
