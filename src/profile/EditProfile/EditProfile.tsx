@@ -7,6 +7,9 @@ import { GenderSelector } from "../../shared/GenderSelector/GenderSelector";
 import CustomButton from "../../shared/CustomButton/CustomButton";
 
 const EditProfile = () => {
+  const [userName, setUserName] = useState("");
+  const [userMail, setUserMail] = useState("");
+  const [userPhone, setUserPhone] = useState("");
   const [date, setDate] = useState("");
   const [modalOpened, setModalOpened] = useState(false);
 
@@ -29,17 +32,13 @@ const EditProfile = () => {
         <CustomInput label="Имя пользователя" placeholder={"lapakota"} />
         <CustomInput label="Почта" placeholder={"stalkerzone955@gmail.com"} />
         <CustomInput label="Номер телефона" placeholder={"+78005553535"} />
-        <Gapped vertical gap={7}>
-          <p className={"custom-input_label"}>Пароль</p>
-          <CustomButton
-            classNameDiv={"change-password_button"}
-            label={"Изменить"}
-            width={160}
-            onClick={openModal}
-          />
-        </Gapped>
         <CustomSelectDate date="" label="Дата рождения" onChange={setDate} />
         <GenderSelector label="Пол" classNameDiv="gender_selector" />
+        <CustomButton
+          classNameDiv={"change-password_button"}
+          label={"Изменить пароль"}
+          onClick={openModal}
+        />
         <CustomButton
           onClick={saveProfileState}
           classNameDiv={"save_button"}
