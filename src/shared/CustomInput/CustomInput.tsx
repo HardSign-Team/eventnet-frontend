@@ -32,7 +32,7 @@ export const CustomInput: React.FC<Props> = ({
 }: Props) => {
 
   const addSymbol = (value: string) => {
-    if (value.length < 30) onChange(value);
+    if (value.length < 65) onChange(value);
   };
   if (type !== "password")
     return (
