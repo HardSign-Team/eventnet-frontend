@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Logo from "../shared/Logo";
 import "./Registration.css";
-import { Gapped } from "@skbkontur/react-ui";
 import { CustomInput } from "../shared/CustomInput/CustomInput";
 import CustomButton from "../shared/CustomButton/CustomButton";
-import { GenderSelector } from "../shared/GenderSelector/GenderSelector";
+import { genders, GenderSelector } from '../shared/GenderSelector/GenderSelector';
 import { CustomSelectDate } from "../shared/CustomSelectDate/CustomSelectDate";
+import { FormContainer } from '../shared/FormContainer/FormContainer';
 
 const Registration = () => {
   const [userName, setUserName] = useState("");
@@ -14,7 +14,7 @@ const Registration = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [acceptedPassword, setAcceptedPassword] = useState("");
   const [dateBirthday, setDateBirthday] = useState("");
-  const [gender, setGender] = useState("Male");
+  const [gender, setGender] = useState(genders.Female);
   const registration = () => {
     console.log("Registration");
   };
@@ -22,7 +22,7 @@ const Registration = () => {
   return (
     <div className="registration">
       <Logo className="logo_registration" width={200} height={200} />
-      <Gapped gap={7} vertical className="form__registration">
+      <FormContainer className="form__registration">
         <CustomInput
           label="Укажите имя пользователя"
           onChange={setUserName}
@@ -60,7 +60,8 @@ const Registration = () => {
         <GenderSelector
           label="Укажите свой пол"
           classNameDiv="gender_selector"
-          onChange={setGender}
+          onChange={() => setGender(gender)}
+          value={gender}
         />
         <CustomButton
           onClick={registration}
@@ -68,7 +69,7 @@ const Registration = () => {
           className="registration_button"
           label="Зарегистрироваться"
         />
-      </Gapped>
+      </FormContainer>
     </div>
   );
 };

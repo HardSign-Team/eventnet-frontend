@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Logo from "../shared/Logo";
-import { Gapped, Input, PasswordInput } from "@skbkontur/react-ui";
 import "./Login.css";
 import CustomButton from "../shared/CustomButton/CustomButton";
 import { CustomInput } from "../shared/CustomInput/CustomInput";
+import { FormContainer } from '../shared/FormContainer/FormContainer';
 
 type userInfo = {
   login: string;
@@ -50,7 +50,7 @@ const Login = () => {
       <div className="logo-login">
         <Logo className="logo_dess" width={200} height={200} />
       </div>
-      <Gapped gap={7} vertical>
+      <FormContainer>
         <CustomInput
           label="Эл. почта или имя пользователя"
           onChange={setUserName}
@@ -95,7 +95,7 @@ const Login = () => {
             Зарегистрироваться
           </a>
         </div>
-      </Gapped>
+      </FormContainer>
     </div>
   );
 };

@@ -11,7 +11,8 @@ interface Props {
   readonly first: string,
   readonly second: string
   readonly firstLabel: string,
-  readonly secondLabel: string
+  readonly secondLabel: string,
+  readonly value: string
 }
 
 
@@ -20,10 +21,10 @@ export const CustomSelector: React.FC<Props> = ({
   classNameLabel,
   label,
   onChange,
-   first, firstLabel, second, secondLabel
+   first, firstLabel, second, secondLabel, value
 }) => {
 
-  const [isFirst, setIsFirst] = useState(first)
+  const [isFirst, setIsFirst] = useState(value)
 
   const checkIsFirst = (gender:string) => {
     return gender === first

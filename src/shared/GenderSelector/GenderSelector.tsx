@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction} from "react";
 import "./GenderSelector.css";
 import { CustomSelector } from "../CustomSelector/CustomSelector";
 
-enum genders {
+export enum genders {
   Male = "Male",
   Female = "Female",
 }
@@ -12,6 +12,7 @@ interface Props {
   readonly label: string;
   readonly classNameDiv?: string;
   readonly onChange: Dispatch<SetStateAction<string>>;
+  readonly value: string
 }
 
 export const GenderSelector: React.FC<Props> = ({
@@ -19,6 +20,7 @@ export const GenderSelector: React.FC<Props> = ({
   classNameDiv,
   label,
   onChange,
+    value
 }) => {
   return (
     <CustomSelector
@@ -30,6 +32,7 @@ export const GenderSelector: React.FC<Props> = ({
       label={label}
       classNameLabel={classNameLabel}
       classNameDiv={classNameDiv}
+      value={value}
     />
   );
 };
