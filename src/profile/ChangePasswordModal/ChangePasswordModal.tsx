@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Gapped, Modal } from "@skbkontur/react-ui";
-import { CustomInput } from "../shared/CustomInput/CustomInput";
-import CustomButton from "../shared/CustomButton/CustomButton";
+import { CustomInput } from "../../shared/CustomInput/CustomInput";
+import CustomButton from "../../shared/CustomButton/CustomButton";
 import "./ChangePasswordModal.scss";
 
 enum PasswordTypes {

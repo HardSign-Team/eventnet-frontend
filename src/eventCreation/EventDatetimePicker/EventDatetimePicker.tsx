@@ -1,5 +1,7 @@
 import React from "react";
 import { DatePicker, Gapped } from "@skbkontur/react-ui";
+import cn from "classnames";
+import styles from "./EventDatetimePicker.module.scss";
 
 type EventDatetimePickerProps = {
   date: string;
@@ -8,6 +10,7 @@ type EventDatetimePickerProps = {
   onDateChange: (value: string) => void;
   onTimeChange: (value: string) => void;
 };
+
 const EventDatetimePicker: React.FC<EventDatetimePickerProps> = ({
   date,
   time,
@@ -16,15 +19,15 @@ const EventDatetimePicker: React.FC<EventDatetimePickerProps> = ({
   onTimeChange,
 }) => {
   return (
-    <Gapped gap={13} className={["event_date-picker", "flex-row"].join(" ")}>
-      <span className={"date-picker_text"}>{text}</span>
+    <Gapped gap={13} className={styles.event_datePicker}>
+      <span className={styles.datePicker_text}>{text}</span>
       <DatePicker value={date} onValueChange={onDateChange} />
-      <span className={"date-picker_text"}>в</span>
+      <span className={styles.datePicker_text}>в</span>
       <input
         type="time"
         value={time}
         onChange={(e) => onTimeChange(e.target.value)}
-        className={"time-picker_input"}
+        className={styles.timePicker_input}
         required
       />
     </Gapped>
