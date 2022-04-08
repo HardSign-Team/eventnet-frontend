@@ -34,11 +34,11 @@ const EditProfile = () => {
       {/*  onFocus={openModal}*/}
       {/*/>*/}
       <CustomSelectDate date="" label="Дата рождения" onChange={setDate} />
-      <GenderSelector
-        label="Пол"
-        classNameDiv="gender_selector"
-        onChange={() => console.log("change gender")}
-      />
+      {/*<GenderSelector*/}
+      {/*  label="Пол"*/}
+      {/*  classNameDiv="gender_selector"*/}
+      {/*  onChange={() => console.log("change gender")}*/}
+      {/*/>*/}
       <CustomButton
         onClick={saveProfileState}
         classNameDiv={"save_button"}

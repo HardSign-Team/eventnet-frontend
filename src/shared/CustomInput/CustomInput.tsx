@@ -1,6 +1,7 @@
 import React from 'react';
-import { Gapped, Input, PasswordInput } from "@skbkontur/react-ui";
+import {Input, PasswordInput } from "@skbkontur/react-ui";
 import "./CustomInput.css";
+import { FormContainer } from '../FormContainer/FormContainer';
 
 const CorrectInputsMasks = {
   standard: "",
@@ -36,7 +37,7 @@ export const CustomInput: React.FC<Props> = ({
   };
   if (type !== "password")
     return (
-      <Gapped vertical gap={7}>
+      <FormContainer>
         {typeof label !== "undefined" && (
           <p className={"custom-input_label"}>{label}</p>
         )}
@@ -51,11 +52,11 @@ export const CustomInput: React.FC<Props> = ({
           style={{ height: 34 }}
           maskChar={""}
         />
-      </Gapped>
+      </FormContainer>
     );
   else
     return (
-      <Gapped vertical gap={7}>
+      <FormContainer>
         {typeof label !== "undefined" && (
           <p className={"custom-input_label"}>{label}</p>
         )}
@@ -69,6 +70,6 @@ export const CustomInput: React.FC<Props> = ({
           onFocus={onFocus}
           width={320}
         />
-      </Gapped>
+      </FormContainer>
     );
 };
