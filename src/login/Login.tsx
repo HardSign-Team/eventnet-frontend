@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Logo from "../shared/Logo";
-import { Gapped, Input, PasswordInput } from "@skbkontur/react-ui";
 import "./Login.css";
 import CustomButton from "../shared/CustomButton/CustomButton";
 import { CustomInput } from "../shared/CustomInput/CustomInput";
+import { FormContainer } from '../shared/FormContainer/FormContainer';
 
 type userInfo = {
   login: string;
@@ -50,15 +50,21 @@ const Login = () => {
       <div className="logo-login">
         <Logo className="logo_dess" width={200} height={200} />
       </div>
-      <Gapped gap={7} vertical>
+      <FormContainer>
         <CustomInput
           label="Эл. почта или имя пользователя"
           onChange={setUserName}
+          value={userName}
         />
         {(errorPassword || errorName) && (
           <p className="Error">Неправильный логин или пароль</p>
         )}
-        <CustomInput label="Пароль" onChange={setPassword} type="password" />
+        <CustomInput
+          label="Пароль"
+          onChange={setPassword}
+          type="password"
+          value={password}
+        />
         <div className="password_handler">
           <div className="label_helpers_source">
             <a className="reset_password" href="../resetPassword">
@@ -89,7 +95,7 @@ const Login = () => {
             Зарегистрироваться
           </a>
         </div>
-      </Gapped>
+      </FormContainer>
     </div>
   );
 };

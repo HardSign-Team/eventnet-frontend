@@ -11,6 +11,8 @@
     color: #D7DCD7;
     border-radius: 15px;
     border: #008d8e;
+
+    cursor: pointer;
 }
 
 .label_button {

@@ -1,51 +1,38 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction} from "react";
 import "./GenderSelector.css";
-import { CustomCheckbox } from "../CustomCheckbox/CustomCheckbox";
+import { CustomSelector } from "../CustomSelector/CustomSelector";
 
-enum genders {
-  Male = 'Male',
-  Female = 'Female'
+export enum genders {
+  Male = "Male",
+  Female = "Female",
 }
 
 interface Props {
   readonly classNameLabel?: string;
   readonly label: string;
   readonly classNameDiv?: string;
-  readonly onChange?: (gender: "Male" | "Female") => void;
+  readonly onChange: Dispatch<SetStateAction<string>>;
+  readonly value: string
 }
 
 export const GenderSelector: React.FC<Props> = ({
   classNameLabel,
   classNameDiv,
   label,
-  onChange = () => console.log("change gender"),
+  onChange,
+    value
 }) => {
-  const [isMale, setIsMale] = useState(true);
-
-  const changeGender = (gender: boolean) => {
-    setIsMale(gender);
-    onChange(gender ? genders.Male :genders.Female);
-  };
-
   return (
-    <div className={classNameDiv ?? "gender_selector"}>
-      <p className={classNameLabel ?? "label__gender_selector"}>{label}</p>
-      <div className="change_gender">
-        <span className="male_gender">
-          <CustomCheckbox
-            label="Мужчина"
-            checked={isMale}
-            onClick={() => changeGender(true)}
-          />
-        </span>
-        <span className="female_gender">
-          <CustomCheckbox
-            label="Женщина"
-            checked={!isMale}
-            onClick={() => changeGender(false)}
-          />
-        </span>
-      </div>
-    </div>
+    <CustomSelector
+      onChange={onChange}
+      first={genders.Male}
+      second={genders.Female}
+      firstLabel="Мужчина"
+      secondLabel="Женщина"
+      label={label}
+      classNameLabel={classNameLabel}
+      classNameDiv={classNameDiv}
+      value={value}
+    />
   );
 };

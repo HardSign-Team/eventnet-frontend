@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Gapped, Modal } from "@skbkontur/react-ui";
-import { CustomInput } from "../shared/CustomInput/CustomInput";
-import CustomButton from "../shared/CustomButton/CustomButton";
+import { CustomInput } from "../../shared/CustomInput/CustomInput";
+import CustomButton from "../../shared/CustomButton/CustomButton";
 import "./ChangePasswordModal.scss";
 
 enum PasswordTypes {
@@ -37,22 +37,23 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
     setShowSuccessMessage(false);
   };
 
-  const updatePasswordState = (passwordType: PasswordTypes, value: string) => {
-    clearMessages();
-    switch (passwordType) {
-      case PasswordTypes.Old:
-        setOldPassword(value);
-        break;
-      case PasswordTypes.New:
-        setNewPassword(value);
-        break;
-      case PasswordTypes.Repeated:
-        setRepeatedPassword(value);
-        break;
-      default:
-        console.log("invalid password type");
-    }
-  };
+  const updatePasswordState =
+    (passwordType: PasswordTypes) => (value: string) => {
+      clearMessages();
+      switch (passwordType) {
+        case PasswordTypes.Old:
+          setOldPassword(value);
+          break;
+        case PasswordTypes.New:
+          setNewPassword(value);
+          break;
+        case PasswordTypes.Repeated:
+          setRepeatedPassword(value);
+          break;
+        default:
+          console.log("invalid password type");
+      }
+    };
 
   const validateEmptyInput = () => {
     if (
@@ -86,7 +87,8 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
           <CustomInput
             type={"password"}
             label="Старый пароль"
-            onChange={(value) => updatePasswordState(PasswordTypes.Old, value)}
+            onChange={updatePasswordState(PasswordTypes.Old)}
+            value={oldPassword}
           />
           {showInvalidOldPassMessage && (
             <p className={"error-message"}>Неверный пароль</p>
@@ -94,14 +96,14 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
           <CustomInput
             type={"password"}
             label="Новый пароль"
-            onChange={(value) => updatePasswordState(PasswordTypes.New, value)}
+            onChange={updatePasswordState(PasswordTypes.New)}
+            value={newPassword}
           />
           <CustomInput
             type={"password"}
             label="Повтор пароля"
-            onChange={(value) =>
-              updatePasswordState(PasswordTypes.Repeated, value)
-            }
+            onChange={updatePasswordState(PasswordTypes.Repeated)}
+            value={repeatedPassword}
           />
           {showEmptyInputMessage && (
             <p className={"error-message"}>Пустые поля ввода</p>

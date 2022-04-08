@@ -13,4 +13,8 @@ declare module "*.jpg" {
     export = value;
 }
 
-declare module'*.scss';
+declare module '*.scss' {
+    const content: {[className: string]: string};
+    // noinspection JSUnusedGlobalSymbos
+    export default content;
+}
