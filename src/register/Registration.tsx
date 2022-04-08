@@ -23,19 +23,35 @@ const Registration = () => {
     <div className="registration">
       <Logo className="logo_registration" width={200} height={200} />
       <Gapped gap={7} vertical className="form__registration">
-        <CustomInput label="Укажите имя пользователя" onChange={setUserName} />
-        <CustomInput label="Ваш адрес эл. почты" onChange={setMail} />
+        <CustomInput
+          label="Укажите имя пользователя"
+          onChange={setUserName}
+          value={userName}
+        />
+        <CustomInput
+          label="Ваш адрес эл. почты"
+          onChange={setMail}
+          value={mail}
+          type={"mail"}
+        />
         <CustomInput
           type="password"
           label="Придумайте себе пароль"
           onChange={setPassword}
+          value={password}
         />
         <CustomInput
           type="password"
           label="Подтвердите пароль"
           onChange={setAcceptedPassword}
+          value={acceptedPassword}
         />
-        <CustomInput label="Введите номер телефона" onChange={setPhoneNumber} />
+        <CustomInput
+          label="Введите номер телефона"
+          onChange={setPhoneNumber}
+          value={phoneNumber}
+          type={"phoneNumber"}
+        />
         <CustomSelectDate
           date={dateBirthday}
           label="Введите дату рождения"

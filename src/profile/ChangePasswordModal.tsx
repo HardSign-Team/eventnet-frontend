@@ -83,26 +83,26 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
       <Modal.Header>Изменение пароля</Modal.Header>
       <Modal.Body>
         <Gapped vertical gap={7}>
-          <CustomInput
-            type={"password"}
-            label="Старый пароль"
-            onChange={(value) => updatePasswordState(PasswordTypes.Old, value)}
-          />
-          {showInvalidOldPassMessage && (
-            <p className={"error-message"}>Неверный пароль</p>
-          )}
-          <CustomInput
-            type={"password"}
-            label="Новый пароль"
-            onChange={(value) => updatePasswordState(PasswordTypes.New, value)}
-          />
-          <CustomInput
-            type={"password"}
-            label="Повтор пароля"
-            onChange={(value) =>
-              updatePasswordState(PasswordTypes.Repeated, value)
-            }
-          />
+          {/*<CustomInput*/}
+          {/*  type={"password"}*/}
+          {/*  label="Старый пароль"*/}
+          {/*  onChange={(value) => updatePasswordState(PasswordTypes.Old, value)}*/}
+          {/*/>*/}
+          {/*{showInvalidOldPassMessage && (*/}
+          {/*  <p className={"error-message"}>Неверный пароль</p>*/}
+          {/*)}*/}
+          {/*<CustomInput*/}
+          {/*  type={"password"}*/}
+          {/*  label="Новый пароль"*/}
+          {/*  onChange={(value) => updatePasswordState(PasswordTypes.New, value)}*/}
+          {/*/>*/}
+          {/*<CustomInput*/}
+          {/*  type={"password"}*/}
+          {/*  label="Повтор пароля"*/}
+          {/*  onChange={(value) =>*/}
+          {/*    updatePasswordState(PasswordTypes.Repeated, value)*/}
+          {/*  }*/}
+          {/*/>*/}
           {showEmptyInputMessage && (
             <p className={"error-message"}>Пустые поля ввода</p>
           )}

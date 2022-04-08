@@ -8,9 +8,10 @@ import CustomButton from "../../shared/CustomButton/CustomButton";
 
 const EditProfile = () => {
   const [userName, setUserName] = useState("");
-  const [userMail, setUserMail] = useState("");
   const [userPhone, setUserPhone] = useState("");
-  const [date, setDate] = useState("");
+  const [userGender, setUserGender] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+
   const [modalOpened, setModalOpened] = useState(false);
 
   const openModal = () => {
@@ -29,11 +30,24 @@ const EditProfile = () => {
     <>
       {modalOpened && <ChangePasswordModal onClose={closeModal} />}
       <Gapped className={"profile_info-wrapper"} gap={7} vertical>
-        <CustomInput label="Имя пользователя" placeholder={"lapakota"} />
-        <CustomInput label="Почта" placeholder={"stalkerzone955@gmail.com"} />
-        <CustomInput label="Номер телефона" placeholder={"+78005553535"} />
-        <CustomSelectDate date="" label="Дата рождения" onChange={setDate} />
-        <GenderSelector label="Пол" classNameDiv="gender_selector" />
+        <CustomInput
+          label="Имя пользователя"
+          placeholder={"lapakota"}
+          value={userName}
+          onChange={setUserName}
+        />
+        <CustomInput
+          label="Номер телефона"
+          placeholder={"+78005553535"}
+          value={userPhone}
+          onChange={setUserPhone}
+        />
+        <CustomSelectDate date={birthDate} label="Дата рождения" onChange={setBirthDate} />
+        <GenderSelector
+          label="Пол"
+          classNameDiv="gender_selector"
+          onChange={setUserGender}
+        />
         <CustomButton
           classNameDiv={"change-password_button"}
           label={"Изменить пароль"}
