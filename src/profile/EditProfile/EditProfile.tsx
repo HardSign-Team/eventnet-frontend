@@ -1,15 +1,18 @@
-import { Gapped, Input } from "@skbkontur/react-ui";
+import { Gapped } from "@skbkontur/react-ui";
 import React, { useState } from "react";
 import ChangePasswordModal from "../ChangePasswordModal";
 import { CustomInput } from "../../shared/CustomInput/CustomInput";
 import { CustomSelectDate } from "../../shared/CustomSelectDate/CustomSelectDate";
-import { GenderSelector } from "../../shared/GenderSelector/GenderSelector";
+import {
+  genders,
+  GenderSelector,
+} from "../../shared/GenderSelector/GenderSelector";
 import CustomButton from "../../shared/CustomButton/CustomButton";
 
 const EditProfile = () => {
   const [userName, setUserName] = useState("");
   const [userPhone, setUserPhone] = useState("");
-  const [userGender, setUserGender] = useState("");
+  const [userGender, setUserGender] = useState(genders.Male);
   const [birthDate, setBirthDate] = useState("");
 
   const [modalOpened, setModalOpened] = useState(false);
@@ -42,11 +45,16 @@ const EditProfile = () => {
           value={userPhone}
           onChange={setUserPhone}
         />
-        <CustomSelectDate date={birthDate} label="Дата рождения" onChange={setBirthDate} />
+        <CustomSelectDate
+          date={birthDate}
+          label="Дата рождения"
+          onChange={setBirthDate}
+        />
         <GenderSelector
+          value={userGender}
           label="Пол"
           classNameDiv="gender_selector"
-          onChange={setUserGender}
+          onChange={() => setUserGender(userGender)}
         />
         <CustomButton
           classNameDiv={"change-password_button"}

@@ -37,22 +37,23 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
     setShowSuccessMessage(false);
   };
 
-  const updatePasswordState = (passwordType: PasswordTypes, value: string) => {
-    clearMessages();
-    switch (passwordType) {
-      case PasswordTypes.Old:
-        setOldPassword(value);
-        break;
-      case PasswordTypes.New:
-        setNewPassword(value);
-        break;
-      case PasswordTypes.Repeated:
-        setRepeatedPassword(value);
-        break;
-      default:
-        console.log("invalid password type");
-    }
-  };
+  const updatePasswordState =
+    (passwordType: PasswordTypes) => (value: string) => {
+      clearMessages();
+      switch (passwordType) {
+        case PasswordTypes.Old:
+          setOldPassword(value);
+          break;
+        case PasswordTypes.New:
+          setNewPassword(value);
+          break;
+        case PasswordTypes.Repeated:
+          setRepeatedPassword(value);
+          break;
+        default:
+          console.log("invalid password type");
+      }
+    };
 
   const validateEmptyInput = () => {
     if (
@@ -83,26 +84,27 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
       <Modal.Header>Изменение пароля</Modal.Header>
       <Modal.Body>
         <Gapped vertical gap={7}>
-          {/*<CustomInput*/}
-          {/*  type={"password"}*/}
-          {/*  label="Старый пароль"*/}
-          {/*  onChange={(value) => updatePasswordState(PasswordTypes.Old, value)}*/}
-          {/*/>*/}
-          {/*{showInvalidOldPassMessage && (*/}
-          {/*  <p className={"error-message"}>Неверный пароль</p>*/}
-          {/*)}*/}
-          {/*<CustomInput*/}
-          {/*  type={"password"}*/}
-          {/*  label="Новый пароль"*/}
-          {/*  onChange={(value) => updatePasswordState(PasswordTypes.New, value)}*/}
-          {/*/>*/}
-          {/*<CustomInput*/}
-          {/*  type={"password"}*/}
-          {/*  label="Повтор пароля"*/}
-          {/*  onChange={(value) =>*/}
-          {/*    updatePasswordState(PasswordTypes.Repeated, value)*/}
-          {/*  }*/}
-          {/*/>*/}
+          <CustomInput
+            type={"password"}
+            label="Старый пароль"
+            onChange={updatePasswordState(PasswordTypes.Old)}
+            value={oldPassword}
+          />
+          {showInvalidOldPassMessage && (
+            <p className={"error-message"}>Неверный пароль</p>
+          )}
+          <CustomInput
+            type={"password"}
+            label="Новый пароль"
+            onChange={updatePasswordState(PasswordTypes.New)}
+            value={newPassword}
+          />
+          <CustomInput
+            type={"password"}
+            label="Повтор пароля"
+            onChange={updatePasswordState(PasswordTypes.Repeated)}
+            value={repeatedPassword}
+          />
           {showEmptyInputMessage && (
             <p className={"error-message"}>Пустые поля ввода</p>
           )}
