@@ -4,12 +4,10 @@ import Main from "./main/Main";
 import Registration from "./register/Registration";
 import Login from "./login/Login";
 import EventCreation from "./eventCreation/EventCreation/EventCreation";
-
 import "./App.css";
 import Header from "./shared/Header/Header";
 import Profile from "./profile/Profile/Profile";
 import { ResetPassword } from "./resetPassword/ResetPassword";
-import EventCreation from "./eventCreation/EventCreation";
 
 export default function App() {
   return (
