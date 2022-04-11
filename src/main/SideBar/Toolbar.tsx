@@ -68,7 +68,7 @@ const defaultData = {
 
 const Toolbar = observer(() => {
   const [state, setState] = useState<FormData>(defaultData);
-  const [isOpenEvent, setIsOpenEvent] = useState<boolean>(true);
+  const [isOpenEvent, setIsOpenEvent] = useState(true);
   const [selectedItems, setSelectedItems] = React.useState([]);
 
   const onChangeEventName = (e: ChangeEvent<HTMLInputElement>) => {
@@ -98,46 +98,53 @@ const Toolbar = observer(() => {
   const { eventName, currentCoordinates } = state;
 
   return (
-    <div className="toolbar-container">
+    <div
+      className={
+        "toolbar-container " + (isOpenEvent ? "toolbar-show" : "toolbar-hidden")
+      }
+    >
       <form className="form-horizontal">
-        {isOpenEvent && (
-          <Gapped gap={15} vertical>
-            <label>
-              <div className="label">Введите название события</div>
-              <Input
-                value={eventName}
-                placeholder="Концерт у Артема"
-                onChange={onChangeEventName}
-              />
-            </label>
-            <label>
-              <div className="label">Введите координаты события</div>
-              <Input
-                value={currentCoordinates}
-                placeholder="56.817076, 60.611855"
-                onChange={onChangeCoordinates}
-              />
-            </label>
-            <label>
-              <div className="label">Выберите подходящие теги</div>
-              <TokenInput
-                type={TokenInputType.Combined}
-                getItems={getItems}
-                style={{ paddingLeft: "5px" }}
-                selectedItems={selectedItems}
-                className="token-input"
-                onValueChange={setSelectedItems}
-                renderToken={(item, tokenProps) => (
-                  <Token key={item} {...tokenProps}>
-                    {item}
-                  </Token>
-                )}
-              />
-            </label>
-          </Gapped>
-        )}
+        <Gapped
+          gap={15}
+          vertical
+          className={
+            isOpenEvent ? "toolbar__form-show" : "toolbar__form-hidden"
+          }
+        >
+          <label>
+            <div className="label">Введите название события</div>
+            <Input
+              value={eventName}
+              placeholder="Концерт у Артема"
+              onChange={onChangeEventName}
+            />
+          </label>
+          <label>
+            <div className="label">Введите координаты события</div>
+            <Input
+              value={currentCoordinates}
+              placeholder="56.817076, 60.611855"
+              onChange={onChangeCoordinates}
+            />
+          </label>
+          <label>
+            <div className="label">Выберите подходящие теги</div>
+            <TokenInput
+              type={TokenInputType.Combined}
+              getItems={getItems}
+              selectedItems={selectedItems}
+              className="token-input"
+              onValueChange={setSelectedItems}
+              renderToken={(item, tokenProps) => (
+                <Token key={item} {...tokenProps}>
+                  {item}
+                </Token>
+              )}
+            />
+          </label>
+        </Gapped>
         <button className="button sidebar-btn" onClick={onClick}>
-          {isOpenEvent ? <AiOutlineDown /> : <AiOutlineUp />}
+          {!isOpenEvent ? <AiOutlineDown /> : <AiOutlineUp />}
         </button>
         <EventList />
       </form>

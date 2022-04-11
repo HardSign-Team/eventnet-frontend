@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AiOutlineLeft } from "react-icons/ai";
+import { AiOutlineRight } from "react-icons/ai";
 
 export default function SlideMenuButton() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -11,7 +11,7 @@ export default function SlideMenuButton() {
 
   return (
     <button onClick={onClick} className="button buttonMenu">
-      <AiOutlineLeft />
+      <AiOutlineRight />
     </button>
   );
 }

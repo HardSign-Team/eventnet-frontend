@@ -31,7 +31,7 @@ export default function Header() {
                       <Link to={"/profile"}>Профиль</Link>
                     </li>
                     <li>
-                      <Link to={"/login"}>LogOut</Link>
+                      <Link to={"/login"}>Войти</Link>
                     </li>
                   </ul>
                 </li>
