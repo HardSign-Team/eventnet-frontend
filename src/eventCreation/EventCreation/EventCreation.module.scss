@@ -1,4 +1,4 @@
-.event-creation {
+.eventCreation {
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -7,13 +7,13 @@
   font-size: 18px;
   color: #323232;
 
-  .photo-carousel {
+  .photoCarousel {
     height: 300px;
     margin: 50px 0 0;
     background-color: #D7DCD7;
   }
 
-  .event_name-input {
+  .event_nameInput {
     all: unset;
     width: 100%;
     text-align: left;
@@ -21,34 +21,42 @@
     color: #008D8E;
   }
 
-  .date-picker_plug {
-    background: gray;
+  .pickers_wrapper {
+    position: relative;
   }
 
-  .event_duration-picker {
+  .event_placePicker {
 
   }
 
-  .place-picker_input {
+  .event_durationPicker {
+
+  }
+
+  .changePicker {
+    position: absolute;
+    right: 0;
+  }
+
+  .placePicker_input {
     border: none;
     font-size: 18px;
     box-shadow: inset -2px -2px #dcdcdc;
+    height: 34px;
   }
 
-  .map-link {
+  .placePicker_text {
+
+  }
+
+  .mapLink {
     color: #008D8E;
     text-decoration: none;
   }
 }
 
-.time-picker_input {
-  border: none;
-  height: 100%;
-  box-shadow: inset -2px -2px #dcdcdc;
-  font-size: 18px;
-}
-
-.flex-row {
+.flexRow {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }

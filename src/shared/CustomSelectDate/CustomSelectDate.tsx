@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./CustomSelectDate.css";
 import { DatePicker, Gapped, Tooltip } from "@skbkontur/react-ui";
-import { ViewDateInputValidateChecks } from "@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks";
 
 interface PropsDateInput {
   readonly className?: string;

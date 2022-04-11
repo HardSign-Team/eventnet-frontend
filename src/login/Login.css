@@ -55,6 +55,8 @@
     border: #008d8e;
 
     margin-left: 20px;
+
+    cursor: pointer;
 }
 
 .checked_remember_password {
