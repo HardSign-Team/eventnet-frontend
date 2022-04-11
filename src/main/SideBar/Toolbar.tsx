@@ -6,7 +6,7 @@ import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import { Token } from "@skbkontur/react-ui";
 import { TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
 import { observer } from "mobx-react-lite";
-import mapStore from "../../stores/MapStore";
+import globalStore from "../../stores/GlobalStore";
 
 const tags = [
   "ЖОПА",
@@ -87,7 +87,8 @@ const Toolbar = observer(() => {
       ...state,
       currentCoordinates: e.target.value,
     });
-    if (latitude && longitude) mapStore.setCoordinates([latitude, longitude]);
+    if (latitude && longitude)
+      globalStore.mapStore.setCoordinates([latitude, longitude]);
   };
 
   const onClick = (e: any) => {

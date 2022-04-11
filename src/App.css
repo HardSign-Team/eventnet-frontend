@@ -4,9 +4,14 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+*,
+.slide-bar * {
   transition: 0.5s ease-out;
 }
-
+.ya-map * {
+  transition: none;
+}
 html,
 body {
   height: 100%;

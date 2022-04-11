@@ -3,12 +3,9 @@ import React from "react";
 import "../Main.css";
 import Event from "../../models/Event";
 import { observer } from "mobx-react-lite";
-import mapStore from "../../stores/MapStore";
-import eventStore from "../../stores/EventStore";
+import globalStore from "../../stores/GlobalStore";
 
 const CIRCLE_RADIUS = 150;
-const WINDOW_WIDTH: number = window.screen.width;
-const WINDOW_HEIGHT: number = window.screen.height;
 const MAX_ZOOM = 15;
 const MIN_ZOOM = 4;
 
@@ -34,10 +31,8 @@ function createCircles(events: Array<Event>) {
 
 const mapStyle = {
   position: "absolute",
-  margin: "0",
-  padding: "0",
   width: "100%",
-  height: "calc(100% - 3px)",
+  height: "99%",
 } as const;
 
 const mapOptions = {
@@ -46,6 +41,8 @@ const mapOptions = {
   minZoom: MIN_ZOOM,
   yandexMapAutoSwitch: true,
 };
+
+const { eventStore, mapStore } = globalStore;
 
 const YaMap = observer(({ className }: { className: string }) => {
   const currentMapState = {
@@ -63,8 +60,8 @@ const YaMap = observer(({ className }: { className: string }) => {
       <Map
         style={mapStyle}
         state={currentMapState}
-        width={WINDOW_WIDTH}
-        height={WINDOW_HEIGHT}
+        width={"100%"}
+        height={"100%"}
         className={className}
         options={mapOptions}
         onClick={onMapClick}
