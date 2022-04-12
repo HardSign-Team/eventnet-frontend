@@ -150,7 +150,7 @@ const Toolbar = observer(() => {
           {!isOpenEvent ? <AiOutlineDown /> : <AiOutlineUp />}
         </button>
       </form>
-      <EventList />
+      <EventList isOpenEvent={isOpenEvent} />
     </div>
   );
 });

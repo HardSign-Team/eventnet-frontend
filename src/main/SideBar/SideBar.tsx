@@ -11,12 +11,12 @@ type BarProps = {
 
 let styles = {
   bmCrossButton: {
-    left: "0",
+    opacity: "1",
+    left: "calc(100% - 28px)",
     width: "55px",
     top: "calc(50% - 70px)",
     color: "#59C7C7",
     height: "55px",
-    transform: "rotate(180deg)",
   },
   bmOverlay: {
     background: "transparent",
@@ -26,19 +26,12 @@ let styles = {
 };
 
 export default function SideBar({ className }: BarProps) {
-  const [open, setOpen] = useState(false);
   return (
     <Menu
       className={className}
       customBurgerIcon={BurgerMenuButton()}
       customCrossIcon={CrossMenuButton()}
       styles={styles}
-      isOpen={open}
-      onClose={() => setOpen(false)}
-      onOpen={() => {
-        setOpen(true);
-        styles.bmCrossButton.left = "calc(100% - 28px)";
-      }}
     >
       <Toolbar />
     </Menu>
