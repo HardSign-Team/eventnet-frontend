@@ -3,7 +3,7 @@
   text-align: left;
 }
 
-.slide-bar * {
+.slide-bar .form {
   transition: 0.5s ease-out;
 }
 
@@ -37,7 +37,6 @@
 }
 
 .buttonMenu {
-  position: relative;
   font-size: 30px;
   align-items: center;
   justify-content: center;

@@ -1,21 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { slide as Menu } from "react-burger-menu";
 import Toolbar from "./Toolbar";
 import "./SideBar.css";
-import SlideMenuButton from "./SlideMenuButton";
+import CrossMenuButton from "./CrossMenuButton";
+import BurgerMenuButton from "./BurgerMenuButton";
 
 type BarProps = {
   className: string;
 };
 
-const styles = {
+let styles = {
   bmCrossButton: {
-    position: "relative",
-    left: "calc(100% - 28px)",
+    left: "0",
     width: "55px",
-    height: "55px",
-    color: "#59C7C7",
     top: "calc(50% - 70px)",
+    color: "#59C7C7",
+    height: "55px",
     transform: "rotate(180deg)",
   },
   bmOverlay: {
@@ -23,16 +23,22 @@ const styles = {
     zIndex: "0",
     overflowY: "scroll",
   },
-} as const;
+};
 
-export default function props({ className }: BarProps) {
+export default function SideBar({ className }: BarProps) {
+  const [open, setOpen] = useState(false);
   return (
     <Menu
-      {...props}
       className={className}
-      // customBurgerIcon={SlideMenuButton()}
-      customCrossIcon={SlideMenuButton()}
+      customBurgerIcon={BurgerMenuButton()}
+      customCrossIcon={CrossMenuButton()}
       styles={styles}
+      isOpen={open}
+      onClose={() => setOpen(false)}
+      onOpen={() => {
+        setOpen(true);
+        styles.bmCrossButton.left = "calc(100% - 28px)";
+      }}
     >
       <Toolbar />
     </Menu>
