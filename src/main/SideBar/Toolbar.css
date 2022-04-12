@@ -37,26 +37,25 @@
 
 .toolbar-hidden {
   position: relative;
-  top: -200px;
-  transition: top 0.2s linear;
+  transition: all 0.2s ease-in-out;
 }
-
 
 .toolbar-show {
   position: relative;
-  top: 0;
-  transition: top 0.2s linear;
+  transition: all 0.2s ease-in-out;
 }
 
 .toolbar__form-hidden {
   position: relative;
+  max-height: 0;
   opacity: 0;
-  transition: opacity 0.2s linear;
+  overflow: hidden;
+  transition: opacity 0.5s linear, max-height 0.5s linear;
 }
 
-
 .toolbar__form-show {
+  transition: opacity 0.5s linear, max-height 0.5s linear;
   position: relative;
+  max-height: 70vh;
   opacity: 1;
-  transition: opacity 0.2s linear;
 }
