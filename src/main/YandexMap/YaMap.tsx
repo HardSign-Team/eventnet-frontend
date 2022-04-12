@@ -5,8 +5,8 @@ import Event from "../../models/Event";
 import { observer } from "mobx-react-lite";
 import globalStore from "../../stores/GlobalStore";
 
-const CIRCLE_RADIUS = 150;
-const MAX_ZOOM = 15;
+const CIRCLE_RADIUS = 5;
+const MAX_ZOOM = 20;
 const MIN_ZOOM = 4;
 
 const circleOptions = {
@@ -37,7 +37,6 @@ const mapStyle = {
 
 const mapOptions = {
   exitFullscreenByEsc: true,
-  maxZoom: MAX_ZOOM,
   minZoom: MIN_ZOOM,
   yandexMapAutoSwitch: true,
 };
