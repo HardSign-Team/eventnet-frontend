@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AiOutlineRight } from "react-icons/ai";
 
-export default function SlideMenuButton() {
+export default function SlideMenuButton(): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const onClick = (e: any) => {

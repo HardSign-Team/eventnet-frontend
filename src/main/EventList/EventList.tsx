@@ -9,7 +9,7 @@ const { eventStore } = globalStore;
 const EventList = observer(() => {
   return (
     <div className="event-container">
-      {eventStore.events.map((event, index) => (
+      {eventStore.events.map((event) => (
         <EventCard key={event.id} event={event} />
       ))}
     </div>

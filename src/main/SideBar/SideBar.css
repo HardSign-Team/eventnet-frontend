@@ -3,6 +3,10 @@
   text-align: left;
 }
 
+.slide-bar * {
+  transition: 0.5s ease-out;
+}
+
 .bm-item {
   display: inline-block;
   text-decoration: none;

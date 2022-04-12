@@ -51,9 +51,11 @@ const tags = [
 
 const getItems = (q: string): Promise<never[]> =>
   Promise.resolve(
-    tags.filter(
-      (x) => x.toLowerCase().includes(q.toLowerCase()) || x.toString() === q
-    )
+    tags
+      .filter(
+        (x) => x.toLowerCase().includes(q.toLowerCase()) || x.toString() === q
+      )
+      .map((x) => x.toLowerCase())
   ).then();
 
 type FormData = {
@@ -147,8 +149,8 @@ const Toolbar = observer(() => {
         <button className="button sidebar-btn" onClick={onClick}>
           {!isOpenEvent ? <AiOutlineDown /> : <AiOutlineUp />}
         </button>
-        <EventList />
       </form>
+      <EventList />
     </div>
   );
 });

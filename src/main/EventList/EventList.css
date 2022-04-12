@@ -1,6 +1,11 @@
-.event-container{
-    flex-direction: column;
-    gap: 1rem;
-    padding-bottom: 6rem;
-    display: flex;
+.event-container {
+  flex-direction: column;
+  gap: 1rem;
+  height: 400px;
+  display: flex;
+  overflow: auto;
+}
+
+.event-container::-webkit-scrollbar{
+  visibility: hidden;
 }

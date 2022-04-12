@@ -18,19 +18,22 @@ const iconsStyle = {
   fontSize: "14px",
 } as const;
 
+const DEFAULT_EVENT_PHOTO_URL =
+  "https://skillz4kidzmartialarts.com/wp-content/uploads/2017/04/default-image-620x600.jpg";
+
 export default function EventCard({ event }: EventCardProps) {
   return (
     <section className="event-card">
-      {event.info.photos && (
-        <img
-          src={event.info.photos[0]}
-          alt="EventPhoto"
-          width={"100%"}
-          height={"100%"}
-          className={"event-card__photo"}
-        />
-      )}
-      <h4>{event.info.name}</h4>
+      <img
+        src={
+          (event.info.photos && event.info.photos[0]) || DEFAULT_EVENT_PHOTO_URL
+        }
+        alt="EventPhoto"
+        width={"100%"}
+        height={"125px"}
+        className={"event-card__photo"}
+      />
+      <h4 className="event-card__title">{event.info.name}</h4>
       <div className="event-card__description">{`${event.info.description?.substring(
         0,
         100

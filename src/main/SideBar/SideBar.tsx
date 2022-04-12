@@ -10,7 +10,7 @@ type BarProps = {
 
 const styles = {
   bmCrossButton: {
-    position: "absolute",
+    position: "relative",
     left: "calc(100% - 28px)",
     width: "55px",
     height: "55px",
@@ -30,7 +30,7 @@ export default function props({ className }: BarProps) {
     <Menu
       {...props}
       className={className}
-      customBurgerIcon={SlideMenuButton()}
+      // customBurgerIcon={SlideMenuButton()}
       customCrossIcon={SlideMenuButton()}
       styles={styles}
     >

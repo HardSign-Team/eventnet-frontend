@@ -48,7 +48,6 @@ const YaMap = observer(({ className }: { className: string }) => {
   const currentMapState = {
     center: mapStore.coordinates,
     zoom: 10,
-    behaviors: ["default", "scrollZoom"],
   };
 
   const onMapClick = (event: any) => {
@@ -65,6 +64,13 @@ const YaMap = observer(({ className }: { className: string }) => {
         className={className}
         options={mapOptions}
         onClick={onMapClick}
+        instanceRef={(map: any) => {
+          if (map !== null) {
+            map.behaviors.enable("scrollZoom");
+            map.behaviors.disable("dblClickZoom");
+            map.behaviors.disable("rightMouseButtonMagnifier");
+          }
+        }}
       >
         <Clusterer>{createCircles(eventStore.events)}</Clusterer>
       </Map>
