@@ -10,7 +10,7 @@ const EventList = observer(({ isOpenEvent }: { isOpenEvent: boolean }) => {
   return (
     <div
       className="event-container"
-      style={{ height: isOpenEvent ? "50vh" : "80vh" }}
+      style={{ height: isOpenEvent ? "70vh" : "80vh" }}
     >
       {eventStore.events.map((event) => (
         <EventCard key={event.id} event={event} />

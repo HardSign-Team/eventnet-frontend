@@ -7,6 +7,7 @@ import { Token } from "@skbkontur/react-ui";
 import { TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
 import { observer } from "mobx-react-lite";
 import globalStore from "../../stores/GlobalStore";
+import { slide as Menu } from "react-burger-menu";
 
 const tags = [
   "ЖОПА",
@@ -132,6 +133,7 @@ const Toolbar = observer(() => {
           {!isOpenEvent ? <AiOutlineDown /> : <AiOutlineUp />}
         </button>
       </form>
+      <hr className="toolbar__horizontal-line" />
       <EventList isOpenEvent={isOpenEvent} />
     </div>
   );

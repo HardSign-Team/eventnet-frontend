@@ -4,6 +4,7 @@ import Toolbar from "./Toolbar";
 import "./SideBar.css";
 import CrossMenuButton from "./CrossMenuButton";
 import BurgerMenuButton from "./BurgerMenuButton";
+import EventList from "../EventList/EventList";
 
 type BarProps = {
   className: string;
@@ -12,7 +13,7 @@ type BarProps = {
 let styles = {
   bmCrossButton: {
     opacity: "1",
-    left: "calc(100% - 28px)",
+    left: "calc(100% - 32px)",
     width: "55px",
     top: "calc(50% - 70px)",
     color: "#59C7C7",

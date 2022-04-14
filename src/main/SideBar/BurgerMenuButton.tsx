@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { AiOutlineLeft } from "react-icons/ai";
+import React from "react";
+import { AiOutlineRight } from "react-icons/ai";
 
 export default function BurgerMenuButton() {
   return (
     <button className="bm-icon button buttonMenu">
-      <AiOutlineLeft />
+      <AiOutlineRight />
     </button>
   );
 }

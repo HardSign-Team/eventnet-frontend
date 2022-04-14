@@ -22,6 +22,10 @@
   color: white;
 }
 
+.bm-icon{
+  display: none;
+}
+
 .bm-burger-button {
   position: fixed;
   width: 55px;

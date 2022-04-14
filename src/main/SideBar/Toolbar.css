@@ -6,6 +6,13 @@
 .form-horizontal {
   opacity: 1;
 }
+
+.toolbar__horizontal-line{
+  margin-bottom: 30px;
+  z-index: 2;
+  position: relative;
+}
+
 .form-hidden {
   visibility: hidden;
   opacity: 0;
@@ -28,6 +35,7 @@
 }
 
 .sidebar-btn {
+  z-index: 1;
   align-items: center;
   justify-content: center;
   width: 30px;
