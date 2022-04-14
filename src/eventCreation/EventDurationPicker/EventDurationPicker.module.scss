@@ -1,12 +1,14 @@
-.event_durationPicker {
+.eventDurationPicker {
   display: flex;
   flex-direction: row;
 
-  .durationPicker_text {
+  &_text {
 
   }
 
-  .durationPicker_input {
-
+  &_input {
+    height: 35px;
+    border: none;
+    box-shadow: inset -2px -2px #dcdcdc;
   }
 }

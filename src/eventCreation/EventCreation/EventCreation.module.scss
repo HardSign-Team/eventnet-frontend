@@ -9,7 +9,7 @@
 
   .photoCarousel {
     height: 300px;
-    margin: 50px 0 0;
+    margin: 20px 0 0;
     background-color: #D7DCD7;
   }
 
@@ -21,42 +21,7 @@
     color: #008D8E;
   }
 
-  .pickers_wrapper {
-    position: relative;
+  .eventType_selector {
+    width: 320px;
   }
-
-  .event_placePicker {
-
-  }
-
-  .event_durationPicker {
-
-  }
-
-  .changePicker {
-    position: absolute;
-    right: 0;
-  }
-
-  .placePicker_input {
-    border: none;
-    font-size: 18px;
-    box-shadow: inset -2px -2px #dcdcdc;
-    height: 34px;
-  }
-
-  .placePicker_text {
-
-  }
-
-  .mapLink {
-    color: #008D8E;
-    text-decoration: none;
-  }
-}
-
-.flexRow {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
 }

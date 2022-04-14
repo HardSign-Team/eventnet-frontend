@@ -1,6 +1,5 @@
 import React from "react";
 import { Gapped } from "@skbkontur/react-ui";
-import cn from "classnames";
 import styles from "./EventDurationPicker.module.scss";
 
 type EventDurationPickerProps = {
@@ -13,13 +12,13 @@ const EventDurationPicker: React.FC<EventDurationPickerProps> = ({
   onDurationChange,
 }) => {
   return (
-    <Gapped gap={13} className={styles.event_durationPicker}>
-      <span className={styles.durationPicker_text}>Продолжительность</span>
+    <Gapped gap={13} className={styles.eventDurationPicker}>
+      <span className={styles.eventDurationPicker_text}>Продолжительность</span>
       <input
         type="time"
         value={duration}
         onChange={(e) => onDurationChange(e.target.value)}
-        className={styles.durationPicker_input}
+        className={styles.eventDurationPicker_input}
         required
       />
     </Gapped>

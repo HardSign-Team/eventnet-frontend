@@ -1,0 +1,11 @@
+.eventEndPicker {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+
+  &__change {
+    position: absolute;
+    right: 0;
+    top: 1px
+  }
+}
