@@ -6,7 +6,7 @@ type ShowMapModalProps = {
   onClose: () => void;
 };
 
-const ShowMapModal: React.FC<ShowMapModalProps> = ({ onClose }) => {
+const MapModal: React.FC<ShowMapModalProps> = ({ onClose }) => {
   const saveCoords = () => {};
 
   return (
@@ -25,4 +25,4 @@ const ShowMapModal: React.FC<ShowMapModalProps> = ({ onClose }) => {
   );
 };
 
-export default ShowMapModal;
+export default MapModal;
