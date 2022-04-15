@@ -19,6 +19,8 @@ const Placeholders = {
 
 type typesInput = "password" | "standard" | "phoneNumber" | "mail";
 
+const MAX_INPUT_LENGTH = 65;
+
 interface Props {
   readonly type?: typesInput;
   readonly className?: string;
@@ -43,8 +45,7 @@ export const CustomInput: React.FC<Props> = ({
   width = 320,
 }: Props) => {
   const addSymbol = (value: string) => {
-    console.log(value);
-    if (value.length < 65) onChange(value);
+    if (value.length < MAX_INPUT_LENGTH) onChange(value);
   };
   if (type !== "password")
     return (
