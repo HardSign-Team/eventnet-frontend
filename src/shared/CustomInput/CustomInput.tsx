@@ -6,14 +6,14 @@ import { FormContainer } from "../FormContainer/FormContainer";
 const CorrectInputsMasks = {
   standard: "",
   password: "",
-  phoneNumber: "+7(999)-99-99-99-9",
+  phoneNumber: "+7(999)999-99-99",
   mail: "",
 };
 
 const Placeholders = {
   standard: "",
   password: "",
-  phoneNumber: "+7(999)-99-99-99-9",
+  phoneNumber: "+7(999)999-99-99",
   mail: "jopajopa@gmail.com",
 };
 
@@ -43,6 +43,7 @@ export const CustomInput: React.FC<Props> = ({
   width = 320,
 }: Props) => {
   const addSymbol = (value: string) => {
+    console.log(value);
     if (value.length < 65) onChange(value);
   };
   if (type !== "password")

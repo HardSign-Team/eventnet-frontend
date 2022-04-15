@@ -27,7 +27,7 @@ const registrationValidator = createValidator<RegistrationUserInfo>((b) => {
     (b) => {
       b.invalid((x) => !x, "Укажите телефон", "submit");
       b.invalid(
-        (x) => !/^\+7\s\d{3}\s\d{3}-\d{2}-\d{2}$/.test(x),
+        (x) => !/^\+7\(\d{3}\)\d{3}-\d{2}-\d{2}$/.test(x),
         "Неверный номер телефона"
       );
     }
