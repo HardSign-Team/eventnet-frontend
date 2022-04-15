@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Main from "./main/Main";
-import Registration from "./register/Registration";
+import { Registration } from "./register/Registration";
 import Login from "./login/Login";
 import EventCreation from "./eventCreation/EventCreation";
 import "./App.css";
