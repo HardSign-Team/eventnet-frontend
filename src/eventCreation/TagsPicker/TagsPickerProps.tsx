@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./TagsPicker.module.scss";
-import { Gapped, Token, TokenInput } from "@skbkontur/react-ui";
+import { Token, TokenInput } from "@skbkontur/react-ui";
 import { TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
 import { getItems } from "../../main/SideBar/Toolbar";
 
@@ -13,7 +13,7 @@ const TagsPicker: React.FC<TagsPickerProps> = ({
   setSelectedTags,
 }) => {
   return (
-    <Gapped gap={10} className={styles.eventTagsPicker}>
+    <div className={styles.eventTagsPicker}>
       <span className={styles.eventTagsPicker__label}>Теги</span>
       <TokenInput
         type={TokenInputType.Combined}
@@ -27,7 +27,7 @@ const TagsPicker: React.FC<TagsPickerProps> = ({
           </Token>
         )}
       />
-    </Gapped>
+    </div>
   );
 };
 

@@ -10,7 +10,7 @@ type PhotoModalProps = {
 const PhotoModal: React.FC<PhotoModalProps> = ({ image, onClose }) => {
   return (
     <Modal onClose={onClose}>
-      <Modal.Body>
+      <Modal.Body style={{ background: "#D7DCD7" }}>
         <div className={styles.imageWrapper}>
           <img className={styles.image} src={image} alt={"picked"} />
         </div>

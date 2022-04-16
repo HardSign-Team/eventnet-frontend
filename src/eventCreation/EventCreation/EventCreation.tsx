@@ -8,7 +8,6 @@ import EventEndPicker from "../EventEndPicker/EventEndPicker";
 import PlacePicker from "../PlacePicker/PlacePicker";
 import TagsPicker from "../TagsPicker/TagsPickerProps";
 import DescriptionArea from "../DescriptionArea/DescriptionArea";
-import MapModal from "../MapModal/MapModal";
 import PhotoCarousel from "../../shared/PhotoCarousel/Carousel/PhotoCarousel";
 
 enum EventTypes {
@@ -18,6 +17,7 @@ enum EventTypes {
 
 // TODO ограничения на инпуты
 const EventCreation: React.FC = () => {
+  const [eventImages, setEventImages] = useState<string[]>([]);
   const [eventName, setEventName] = useState("");
   const [duration, setDuration] = useState("");
   const [dateStart, setDateStart] = useState("");
@@ -28,27 +28,15 @@ const EventCreation: React.FC = () => {
   const [eventType, setEventType] = useState(EventTypes.Public);
   const [selectedTags, setSelectedTags] = React.useState([]);
   const [eventDescription, setEventDescription] = useState("");
-  const [showModal, setShowModal] = useState(false);
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const openModal = () => {
-    setShowModal(true);
-  };
-
-  const eventImages = [
-    "https://catherineasquithgallery.com/uploads/posts/2021-02/1612673088_94-p-koshka-na-zelenom-fone-140.jpg",
-    "https://images.wallpaperscraft.com/image/single/leaf_metal_rain_274860_3840x2160.jpg",
-    "https://s1.1zoom.ru/b5046/12/Forests_Rivers_Bridges_561080_720x1280.jpg",
-  ];
 
   return (
     <>
-      {showModal && <MapModal onClose={closeModal} />}
       <Gapped className={styles.eventCreation} vertical gap={20}>
-        <PhotoCarousel images={eventImages} />
+        <PhotoCarousel
+          images={eventImages}
+          setImages={setEventImages}
+          withLoader={true}
+        />
         <input
           className={styles.event_nameInput}
           placeholder={"Введите название..."}
@@ -80,7 +68,6 @@ const EventCreation: React.FC = () => {
           value={eventType}
         />
         <PlacePicker
-          openModal={openModal}
           coordinates={coordinates}
           setCoordinates={setCoordinates}
         />
