@@ -54,7 +54,7 @@ const EditProfile = () => {
           value={userGender}
           label="Пол"
           classNameDiv="gender_selector"
-          onChange={() => setUserGender(userGender)}
+          onChange={setUserGender}
         />
         <CustomButton
           classNameDiv={"change-password_button"}

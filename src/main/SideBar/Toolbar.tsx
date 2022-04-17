@@ -30,7 +30,7 @@ const tags = [
   "море",
 ];
 
-const getItems = (q: string): Promise<never[]> =>
+export const getItems = (q: string): Promise<never[]> =>
   Promise.resolve(
     tags
       .filter(
