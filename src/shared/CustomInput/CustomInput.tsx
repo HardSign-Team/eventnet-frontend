@@ -79,7 +79,7 @@ export const CustomInput: React.FC<Props> = ({
           value={value}
           mask={CorrectInputsMasks.password}
           detectCapsLock
-          onValueChange={(value) => (onChange ? onChange(value) : null)}
+          onValueChange={(value) => addSymbol(value)}
           onFocus={onFocus}
           width={width}
           error={error}
