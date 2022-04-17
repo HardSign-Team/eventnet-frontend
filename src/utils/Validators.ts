@@ -10,6 +10,11 @@ const registrationValidator = createValidator<RegistrationUserInfo>((b) => {
     (x) => x.name,
     (b) => {
       b.invalid((x) => !x, "Укажите имя", "submit");
+      b.invalid(
+        (x) => !/^[a-z,.'!\\\-]{3,}$/.test(x),
+        "Неккоректное имя пользователя",
+        "submit"
+      );
     }
   );
   b.prop(
@@ -17,7 +22,7 @@ const registrationValidator = createValidator<RegistrationUserInfo>((b) => {
     (b) => {
       b.invalid((x) => !x, "Укажите адрес почты", "submit");
       b.invalid(
-        (x) => !/^[a-z]+@[a-z]+\.[a-z]{2,}$/.test(x),
+        (x) => !/^[a-z.]+@[a-z]+\.[a-z]{2,}$/.test(x),
         "Неверный адрес почты"
       );
     }
@@ -53,6 +58,7 @@ const registrationValidator = createValidator<RegistrationUserInfo>((b) => {
   b.prop(
     (x) => x,
     (b, password) => {
+      b.invalid((x) => !x.acceptedPassword, "Подтвердите пароль", "submit");
       b.invalid(
         (x) => x.acceptedPassword !== password.password,
         "Пароли не совпадают",

@@ -14,7 +14,7 @@ export const ModalAcceptRegistration: React.FC<Props> = ({ mail }) => {
     rout("/login");
   };
   return (
-    <Modal onClose={onClick}>
+    <Modal onClose={onClick} width={600}>
       <Modal.Header>Регистрация завершена</Modal.Header>
       <Modal.Body>
         <p>Подтверждение отправлено на почту {mail}</p>
