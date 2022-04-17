@@ -26,13 +26,11 @@ import {
 export const Registration: React.FC = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [mail, setMail] = useState(
-    "asdasdasdasdasdasdkljasfdjalkfnasdaaasdasdasdasdasdasdasdasdasdasd"
-  );
+  const [mail, setMail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [dateBirthday, setDateBirthday] = useState("");
-  const [gender, setGender] = useState(genders.Female);
+  const [gender, setGender] = useState(genders.Male);
   const [isAcceptRegister, setIsAcceptRegister] = useState(true);
 
   const registration = async (): Promise<void> => {
