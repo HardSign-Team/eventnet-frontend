@@ -5,5 +5,7 @@ export default interface EventInfo {
   dateEnd?: Date;
   description?: string;
   likes?: number;
-  photos?: Array<ArrayBuffer>;
+  dislikes?: number;
+  participants?: number;
+  photos?: Array<string>;
 }

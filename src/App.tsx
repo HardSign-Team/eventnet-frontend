@@ -5,9 +5,9 @@ import Registration from "./register/Registration";
 import Login from "./login/Login";
 import EventCreation from "./eventCreation/EventCreation/EventCreation";
 import "./App.css";
-import { ResetPassword } from "./resetPassword/ResetPassword";
 import Header from "./shared/Header/Header";
 import Profile from "./profile/Profile/Profile";
+import { ResetPassword } from "./resetPassword/ResetPassword";
 
 export default function App() {
   return (

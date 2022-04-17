@@ -99,9 +99,6 @@ li a {
 .header_topmenu-container > li > a {
     display: block;
     position: relative;
-    margin: auto;
-    padding: 0 30px;
-    line-height: 70px;
 }
 
 .header__ghosts-container-submenu li {
@@ -112,22 +109,10 @@ li a {
     position: relative;
     visibility: hidden;
     list-style-type: none;
-    opacity: 0;
-    width: 100%;
+    width: 200%;
+    right: 100%;
     transform: perspective(600px) rotateX(-90deg);
     transform-origin: 0 0;
-}
-
-.header_topmenu-container > li:hover .header__submenu-container {
-    visibility: visible;
-    opacity: 1;
-    transform: perspective(600px) rotateX(0deg);
-    background: #d7dcd7;
-    border-radius: 20px;
-    width: 200%;
-    margin: 0 auto;
-    right: 100%;
-    z-index: 10000;
 }
 
 .header__profile-photo {
@@ -136,6 +121,16 @@ li a {
     margin: auto;
     padding: 0 30px;
     line-height: 70px;
+}
+
+.header_topmenu-container > li:hover .header__submenu-container {
+    visibility: visible;
+    opacity: 1;
+    transform: perspective(600px) rotateX(0deg);
+    background: #d7dcd7;
+    border-radius: 20px;
+    margin: 0 auto;
+    z-index: 10000;
 }
 
 .header__submenu-container li a {
