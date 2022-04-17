@@ -31,7 +31,7 @@ export const Registration: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [dateBirthday, setDateBirthday] = useState("");
   const [gender, setGender] = useState(genders.Male);
-  const [isAcceptRegister, setIsAcceptRegister] = useState(true);
+  const [isAcceptRegister, setIsAcceptRegister] = useState(false);
 
   const registration = async (): Promise<void> => {
     if (!container) {
