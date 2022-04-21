@@ -11,7 +11,7 @@ const registrationValidator = createValidator<RegistrationUserInfo>((b) => {
     (b) => {
       b.invalid((x) => !x, "Укажите имя", "submit");
       b.invalid(
-        (x) => !/^[A-Za-z,.'!\\\-]{3,}$/.test(x),
+        (x) => !/^[A-Za-z,.'!\\-]{3,}$/.test(x),
         "Неккоректное имя пользователя",
         "submit"
       );
@@ -83,7 +83,26 @@ const loginValidator = createValidator<LoginUserInfo>((b) => {
   );
 });
 
+const mailValidator = createValidator<{ mail: string }>((b) => {
+  b.prop(
+    (x) => x.mail,
+    (b) => {
+      b.invalid((x) => !x, "Укажите адрес почты", "submit");
+      b.invalid(
+        (x) => !/^[A-Za-z.]+@[a-z]+\.[a-z]{2,}$/.test(x),
+        "Неверный адрес почты"
+      );
+    }
+  );
+});
+
 let container: Nullable<ValidationContainer> = null;
 const refContainer = (el: Nullable<ValidationContainer>) => (container = el);
 
-export { registrationValidator, loginValidator, container, refContainer };
+export {
+  registrationValidator,
+  loginValidator,
+  container,
+  refContainer,
+  mailValidator,
+};
