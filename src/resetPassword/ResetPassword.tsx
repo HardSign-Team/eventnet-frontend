@@ -10,8 +10,13 @@ import {
   ValidationWrapper,
 } from "@skbkontur/react-ui-validations";
 import { container, refContainer, mailValidator } from "../utils/Validators";
+import { UserStore } from "../stores/UserStore";
 
-export const ResetPassword: React.FC = () => {
+interface ResetPasswordProps {
+  userStore: UserStore;
+}
+
+export const ResetPassword: React.FC<ResetPasswordProps> = ({ userStore }) => {
   const [isMailEntered, setIsMailEntered] = useState(false);
   const [mail, setMail] = useState("");
   const [newPassword, setNewPassword] = useState("");

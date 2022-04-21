@@ -1,19 +1,14 @@
-interface PropsUserStore {
-  accessToken: string;
-  expiredAt: string;
-  refreshToken: string;
-  userName: string;
-  email: string;
-  userRoles: string[];
+import { makeAutoObservable } from "mobx";
+
+export class UserStore {
+  public accessToken: string = "";
+  public expiredAt: string = "";
+  public refreshToken: string = "";
+  public userName: string = "";
+  public email: string = "";
+  public userRoles: string[] = [];
+
+  constructor() {
+    makeAutoObservable(this);
+  }
 }
-
-const userStore: PropsUserStore = {
-  accessToken: "",
-  expiredAt: "",
-  refreshToken: "",
-  userName: "",
-  email: "",
-  userRoles: [],
-};
-
-export { userStore };

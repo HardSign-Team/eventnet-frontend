@@ -11,8 +11,14 @@ import {
   ValidationWrapper,
 } from "@skbkontur/react-ui-validations";
 import { container, loginValidator, refContainer } from "../utils/Validators";
+import { UserStore } from "../stores/UserStore";
+import { observer } from "mobx-react-lite";
 
-const Login = () => {
+interface LoginProps {
+  userStore: UserStore;
+}
+
+export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [errorName, setErrorName] = useState(false);
@@ -103,6 +109,4 @@ const Login = () => {
       </ValidationContainer>
     </div>
   );
-};
-
-export default Login;
+});
