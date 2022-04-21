@@ -23,7 +23,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
-  const rout = useNavigate();
+  const route = useNavigate();
 
   const login = async (): Promise<void> => {
     if (!container) {
@@ -31,15 +31,15 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
     }
     if (await container.validate()) {
       const user: userInfo = { login: userName, password: password };
-      await checkLogin(user);
+      checkLogin(user);
     }
   };
 
-  const checkLogin = async (user: userInfo) => {
-    await loginRequest(user).then((x) => {
+  const checkLogin = (user: userInfo) => {
+    loginRequest(user).then((x) => {
       if (x.code === 200) {
         userStore.isAuth = true;
-        rout("/");
+        route("/");
       } else {
         setError(true);
       }
