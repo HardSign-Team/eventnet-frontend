@@ -18,15 +18,26 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ setImageURLS }) => {
   }, [imageFiles]);
 
   function onImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const allowedExtensions = ["jpg", "jpeg", "png", "bmp"];
+    const allowedImagesCount = 8;
+
     const files = e.target.files;
 
+    if (!files) return;
+
     const images = [];
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        images.push(files[i]);
-      }
+
+    for (let i = 0; i < Math.min(files.length, allowedImagesCount); i++) {
+      const file = files[i];
+      const fileName = file.name;
+      const dotIndex = fileName.lastIndexOf(".") + 1;
+      const fileExtension = fileName
+        .slice(dotIndex, fileName.length)
+        .toLowerCase();
+      allowedExtensions.includes(fileExtension) && images.push(file);
     }
-    files && setImageFiles(images);
+
+    setImageFiles(images);
   }
 
   return (
@@ -36,7 +47,7 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ setImageURLS }) => {
         id={styles.imageLoader__input}
         type="file"
         multiple
-        accept="image/*"
+        accept="image/png, image/bmp, image/jpeg"
         onChange={onImageChange}
       />
       <label
@@ -48,5 +59,4 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ setImageURLS }) => {
     </div>
   );
 };
-
 export default ImageLoader;
