@@ -28,16 +28,6 @@ const registrationValidator = createValidator<RegistrationUserInfo>((b) => {
     }
   );
   b.prop(
-    (x) => x.phone,
-    (b) => {
-      b.invalid((x) => !x, "Укажите телефон", "submit");
-      b.invalid(
-        (x) => !/^\+7\(\d{3}\)\d{3}-\d{2}-\d{2}$/.test(x),
-        "Неверный номер телефона"
-      );
-    }
-  );
-  b.prop(
     (x) => x.sex,
     (b) => {
       b.invalid((x) => !x, "Укажите пол", "submit");

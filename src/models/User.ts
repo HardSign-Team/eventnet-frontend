@@ -5,7 +5,6 @@ interface User {}
 interface RegistrationUserInfo {
   name: string;
   email: string;
-  phone: string;
   sex: genders;
   password: string;
   acceptedPassword: string;

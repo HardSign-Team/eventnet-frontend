@@ -2,7 +2,6 @@ export type userInfoRegister = {
   userName: string;
   email: string;
   password: string;
-  phone: string;
 };
 
 async function registerRequest(userInfo: userInfoRegister) {

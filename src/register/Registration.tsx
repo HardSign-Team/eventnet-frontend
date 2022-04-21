@@ -27,7 +27,6 @@ export const Registration: React.FC = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [mail, setMail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [dateBirthday, setDateBirthday] = useState("");
   const [gender, setGender] = useState(genders.Male);
@@ -42,7 +41,6 @@ export const Registration: React.FC = () => {
         userName: userName,
         email: mail,
         password: password,
-        phone: phoneNumber.split("-").join(""),
       };
       userStore.userName = userName;
       userStore.email = mail;
@@ -57,7 +55,6 @@ export const Registration: React.FC = () => {
     email: mail,
     password: password,
     acceptedPassword: confirmPassword,
-    phone: phoneNumber,
     born: dateBirthday,
     sex: gender,
   });
@@ -109,17 +106,6 @@ export const Registration: React.FC = () => {
               label="Подтвердите пароль"
               onChange={setConfirmPassword}
               value={confirmPassword}
-            />
-          </ValidationWrapper>
-          <ValidationWrapper
-            validationInfo={validator.getNode((x) => x.phone).get()}
-            renderMessage={text("right")}
-          >
-            <CustomInput
-              label="Введите номер телефона"
-              onChange={setPhoneNumber}
-              value={phoneNumber}
-              type={"phoneNumber"}
             />
           </ValidationWrapper>
           <ValidationWrapper
