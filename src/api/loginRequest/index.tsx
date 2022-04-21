@@ -13,7 +13,7 @@ async function loginRequest(user: userInfo) {
     body: JSON.stringify(user),
   })
     .then((x) => x.json())
-    .then((x) => console.log(x.message))
+    // .then((x) => console.log(x.message))
     .catch((err) => console.log(err));
 }
 

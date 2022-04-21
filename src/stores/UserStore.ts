@@ -7,6 +7,7 @@ export class UserStore {
   public userName: string = "";
   public email: string = "";
   public userRoles: string[] = [];
+  public isAuth: boolean = false;
 
   constructor() {
     makeAutoObservable(this);

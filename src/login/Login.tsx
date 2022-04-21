@@ -13,6 +13,7 @@ import {
 import { container, loginValidator, refContainer } from "../utils/Validators";
 import { UserStore } from "../stores/UserStore";
 import { observer } from "mobx-react-lite";
+import { useNavigate } from "react-router-dom";
 
 interface LoginProps {
   userStore: UserStore;
@@ -21,8 +22,8 @@ interface LoginProps {
 export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [errorName, setErrorName] = useState(false);
-  const [errorPassword, setErrorPassword] = useState(false);
+  const [error, setError] = useState(false);
+  const rout = useNavigate();
 
   const login = async (): Promise<void> => {
     if (!container) {
@@ -30,13 +31,19 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
     }
     if (await container.validate()) {
       const user: userInfo = { login: userName, password: password };
-      console.log(user);
-      loginRequest(user).then((x) => console.log(x));
+      await checkLogin(user);
     }
   };
 
-  const checkLogin = () => {
-    login();
+  const checkLogin = async (user: userInfo) => {
+    await loginRequest(user).then((x) => {
+      if (x.code === 200) {
+        userStore.isAuth = true;
+        rout("/");
+      } else {
+        setError(true);
+      }
+    });
   };
 
   const validator = loginValidator({
@@ -61,9 +68,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
               value={userName}
             />
           </ValidationWrapper>
-          {(errorPassword || errorName) && (
-            <p className="Error">Неправильный логин или пароль</p>
-          )}
+          {error && <p className="Error">Неправильный логин или пароль</p>}
           <ValidationWrapper
             renderMessage={text("right")}
             validationInfo={validator.getNode((x) => x.password).get()}
@@ -94,7 +99,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
             <CustomButton
               label="Войти"
               className="login__button"
-              onClick={() => checkLogin()}
+              onClick={() => login()}
               classNameDiv="label_login_button"
               width={190}
             />
