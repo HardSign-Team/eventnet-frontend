@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./EventCreation.module.scss";
 import { Gapped } from "@skbkontur/react-ui";
 import EventDatetimePicker from "../EventDatetimePicker/EventDatetimePicker";
@@ -28,6 +28,55 @@ const EventCreation: React.FC = () => {
   const [eventType, setEventType] = useState(EventTypes.Public);
   const [selectedTags, setSelectedTags] = React.useState([]);
   const [eventDescription, setEventDescription] = useState("");
+
+  // TODO вынести и написать расчёт duration по dateEnd и timeEnd
+  const normalizeToDateFormat = (value: number) => {
+    const strValue = String(value);
+    if (strValue.length === 1) return "0" + strValue;
+    return strValue;
+  };
+
+  const getEndDatetime = (
+    dateStart: string,
+    timeStart: string,
+    duration: string
+  ) => {
+    const [date, month, year] = dateStart.split(".").map(Number);
+    const [hours, minutes] = timeStart.split(":").map(Number);
+    const [durationHours, durationMinutes] = duration.split(":").map(Number);
+
+    const dateObj = new Date(year, month - 1, date, hours, minutes);
+    dateObj.setHours(dateObj.getHours() + durationHours);
+    dateObj.setMinutes(dateObj.getMinutes() + durationMinutes);
+
+    const _dateEnd = [
+      dateObj.getDate(),
+      dateObj.getMonth() + 1,
+      dateObj.getFullYear(),
+    ]
+      .map((x) => normalizeToDateFormat(x))
+      .join(".");
+
+    const _timeEnd = [dateObj.getHours(), dateObj.getMinutes()]
+      .map((x) => normalizeToDateFormat(x))
+      .join(":");
+
+    return [_dateEnd, _timeEnd];
+  };
+
+  useEffect(() => {
+    if (dateStart && timeStart && duration) {
+      const [_dateEnd, _timeEnd] = getEndDatetime(
+        dateStart,
+        timeStart,
+        duration
+      );
+      setDateEnd(_dateEnd);
+      setTimeEnd(_timeEnd);
+    }
+  }, [dateStart, timeStart, duration]);
+
+  const createEvent = () => {};
 
   return (
     <>
@@ -79,7 +128,12 @@ const EventCreation: React.FC = () => {
           eventDescription={eventDescription}
           setEventDescription={setEventDescription}
         />
-        <CustomButton width={480} height={40} label={"Создать событие"} />
+        <CustomButton
+          width={480}
+          height={40}
+          label={"Создать событие"}
+          onClick={createEvent}
+        />
       </Gapped>
     </>
   );

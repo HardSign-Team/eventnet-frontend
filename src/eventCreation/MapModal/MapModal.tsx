@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Modal } from "@skbkontur/react-ui";
 import CustomButton from "../../shared/CustomButton/CustomButton";
+import YaMap from "../../main/YandexMap/YaMap";
+import "./MapModal.scss";
 
 type ShowMapModalProps = {
   onClose: () => void;
@@ -12,7 +14,9 @@ const MapModal: React.FC<ShowMapModalProps> = ({ onClose }) => {
   return (
     <Modal onClose={onClose}>
       <Modal.Body>
-        <div>bonanamama</div>
+        <div className={"map-wrapper"}>
+          <YaMap className={"modal-map"} />
+        </div>
       </Modal.Body>
       <Modal.Footer>
         <CustomButton
