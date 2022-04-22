@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import styles from "./EventEndPicker.module.scss";
 import EventDurationPicker from "../EventDurationPicker/EventDurationPicker";
 import EventDatetimePicker from "../EventDatetimePicker/EventDatetimePicker";
-import { Checkbox } from "@skbkontur/react-ui";
+import { CustomSelector } from "../../shared/CustomSelector/CustomSelector";
+
+enum SelectorStates {
+  Duration = "duration",
+  DateEnd = "dateEnd",
+}
 
 type EventEndPickerProps = {
   duration: string;
@@ -21,30 +26,35 @@ const EventEndPicker: React.FC<EventEndPickerProps> = ({
   setDateEnd,
   setTimeEnd,
 }) => {
-  const [isDurationPickerActive, setIsDurationPickerActive] = useState(true);
+  const [picked, setPicked] = useState("duration");
 
   return (
-    <div className={styles.eventEndPicker}>
-      {isDurationPickerActive ? (
-        <EventDurationPicker
-          duration={duration}
-          onDurationChange={setDuration}
-        />
-      ) : (
-        <EventDatetimePicker
-          label={"Дата конца"}
-          date={dateEnd}
-          time={timeEnd}
-          onDateChange={(value) => setDateEnd(value)}
-          onTimeChange={setTimeEnd}
-        />
-      )}
-      <Checkbox
-        onChange={() => setIsDurationPickerActive(!isDurationPickerActive)}
-        checked={isDurationPickerActive}
-        className={styles.eventEndPicker__change}
+    <>
+      <CustomSelector
+        onChange={setPicked}
+        first={SelectorStates.Duration}
+        second={SelectorStates.DateEnd}
+        firstLabel={"Время"}
+        secondLabel={"Дата"}
+        value={picked}
       />
-    </div>
+      <div className={styles.eventEndPicker}>
+        {picked === "duration" ? (
+          <EventDurationPicker
+            duration={duration}
+            onDurationChange={setDuration}
+          />
+        ) : (
+          <EventDatetimePicker
+            label={"Дата конца"}
+            date={dateEnd}
+            time={timeEnd}
+            onDateChange={(value) => setDateEnd(value)}
+            onTimeChange={setTimeEnd}
+          />
+        )}
+      </div>
+    </>
   );
 };
 
