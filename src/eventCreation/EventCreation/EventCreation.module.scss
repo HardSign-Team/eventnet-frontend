@@ -1,0 +1,21 @@
+.eventCreation {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: 480px;
+
+  font-size: 18px;
+  color: #323232;
+
+  .event_nameInput {
+    all: unset;
+    width: 100%;
+    text-align: left;
+    font-size: 24px;
+    color: #008D8E;
+  }
+
+  .eventType_selector {
+    width: 320px;
+  }
+}

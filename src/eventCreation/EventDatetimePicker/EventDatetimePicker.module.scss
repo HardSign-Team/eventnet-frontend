@@ -1,0 +1,13 @@
+.eventDatetimePicker {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 13px;
+
+  &__timeInput {
+    border: none;
+    height: 34px;
+    box-shadow: inset -2px -2px #dcdcdc;
+    font-size: 18px;
+  }
+}

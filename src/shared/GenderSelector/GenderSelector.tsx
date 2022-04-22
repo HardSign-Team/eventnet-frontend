@@ -11,7 +11,7 @@ interface Props {
   readonly classNameLabel?: string;
   readonly label: string;
   readonly classNameDiv?: string;
-  readonly onChange: Dispatch<SetStateAction<string>>;
+  readonly onChange: Dispatch<SetStateAction<any>>;
   readonly value: string
 }
 

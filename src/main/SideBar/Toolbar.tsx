@@ -6,7 +6,7 @@ import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import { Token } from "@skbkontur/react-ui";
 import { TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
 import { observer } from "mobx-react-lite";
-import mapStore from "../../stores/MapStore";
+import globalStore from "../../stores/GlobalStore";
 
 const tags = [
   "ЖОПА",
@@ -18,42 +18,25 @@ const tags = [
   "красота",
   "кенигсберг",
   "море",
-  "история",
-  "музеи",
-  "архитектура",
-  "музыка",
+  "ЖОПА",
+  "ОГОНЬ",
+  "КРУТА",
+  "ЗАМЕЧАТЛЬНО",
+  "ТОПОВО",
+  "ОПУПЕННО",
   "красота",
-  "природа",
-  "музеи",
-  "горы",
-  "храмы",
-  "история",
-  "пещеры",
-  "красота",
-  "история",
+  "кенигсберг",
   "море",
-  "пляж",
-  "курорт",
-  "красота",
-  "жара",
-  "отпуск",
-  "отдых",
-  "пейзажи",
-  "горы",
-  "природа",
-  "минеральные воды",
-  "кавказ",
-  "красота",
-  "горы",
-  "живопись",
-  "есентуки",
+  "море",
 ];
 
-const getItems = (q: string): Promise<never[]> =>
+export const getItems = (q: string): Promise<never[]> =>
   Promise.resolve(
-    tags.filter(
-      (x) => x.toLowerCase().includes(q.toLowerCase()) || x.toString() === q
-    )
+    tags
+      .filter(
+        (x) => x.toLowerCase().includes(q.toLowerCase()) || x.toString() === q
+      )
+      .map((x) => x.toLowerCase())
   ).then();
 
 type FormData = {
@@ -68,7 +51,7 @@ const defaultData = {
 
 const Toolbar = observer(() => {
   const [state, setState] = useState<FormData>(defaultData);
-  const [isOpenEvent, setIsOpenEvent] = useState<boolean>(true);
+  const [isOpenEvent, setIsOpenEvent] = useState(true);
   const [selectedItems, setSelectedItems] = React.useState([]);
 
   const onChangeEventName = (e: ChangeEvent<HTMLInputElement>) => {
@@ -87,7 +70,8 @@ const Toolbar = observer(() => {
       ...state,
       currentCoordinates: e.target.value,
     });
-    if (latitude && longitude) mapStore.setCoordinates([latitude, longitude]);
+    if (latitude && longitude)
+      globalStore.mapStore.setCoordinates([latitude, longitude]);
   };
 
   const onClick = (e: any) => {
@@ -98,49 +82,57 @@ const Toolbar = observer(() => {
   const { eventName, currentCoordinates } = state;
 
   return (
-    <div className="toolbar-container">
+    <div
+      className={
+        "toolbar-container " + (isOpenEvent ? "toolbar-show" : "toolbar-hidden")
+      }
+    >
       <form className="form-horizontal">
-        {isOpenEvent && (
-          <Gapped gap={15} vertical>
-            <label>
-              <div className="label">Введите название события</div>
-              <Input
-                value={eventName}
-                placeholder="Концерт у Артема"
-                onChange={onChangeEventName}
-              />
-            </label>
-            <label>
-              <div className="label">Введите координаты события</div>
-              <Input
-                value={currentCoordinates}
-                placeholder="56.817076, 60.611855"
-                onChange={onChangeCoordinates}
-              />
-            </label>
-            <label>
-              <div className="label">Выберите подходящие теги</div>
-              <TokenInput
-                type={TokenInputType.Combined}
-                getItems={getItems}
-                style={{ paddingLeft: "5px" }}
-                selectedItems={selectedItems}
-                className="token-input"
-                onValueChange={setSelectedItems}
-                renderToken={(item, tokenProps) => (
-                  <Token key={item} {...tokenProps}>
-                    {item}
-                  </Token>
-                )}
-              />
-            </label>
-          </Gapped>
-        )}
+        <Gapped
+          gap={15}
+          vertical
+          className={
+            isOpenEvent ? "toolbar__form-show" : "toolbar__form-hidden"
+          }
+        >
+          <label>
+            <div className="label">Введите название события</div>
+            <Input
+              value={eventName}
+              placeholder="Концерт у Артема"
+              onChange={onChangeEventName}
+            />
+          </label>
+          <label>
+            <div className="label">Введите координаты события</div>
+            <Input
+              value={currentCoordinates}
+              placeholder="56.817076, 60.611855"
+              onChange={onChangeCoordinates}
+            />
+          </label>
+          <label>
+            <div className="label">Выберите подходящие теги</div>
+            <TokenInput
+              type={TokenInputType.Combined}
+              getItems={getItems}
+              selectedItems={selectedItems}
+              className="token-input"
+              maxMenuHeight={"20vh"}
+              onValueChange={setSelectedItems}
+              renderToken={(item, tokenProps) => (
+                <Token key={item} {...tokenProps}>
+                  {item}
+                </Token>
+              )}
+            />
+          </label>
+        </Gapped>
         <button className="button sidebar-btn" onClick={onClick}>
-          {isOpenEvent ? <AiOutlineDown /> : <AiOutlineUp />}
+          {!isOpenEvent ? <AiOutlineDown /> : <AiOutlineUp />}
         </button>
-        <EventList />
       </form>
+      <EventList isOpenEvent={isOpenEvent} />
     </div>
   );
 });

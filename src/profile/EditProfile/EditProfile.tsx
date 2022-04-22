@@ -1,13 +1,20 @@
 import { Gapped } from "@skbkontur/react-ui";
-import { useState } from "react";
-import ChangePasswordModal from "../ChangePasswordModal";
+import React, { useState } from "react";
+import ChangePasswordModal from "../ChangePasswordModal/ChangePasswordModal";
 import { CustomInput } from "../../shared/CustomInput/CustomInput";
 import { CustomSelectDate } from "../../shared/CustomSelectDate/CustomSelectDate";
-import { GenderSelector } from "../../shared/GenderSelector/GenderSelector";
+import {
+  genders,
+  GenderSelector,
+} from "../../shared/GenderSelector/GenderSelector";
 import CustomButton from "../../shared/CustomButton/CustomButton";
 
 const EditProfile = () => {
-  const [date, setDate] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userPhone, setUserPhone] = useState("");
+  const [userGender, setUserGender] = useState(genders.Male);
+  const [birthDate, setBirthDate] = useState("");
+
   const [modalOpened, setModalOpened] = useState(false);
 
   const openModal = () => {
@@ -23,29 +30,45 @@ const EditProfile = () => {
   };
 
   return (
-    <Gapped className={"profile_info-wrapper"} gap={7} vertical>
+    <>
       {modalOpened && <ChangePasswordModal onClose={closeModal} />}
-      {/*<CustomInput label="Имя пользователя" placeholder={"lapakota"} />*/}
-      {/*<CustomInput label="Почта" placeholder={"stalkerzone955@gmail.com"} />*/}
-      {/*<CustomInput label="Номер телефона" placeholder={"+78005553535"} />*/}
-      {/*<CustomInput*/}
-      {/*  label="Пароль"*/}
-      {/*  placeholder={"*********"}*/}
-      {/*  onFocus={openModal}*/}
-      {/*/>*/}
-      <CustomSelectDate date="" label="Дата рождения" onChange={setDate} />
-      {/*<GenderSelector*/}
-      {/*  label="Пол"*/}
-      {/*  classNameDiv="gender_selector"*/}
-      {/*  onChange={() => console.log("change gender")}*/}
-      {/*/>*/}
-      <CustomButton
-        onClick={saveProfileState}
-        classNameDiv={"save_button"}
-        label={"Сохранить"}
-        height={36}
-      />
-    </Gapped>
+      <Gapped className={"profile_info-wrapper"} gap={7} vertical>
+        <CustomInput
+          label="Имя пользователя"
+          placeholder={"lapakota"}
+          value={userName}
+          onChange={setUserName}
+        />
+        <CustomInput
+          label="Номер телефона"
+          placeholder={"+78005553535"}
+          value={userPhone}
+          onChange={setUserPhone}
+        />
+        <CustomSelectDate
+          date={birthDate}
+          label="Дата рождения"
+          onChange={setBirthDate}
+        />
+        <GenderSelector
+          value={userGender}
+          label="Пол"
+          classNameDiv="gender_selector"
+          onChange={setUserGender}
+        />
+        <CustomButton
+          classNameDiv={"change-password_button"}
+          label={"Изменить пароль"}
+          onClick={openModal}
+        />
+        <CustomButton
+          onClick={saveProfileState}
+          classNameDiv={"save_button"}
+          label={"Сохранить"}
+          height={36}
+        />
+      </Gapped>
+    </>
   );
 };
 

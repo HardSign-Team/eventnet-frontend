@@ -1,0 +1,25 @@
+.eventPlacePicker {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 13px;
+
+  &__input {
+    border: none;
+    font-size: 18px;
+    box-shadow: inset -2px -2px #dcdcdc;
+    width: 190px;
+    height: 34px;
+  }
+
+  &__label {
+
+  }
+
+  &__mapLink {
+    color: #008D8E;
+    cursor: pointer;
+  }
+}
+
