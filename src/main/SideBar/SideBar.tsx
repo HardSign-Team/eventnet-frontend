@@ -22,6 +22,8 @@ let sideBarContentStyles = {
 let sideBarStyles = {
   position: "relative",
   overflowY: "auto",
+  color: "#323232",
+  fontSize: "14px",
 } as const;
 
 export default function SideBar({ className }: BarProps) {
