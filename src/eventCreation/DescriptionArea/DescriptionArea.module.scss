@@ -1,0 +1,17 @@
+.eventDescription {
+  &__label {
+    text-align: left;
+  }
+
+  &__area {
+    all: unset;
+    height: 6rem;
+    width: 480px;
+    word-break: break-word;
+
+    border: 1px solid #D7DCD7;
+    text-align: left;
+    font-size: 18px;
+    color: #008D8E;
+  }
+}

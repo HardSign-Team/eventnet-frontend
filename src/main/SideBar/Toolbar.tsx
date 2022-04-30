@@ -63,7 +63,7 @@ const tags = [
   "кенwигсберг",
 ];
 
-const getItems = (q: string): Promise<never[]> =>
+export const getItems = (q: string): Promise<never[]> =>
   Promise.resolve(
     tags
       .filter(
