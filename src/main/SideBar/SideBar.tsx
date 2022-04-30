@@ -1,40 +1,53 @@
 import React, { useState } from "react";
-import { slide as Menu } from "react-burger-menu";
-import Toolbar from "./Toolbar";
+import { Menu, MenuItem, ProSidebar, SidebarContent } from "react-pro-sidebar";
 import "./SideBar.css";
-import CrossMenuButton from "./CrossMenuButton";
-import BurgerMenuButton from "./BurgerMenuButton";
+import "react-pro-sidebar/dist/css/styles.css";
 import EventList from "../EventList/EventList";
+import Toolbar from "./Toolbar";
+import BurgerMenuButton from "./BurgerMenuButton";
+import CrossMenuButton from "./CrossMenuButton";
 
 type BarProps = {
   className: string;
 };
 
-let styles = {
-  bmCrossButton: {
-    opacity: "1",
-    left: "calc(100% - 32px)",
-    width: "55px",
-    top: "calc(50% - 70px)",
-    color: "#59C7C7",
-    height: "55px",
-  },
-  bmOverlay: {
-    background: "transparent",
-    zIndex: "0",
-    overflowY: "scroll",
-  },
-};
+let sideBarContentStyles = {
+  backgroundColor: "#D7DCD7",
+  padding: "1em 2em 0",
+  fontSize: "1.15em",
+  position: "relative",
+  height: "100%",
+} as const;
+
+let sideBarStyles = {
+  position: "relative",
+  overflowY: "auto",
+} as const;
 
 export default function SideBar({ className }: BarProps) {
+  const [menuCollapse, setMenuCollapse] = useState(false);
+
   return (
-    <Menu
-      className={className}
-      customBurgerIcon={BurgerMenuButton()}
-      customCrossIcon={CrossMenuButton()}
-      styles={styles}
-    >
-      <Toolbar />
-    </Menu>
+    <div className={className}>
+      <ProSidebar
+        collapsedWidth={1}
+        collapsed={menuCollapse}
+        className={className + "__bar"}
+        style={sideBarStyles}
+        width={"300px"}
+      >
+        <SidebarContent style={sideBarContentStyles}>
+          <Toolbar />
+          <EventList />
+        </SidebarContent>
+      </ProSidebar>
+      <div
+        className={"closemenu"}
+        onClick={() => setMenuCollapse(!menuCollapse)}
+        style={!menuCollapse ? { transform: "translateX(-28px)" } : {}}
+      >
+        {menuCollapse ? <BurgerMenuButton /> : <CrossMenuButton />}
+      </div>
+    </div>
   );
 }

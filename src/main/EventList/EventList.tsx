@@ -6,12 +6,9 @@ import globalStore from "../../stores/GlobalStore";
 
 const { eventStore } = globalStore;
 
-const EventList = observer(({ isOpenEvent }: { isOpenEvent: boolean }) => {
+const EventList = observer(() => {
   return (
-    <div
-      className="event-container"
-      style={{ height: isOpenEvent ? "70vh" : "80vh" }}
-    >
+    <div className="event-container">
       {eventStore.events.map((event) => (
         <EventCard key={event.id} event={event} />
       ))}

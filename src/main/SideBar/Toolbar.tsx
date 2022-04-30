@@ -1,13 +1,11 @@
 import React, { ChangeEvent, useState } from "react";
 import { Input, Gapped, TokenInput } from "@skbkontur/react-ui";
 import "./Toolbar.css";
-import EventList from "../EventList/EventList";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import { Token } from "@skbkontur/react-ui";
 import { TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
 import { observer } from "mobx-react-lite";
 import globalStore from "../../stores/GlobalStore";
-import { slide as Menu } from "react-burger-menu";
 
 const tags = [
   "ЖОПА",
@@ -70,6 +68,7 @@ export const getItems = (q: string): Promise<never[]> =>
         (x) => x.toLowerCase().includes(q.toLowerCase()) || x.toString() === q
       )
       .map((x) => x.toLowerCase())
+    // .slice(0, 5) // TODO: Доделать автокомплит
   ).then();
 
 type FormData = {
@@ -119,6 +118,7 @@ const Toolbar = observer(() => {
       className={
         "toolbar-container " + (isOpenEvent ? "toolbar-show" : "toolbar-hidden")
       }
+      style={{ maxHeight: "200%" }}
     >
       <form className="form-horizontal">
         <Gapped
@@ -131,6 +131,7 @@ const Toolbar = observer(() => {
           <label>
             <div className="label">Введите название события</div>
             <Input
+              width={"100%"}
               value={eventName}
               placeholder="Концерт у Артема"
               onChange={onChangeEventName}
@@ -139,6 +140,7 @@ const Toolbar = observer(() => {
           <label>
             <div className="label">Введите координаты события</div>
             <Input
+              width={"100%"}
               value={currentCoordinates}
               placeholder="56.817076, 60.611855"
               onChange={onChangeCoordinates}
@@ -147,11 +149,11 @@ const Toolbar = observer(() => {
           <label>
             <div className="label">Выберите подходящие теги</div>
             <TokenInput
+              width={"100%"}
               type={TokenInputType.Combined}
               getItems={getItems}
               selectedItems={selectedItems}
               className="token-input"
-              maxMenuHeight={150}
               onValueChange={setSelectedItems}
               renderToken={(item, tokenProps) => (
                 <Token key={item} {...tokenProps}>
@@ -166,7 +168,6 @@ const Toolbar = observer(() => {
         </button>
       </form>
       <hr className="toolbar__horizontal-line" />
-      <EventList isOpenEvent={isOpenEvent} />
     </div>
   );
 });

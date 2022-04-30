@@ -32,7 +32,7 @@ function createCircles(events: Array<Event>) {
 const mapStyle = {
   position: "absolute",
   width: "100%",
-  height: "99%",
+  height: "100%",
 } as const;
 
 const mapOptions = {
@@ -58,8 +58,6 @@ const YaMap = observer(({ className }: { className: string }) => {
       <Map
         style={mapStyle}
         state={currentMapState}
-        width={"100%"}
-        height={"100%"}
         className={className}
         options={mapOptions}
         onClick={onMapClick}
