@@ -11,7 +11,24 @@ import { slide as Menu } from "react-burger-menu";
 
 const tags = [
   "ЖОПА",
+  "ОГergОНЬ",
+  "КРergУТА",
+  "ЗАМЕЧАТЛЬНО",
+  "ТОПergОВО",
+  "ОПhgУПЕННО",
+  "краdfhсота",
+  "кенdfhигсберг",
+  "море",
+  "ЖОПА",
   "ОГОНЬ",
+  "КРУТА",
+  "ЗАМЕЧАТЛЬНО",
+  "ТОПrgeОВО",
+  "ОПУПЕННО",
+  "крergаwсота",
+  "кенergигсберг",
+  "ЖОergПА",
+  "ОГОwНЬ",
   "КРУТА",
   "ЗАМЕЧАТЛЬНО",
   "ТОПОВО",
@@ -27,8 +44,23 @@ const tags = [
   "ОПУПЕННО",
   "красота",
   "кенигсберг",
-  "море",
-  "море",
+  "ЖОwПА",
+  "ОГОwНЬ",
+  "КРУТА",
+  "ЗwАМЕЧАТЛЬНО",
+  "ТОПwwОВО",
+  "ОПУПЕННО",
+  "кwрасота",
+  "кенигсберг",
+  "морwе",
+  "ЖОПА",
+  "ОГОwНЬ",
+  "КРУТА",
+  "ЗАwМЕЧАТЛЬНО",
+  "ТОПОwВО",
+  "ОПУПwЕННО",
+  "краwсота",
+  "кенwигсберг",
 ];
 
 const getItems = (q: string): Promise<never[]> =>
@@ -119,7 +151,7 @@ const Toolbar = observer(() => {
               getItems={getItems}
               selectedItems={selectedItems}
               className="token-input"
-              maxMenuHeight={"20vh"}
+              maxMenuHeight={150}
               onValueChange={setSelectedItems}
               renderToken={(item, tokenProps) => (
                 <Token key={item} {...tokenProps}>
