@@ -27,6 +27,7 @@ const defaultCircleOptions = {
     console.log("Enter");
   },
 };
+
 function createCircles(events: Array<Event>) {
   const circles: Array<JSX.Element> = [];
   events.forEach((event) => {
