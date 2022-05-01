@@ -15,6 +15,18 @@ const circleOptions = {
   strokeOpacity: 0.9,
   strokeWidth: 10,
 };
+
+const defaultCircleOptions = {
+  onMouseOver: () => {
+    console.log("Over");
+  },
+  onMouseEnter: () => {
+    console.log("Enter");
+  },
+  onClick: () => {
+    console.log("Enter");
+  },
+};
 function createCircles(events: Array<Event>) {
   const circles: Array<JSX.Element> = [];
   events.forEach((event) => {
@@ -23,6 +35,7 @@ function createCircles(events: Array<Event>) {
         geometry={[event.info.coordinates, CIRCLE_RADIUS]}
         options={circleOptions}
         key={event.id}
+        defaultOptions={defaultCircleOptions}
       />
     );
   });
