@@ -10,6 +10,7 @@ interface Props {
   readonly width?: number;
   readonly height?: number;
   readonly fontSize?: number;
+  readonly onKeyPress?: (...rest: any) => void;
 }
 
 const CustomButton = ({
@@ -20,13 +21,15 @@ const CustomButton = ({
   width = 320,
   height = 34,
   fontSize = 20,
+  onKeyPress,
 }: Props) => {
   return (
-    <Gapped vertical gap={7} className={classNameDiv} >
+    <Gapped vertical gap={7} className={classNameDiv}>
       <button
         style={{ height: height, width: width, fontSize: fontSize }}
         className={className ?? "custom_button"}
         onClick={onClick}
+        onKeyPress={onKeyPress}
       >
         {label}
       </button>
