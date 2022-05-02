@@ -31,13 +31,23 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
     }
     if (await container.validate()) {
       const user: userInfo = { login: userName, password: password };
-      checkLogin(user);
+      executeLoginRequest(user);
     }
   };
 
-  const checkLogin = (user: userInfo) => {
+  const executeLoginRequest = (user: userInfo) => {
     loginRequest(user).then((x) => {
       if (x.code === 200) {
+        const tokens = x.tokens;
+        userStore.accessToken = tokens.accessToken;
+        userStore.refreshToken = tokens.refreshToken;
+        userStore.expiredAt = tokens.expiredAt;
+        const user = x.user;
+        userStore.email = user.email;
+        userStore.userName = user.userName;
+        userStore.birthDate = user.birthDate;
+        userStore.gender = user.gender;
+        userStore.userRoles = x.userRoles;
         userStore.isAuth = true;
         route("/");
       } else {
@@ -68,7 +78,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
               value={userName}
             />
           </ValidationWrapper>
-          {error && <p className="Error">Неправильный логин или пароль</p>}
+          {error && <p className="error">Неправильный логин или пароль</p>}
           <ValidationWrapper
             renderMessage={text("right")}
             validationInfo={validator.getNode((x) => x.password).get()}
@@ -105,7 +115,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
             />
           </div>
           <div className="change_to_registration">
-            <a className="not_acc">Нет аккаунта?</a>
+            <p className="not_acc">Нет аккаунта?</p>
             <a className="change_rout_to_registration" href="/register">
               Зарегистрироваться
             </a>
