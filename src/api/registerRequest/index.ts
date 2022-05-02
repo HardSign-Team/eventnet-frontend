@@ -1,11 +1,14 @@
 export type userInfoRegister = {
-  userName: string;
+  birthDate: string;
+  confirmPassword: string;
   email: string;
+  gender: string;
   password: string;
+  userName: string;
 };
 
 async function registerRequest(userInfo: userInfoRegister) {
-  return await fetch("http://localhost:5203/api/auth/register", {
+  return fetch("http://localhost:5203/api/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -14,8 +17,7 @@ async function registerRequest(userInfo: userInfoRegister) {
     body: JSON.stringify(userInfo),
   })
     .then((x) => x.json())
-    .then((x) => console.log(x.message))
-    .catch((err) => console.log(err.message));
+    .catch((err) => console.log(err));
 }
 
 export { registerRequest };
