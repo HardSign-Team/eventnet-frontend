@@ -14,11 +14,11 @@ import { observer } from "mobx-react-lite";
 interface AppProps {
   store: MainStore;
 }
-export const App: React.FC<AppProps> = observer<AppProps>(({ store }) => {
+export const App: React.FC<AppProps> = observer(({ store }) => {
   return (
     <Router>
       <div>
-        <Header />
+        <Header userStore={store.userStore} />
         <Routes>
           <Route
             path="/register"
