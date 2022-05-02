@@ -4,7 +4,7 @@ export type userInfo = {
 };
 
 async function loginRequest(user: userInfo) {
-  return await fetch("http://localhost:5203/api/auth/login", {
+  return fetch("http://localhost:5203/api/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
