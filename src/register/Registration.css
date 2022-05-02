@@ -24,3 +24,9 @@
     margin-bottom: 30px;
 }
 
+.errorMessage {
+    margin: 5px 0 5px 0;
+    color: red;
+
+}
+

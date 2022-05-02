@@ -37,6 +37,7 @@ export const Registration: React.FC<RegistrationProps> = observer(
     const [dateBirthday, setDateBirthday] = useState("");
     const [gender, setGender] = useState(genders.Male);
     const [isAcceptRegister, setIsAcceptRegister] = useState(false);
+    const [isErrorRegister, setIsErrorRegister] = useState(false);
 
     const registration = async (): Promise<void> => {
       if (!container) {
@@ -44,15 +45,19 @@ export const Registration: React.FC<RegistrationProps> = observer(
       }
       if (await container.validate()) {
         const userInfoRegister: userInfoRegister = {
+          birthDate: "2022-05-02T12:00:34.366Z",
+          confirmPassword: confirmPassword,
+          gender: gender,
           userName: userName,
           email: mail,
           password: password,
         };
-        userStore.userName = userName;
-        userStore.email = mail;
-        console.log(JSON.stringify(userInfoRegister));
-        registerRequest(userInfoRegister).then((r) => console.log(r));
-        setIsAcceptRegister(true);
+        // TODO для отладки пригодится
+        // console.log(JSON.stringify(userInfoRegister));
+        registerRequest(userInfoRegister).then((x) => {
+          if (x !== undefined && x.message === 200) setIsAcceptRegister(true);
+          else setIsErrorRegister(true);
+        });
       }
     };
 
@@ -69,6 +74,9 @@ export const Registration: React.FC<RegistrationProps> = observer(
       <div className="registration">
         <Logo className="logo_registration" width={200} height={200} />
         {isAcceptRegister && <ModalAcceptRegistration mail={mail} />}
+        {isErrorRegister && (
+          <p className="errorMessage">Данная почта уже зарегистрированна</p>
+        )}
         <ValidationContainer ref={refContainer}>
           <FormContainer className="form__registration">
             <ValidationWrapper
