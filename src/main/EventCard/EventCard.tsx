@@ -18,7 +18,7 @@ const iconsStyle = {
   fontSize: "14px",
 } as const;
 
-const DEFAULT_EVENT_PHOTO_URL =
+export const DEFAULT_EVENT_PHOTO_URL =
   "https://skillz4kidzmartialarts.com/wp-content/uploads/2017/04/default-image-620x600.jpg";
 
 export default function EventCard({ event }: EventCardProps) {

@@ -27,7 +27,7 @@ let sideBarStyles = {
 } as const;
 
 export default function SideBar({ className }: BarProps) {
-  const [menuCollapse, setMenuCollapse] = useState(false);
+  const [menuCollapse, setMenuCollapse] = useState(true);
 
   return (
     <div className={className}>

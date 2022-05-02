@@ -1,47 +1,13 @@
 import { Circle, Clusterer, Map, YMaps } from "react-yandex-maps";
-import React from "react";
+import React, { useState } from "react";
 import "../Main.css";
 import Event from "../../models/Event";
 import { observer } from "mobx-react-lite";
 import globalStore from "../../stores/GlobalStore";
+import Circles from "./Circles/Circles";
 
-const CIRCLE_RADIUS = 5;
 const MAX_ZOOM = 20;
 const MIN_ZOOM = 4;
-
-const circleOptions = {
-  fillColor: "#008D8E",
-  strokeColor: "#008D8E",
-  strokeOpacity: 0.9,
-  strokeWidth: 10,
-};
-
-const defaultCircleOptions = {
-  onMouseOver: () => {
-    console.log("Over");
-  },
-  onMouseEnter: () => {
-    console.log("Enter");
-  },
-  onClick: () => {
-    console.log("Enter");
-  },
-};
-
-function createCircles(events: Array<Event>) {
-  const circles: Array<JSX.Element> = [];
-  events.forEach((event) => {
-    circles.push(
-      <Circle
-        geometry={[event.info.coordinates, CIRCLE_RADIUS]}
-        options={circleOptions}
-        key={event.id}
-        defaultOptions={defaultCircleOptions}
-      />
-    );
-  });
-  return circles;
-}
 
 const mapStyle = {
   position: "absolute",
@@ -83,7 +49,9 @@ const YaMap = observer(({ className }: { className: string }) => {
           }
         }}
       >
-        <Clusterer>{createCircles(eventStore.events)}</Clusterer>
+        <Clusterer>
+          <Circles events={eventStore.events} />
+        </Clusterer>
       </Map>
     </YMaps>
   );
