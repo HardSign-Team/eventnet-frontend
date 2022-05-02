@@ -10,6 +10,7 @@ interface PropsDateInput {
   readonly classNameLabel?: string;
   readonly height?: number;
   readonly width?: number;
+  readonly isEmpty?: boolean
 }
 
 export const CustomSelectDate: React.FC<PropsDateInput> = ({
@@ -20,6 +21,7 @@ export const CustomSelectDate: React.FC<PropsDateInput> = ({
   height,
   width = 320,
   date,
+                                                             isEmpty= false
 }) => {
   const [error, setError] = useState(false);
   const [tooltip, setTooltip] = useState(false);
@@ -56,7 +58,7 @@ export const CustomSelectDate: React.FC<PropsDateInput> = ({
         onCloseClick={removeTooltip}
       >
         <DatePicker
-          error={error}
+          error={error || isEmpty}
           value={date}
           onValueChange={onChange}
           onFocus={unvalidate}
