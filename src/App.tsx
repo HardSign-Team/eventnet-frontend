@@ -20,10 +20,7 @@ export const App: React.FC<AppProps> = observer(({ store }) => {
       <div>
         <Header userStore={store.userStore} />
         <Routes>
-          <Route
-            path="/register"
-            element={<Registration userStore={store.userStore} />}
-          />
+          <Route path="/register" element={<Registration />} />
           <Route path="/profile" element={<Profile />} />
           <Route
             path="/login"
