@@ -1,13 +1,13 @@
 .profile {
-    margin: auto;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 320px;
+    padding-top: 30px;
 }
 
 .profile_avatar-wrapper {
-    margin-top: 65px;
 }
 
 .profile_avatar {

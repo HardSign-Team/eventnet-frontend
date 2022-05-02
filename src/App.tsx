@@ -8,20 +8,24 @@ import "./App.css";
 import { ResetPassword } from "./resetPassword/ResetPassword";
 import Header from "./shared/Header/Header";
 import Profile from "./profile/Profile/Profile";
+import { Footer } from "./shared/Footer";
 
 export default function App() {
   return (
     <Router>
-      <div>
+      <div className={"app"}>
         <Header />
-        <Routes>
-          <Route path="/register" element={<Registration />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/resetPassword" element={<ResetPassword />} />
-          <Route path="/event-creation" element={<EventCreation />} />
-          <Route path="/" element={<Main />} />
-        </Routes>
+        <div className={"content-wrapper"}>
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/register" element={<Registration />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/resetPassword" element={<ResetPassword />} />
+            <Route path="/event-creation" element={<EventCreation />} />
+          </Routes>
+        </div>
+        <Footer />
       </div>
     </Router>
   );
