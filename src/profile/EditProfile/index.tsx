@@ -1,6 +1,6 @@
 import { Gapped } from "@skbkontur/react-ui";
 import React, { useState } from "react";
-import ChangePasswordModal from "../ChangePasswordModal/ChangePasswordModal";
+import ChangePasswordModal from "../ChangePasswordModal";
 import { CustomInput } from "../../shared/CustomInput/CustomInput";
 import { CustomSelectDate } from "../../shared/CustomSelectDate/CustomSelectDate";
 import {

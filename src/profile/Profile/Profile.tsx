@@ -3,7 +3,7 @@ import avatar from "../../assets/avatar.jpg";
 import "./Profile.css";
 import CustomButton from "../../shared/CustomButton/CustomButton";
 import WatchProfile from "../WatchProfile/WatchProfile";
-import EditProfile from "../EditProfile/EditProfile";
+import EditProfile from "../EditProfile";
 
 const Profile = () => {
   const [editing, setEditing] = useState(false);
