@@ -4,7 +4,7 @@ import "./Login.css";
 import CustomButton from "../shared/CustomButton/CustomButton";
 import { CustomInput } from "../shared/CustomInput/CustomInput";
 import { FormContainer } from "../shared/FormContainer/FormContainer";
-import { userInfo, loginRequest } from "../api/loginRequest";
+import { userInfo, loginRequest } from "../api/auth/loginRequest";
 import {
   text,
   ValidationContainer,
