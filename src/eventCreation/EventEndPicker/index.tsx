@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import styles from "./EventEndPicker.module.scss";
-import EventDurationPicker from "../EventDurationPicker/EventDurationPicker";
-import EventDatetimePicker from "../EventDatetimePicker/EventDatetimePicker";
+import styles from "./index.scss";
+import EventDurationPicker from "../EventDurationPicker";
+import EventDatetimePicker from "../EventDatetimePicker";
 import { CustomSelector } from "../../shared/CustomSelector/CustomSelector";
 
 enum SelectorStates {

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./TagsPicker.module.scss";
+import styles from "./index.module.scss";
 import { Token, TokenInput } from "@skbkontur/react-ui";
 import { TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
 import { getItems } from "../../main/SideBar/Toolbar";

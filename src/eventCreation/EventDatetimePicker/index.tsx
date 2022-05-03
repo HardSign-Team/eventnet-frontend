@@ -1,6 +1,6 @@
 import React from "react";
 import { DatePicker } from "@skbkontur/react-ui";
-import styles from "./EventDatetimePicker.module.scss";
+import styles from "./index.module.scss";
 
 type EventDatetimePickerProps = {
   date: string;

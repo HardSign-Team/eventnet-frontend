@@ -1,6 +1,6 @@
 import React from "react";
 import { Gapped } from "@skbkontur/react-ui";
-import styles from "./DescriptionArea.module.scss";
+import styles from "./index.module.scss";
 
 type DescriptionAreaProps = {
   eventDescription: string;

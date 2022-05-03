@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import styles from "./EventCreation.module.scss";
+import styles from "./index.module.scss";
 import { Gapped } from "@skbkontur/react-ui";
-import EventDatetimePicker from "../EventDatetimePicker/EventDatetimePicker";
-import { CustomSelector } from "../../shared/CustomSelector/CustomSelector";
-import CustomButton from "../../shared/CustomButton/CustomButton";
-import EventEndPicker from "../EventEndPicker/EventEndPicker";
-import PlacePicker from "../PlacePicker/PlacePicker";
-import TagsPicker from "../TagsPicker/TagsPickerProps";
-import DescriptionArea from "../DescriptionArea/DescriptionArea";
-import PhotoCarousel from "../../shared/PhotoCarousel/Carousel/PhotoCarousel";
+import EventDatetimePicker from "./EventDatetimePicker";
+import { CustomSelector } from "../shared/CustomSelector/CustomSelector";
+import CustomButton from "../shared/CustomButton/CustomButton";
+import EventEndPicker from "./EventEndPicker";
+import PlacePicker from "./PlacePicker";
+import TagsPicker from "./TagsPicker";
+import DescriptionArea from "./DescriptionArea";
+import PhotoCarousel from "../shared/PhotoCarousel/Carousel/PhotoCarousel";
 import {
   calculateDuration,
   calculateEndDatetime,
-} from "../../utils/datetimeHelpers";
+} from "../utils/datetimeHelpers";
 
 enum EventTypes {
   Public = "public",

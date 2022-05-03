@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./EventDurationPicker.module.scss";
+import styles from "./index.scss";
 
 type EventDurationPickerProps = {
   duration: string;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import styles from "./PlacePicker.module.scss";
-import MapModal from "../MapModal/MapModal";
+import styles from "./index.module.scss";
+import Index from "../MapModal";
 
 type PlacePickerProps = {
   coordinates: string;
@@ -23,7 +23,7 @@ const PlacePicker: React.FC<PlacePickerProps> = ({
 
   return (
     <>
-      {showMapModal && <MapModal onClose={closeMapModal} />}
+      {showMapModal && <Index onClose={closeMapModal} />}
       <div className={styles.eventPlacePicker}>
         <span className={styles.eventPlacePicker__label}>Координаты</span>
         <input
