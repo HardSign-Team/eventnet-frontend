@@ -1,0 +1,15 @@
+.custom_button {
+  background: #008d8e;
+  width: 190px;
+  height: 30px;
+  color: #D7DCD7;
+  border-radius: 100px;
+  border: #008d8e;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+
+  &:hover {
+    background: #009ea0;
+    box-shadow: 0 0 4px rgba(0, 0, 0, .4);
+  }
+}
