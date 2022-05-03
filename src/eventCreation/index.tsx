@@ -13,11 +13,15 @@ import {
   calculateDuration,
   calculateEndDatetime,
 } from "../utils/datetimeHelpers";
+import { cropped } from "../utils/cropHelpers";
 
 enum EventTypes {
   Public = "public",
   Private = "private",
 }
+
+const MAX_EVENT_NAME_LENGTH = 50;
+const MAX_EVENT_DESCRIPTION_LENGTH = 1000;
 
 // TODO ограничения на инпуты
 const EventCreation: React.FC = () => {
@@ -32,6 +36,14 @@ const EventCreation: React.FC = () => {
   const [eventType, setEventType] = useState(EventTypes.Public);
   const [selectedTags, setSelectedTags] = React.useState([]);
   const [eventDescription, setEventDescription] = useState("");
+
+  const updateEventName = (name: string) => {
+    setEventName(cropped(name, MAX_EVENT_NAME_LENGTH));
+  };
+
+  const updateEventDescription = (description: string) => {
+    setEventDescription(cropped(description, MAX_EVENT_DESCRIPTION_LENGTH));
+  };
 
   useEffect(() => {
     if (dateStart && timeStart && duration) {
@@ -72,7 +84,7 @@ const EventCreation: React.FC = () => {
           className={styles.event_nameInput}
           placeholder={"Введите название..."}
           value={eventName}
-          onChange={(e) => setEventName(e.target.value)}
+          onChange={(e) => updateEventName(e.target.value)}
         />
         <EventDatetimePicker
           label={"Дата начала"}
@@ -108,7 +120,7 @@ const EventCreation: React.FC = () => {
         />
         <DescriptionArea
           eventDescription={eventDescription}
-          setEventDescription={setEventDescription}
+          updateEventDescription={updateEventDescription}
         />
         <CustomButton
           width={480}

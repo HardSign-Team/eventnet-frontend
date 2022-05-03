@@ -5,8 +5,9 @@
 
   &__area {
     all: unset;
+    padding: .5em;
     height: 6rem;
-    width: 480px;
+    width: calc(100% - 1em);
     word-break: break-word;
 
     border: 1px solid #D7DCD7;
