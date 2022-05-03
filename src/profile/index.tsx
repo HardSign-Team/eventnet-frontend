@@ -6,6 +6,7 @@ import WatchProfile from "./WatchProfile";
 import EditProfile from "./EditProfile";
 
 const Profile = () => {
+  const [userAvatar, setUserAvatar] = useState(avatar);
   const [editing, setEditing] = useState(false);
 
   const reverseEditing = () => {
@@ -15,24 +16,21 @@ const Profile = () => {
   return (
     <div className="profile">
       <figure className={"profile_avatar-wrapper"}>
-        <img src={avatar} alt="Avatar" className="profile_avatar" />
+        <img src={userAvatar} alt="user avatar" className="profile_avatar" />
       </figure>
-      {!editing ? (
+      {!editing && (
         <CustomButton
           onClick={reverseEditing}
           classNameDiv={"edit-button"}
           label={"Редактировать"}
           height={36}
         />
-      ) : (
-        <button
-          className={"change-avatar_button"}
-          onClick={() => console.log("change-avatar")}
-        >
-          Изменить фото
-        </button>
       )}
-      {!editing ? <WatchProfile /> : <EditProfile />}
+      {!editing ? (
+        <WatchProfile />
+      ) : (
+        <EditProfile setUserAvatar={setUserAvatar} />
+      )}
     </div>
   );
 };

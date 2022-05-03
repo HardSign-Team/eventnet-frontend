@@ -76,9 +76,7 @@ const PhotoCarousel: React.FC<PhotoCarouselProps> = ({
             ))
           ) : (
             <div className={styles.photoCarousel__imageWrapper}>
-              {withLoader && (
-                <ImageLoader setImageURLS={setImages} />
-              )}
+              {withLoader && <ImageLoader setImageURLS={setImages} />}
             </div>
           )}
         </Slider>

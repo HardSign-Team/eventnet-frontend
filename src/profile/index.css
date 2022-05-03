@@ -25,14 +25,3 @@
 .edit-button {
     margin: 10px 0 25px;
 }
-
-.change-avatar_button {
-    all: unset;
-    margin: 10px 0 25px;
-    font-size: 15px;
-    text-decoration: none;
-    border: none;
-    background: none;
-    color: #008d8e;
-    cursor: pointer;
-}
