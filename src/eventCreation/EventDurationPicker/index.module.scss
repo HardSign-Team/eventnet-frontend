@@ -1,0 +1,16 @@
+.eventDurationPicker {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 13px;
+
+  &_text {
+
+  }
+
+  &_input {
+    height: 34px;
+    border: none;
+    box-shadow: inset -2px -2px #dcdcdc;
+  }
+}

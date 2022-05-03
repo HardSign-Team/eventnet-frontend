@@ -1,14 +1,15 @@
 .login {
-    margin: 35px auto auto;
+    margin: auto;
+    padding-top: 30px;
     display: inline-block;
 }
 
 .password_handler {
-    display: inline-block;
+    display: flex;
     width: 320px;
 }
 
-.change_rout_to_registration{
+.change_rout_to_registration {
     font-size: 14px;
     text-decoration: none;
     color: #008d8e;
@@ -33,14 +34,18 @@
     margin-right: auto;
     width: 200px;
 }
+
 .reset_password {
     font-size: 14px;
     text-decoration: none;
     color: #171f1d;
 }
 
-.label_checked{
+.label_checked {
     font-size: 10px;
+    position: relative;
+    top: -2px;
+    right: 3px;
 }
 
 .login__button {
@@ -53,9 +58,13 @@
 
     margin-left: 20px;
 
+    cursor: pointer;
 }
 
-
+.checked_remember_password {
+    position: relative;
+    right: 8px;
+}
 
 .Error {
     font-size: 18px;

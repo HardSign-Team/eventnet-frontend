@@ -1,5 +1,6 @@
 .registration {
-    margin: 30px auto auto;
+    margin: auto;
+    padding-top: 30px;
     display: inline-block;
 }
 
@@ -10,10 +11,16 @@
     color: #D7DCD7;
     border-radius: 15px;
     border: #008d8e;
+
+    cursor: pointer;
 }
 
 .label_button {
     width: 100%;
     height: 100%;
+}
+
+.logo_registration {
+    margin-bottom: 30px;
 }
 
