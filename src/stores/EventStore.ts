@@ -14,7 +14,7 @@ export class EventStore {
   private mockedId: number = 1;
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {});
   }
 
   private fillEvents() {

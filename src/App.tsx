@@ -1,23 +1,18 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Main from "./main/Main";
-import { Registration } from "./register/Registration";
-import { Login } from "./login/Login";
-import EventCreation from "./eventCreation";
+import Events from "./pages/events/Events";
+import { Registration } from "./pages/register/Registration";
+import { Login } from "./pages/login/Login";
+import EventCreation from "./pages/eventCreation";
 import "./App.css";
-import { ResetPassword } from "./resetPassword/ResetPassword";
+import { ResetPassword } from "./pages/resetPassword/ResetPassword";
 import Header from "./shared/Header/Header";
-import Profile from "./profile";
-import { MainStore } from "./stores/MainStore";
-import { observer } from "mobx-react-lite";
+import Profile from "./pages/profile";
 import { Footer } from "./shared/Footer";
 import { UserEvents } from "./userEvents";
+import globalStore from "./stores/GlobalStore";
 
-interface AppProps {
-  store: MainStore;
-}
-
-export const App: React.FC<AppProps> = observer<AppProps>(({ store }) => {
+export const App = () => {
   return (
     <Router>
       <div className={"app"}>
@@ -26,24 +21,24 @@ export const App: React.FC<AppProps> = observer<AppProps>(({ store }) => {
           <Routes>
             <Route
               path="/register"
-              element={<Registration userStore={store.userStore} />}
+              element={<Registration userStore={globalStore.userStore} />}
             />
             <Route path="/profile" element={<Profile />} />
             <Route
               path="/login"
-              element={<Login userStore={store.userStore} />}
+              element={<Login userStore={globalStore.userStore} />}
             />
             <Route
               path="/resetPassword"
-              element={<ResetPassword userStore={store.userStore} />}
+              element={<ResetPassword userStore={globalStore.userStore} />}
             />
             <Route path="/event-creation" element={<EventCreation />} />
             <Route path="/user-events" element={<UserEvents />} />
-            <Route path="/" element={<Main />} />
+            <Route path="/" element={<Events />} />
           </Routes>
         </div>
         <Footer />
       </div>
     </Router>
   );
-});
+};
