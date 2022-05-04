@@ -11,6 +11,7 @@ import Profile from "./profile";
 import { MainStore } from "./stores/MainStore";
 import { observer } from "mobx-react-lite";
 import { Footer } from "./shared/Footer";
+import { UserEvents } from "./userEvents";
 
 interface AppProps {
   store: MainStore;
@@ -37,6 +38,7 @@ export const App: React.FC<AppProps> = observer<AppProps>(({ store }) => {
               element={<ResetPassword userStore={store.userStore} />}
             />
             <Route path="/event-creation" element={<EventCreation />} />
+            <Route path="/user-events" element={<UserEvents />} />
             <Route path="/" element={<Main />} />
           </Routes>
         </div>
