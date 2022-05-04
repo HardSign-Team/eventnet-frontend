@@ -27,16 +27,6 @@ const Circles = ({ events }: Props) => {
         options={circleOptions}
         key={event.id}
         properties={{
-          // balloonContentHeader: `<img src=${
-          //   (event.info.photos && event.info.photos[0]) ||
-          //   DEFAULT_EVENT_PHOTO_URL
-          // } height="125" width="100%" alt="jopa"> <br/>`,
-          // balloonContentBody:
-          //   `<a href = "#"><strong>${event.info.name}</strong></a><br>` +
-          //   `<span>${event.info.description}</span>`,
-          // balloonContentFooter:
-          //   'Информация предоставлена:<br/>OOO "Рога и копыта"',
-          // hintContent: event.info.name,
           balloonContent: ReactDOMServer.renderToString(
             <EventBalloonContent
               className={"event-balloon-content"}
@@ -48,7 +38,7 @@ const Circles = ({ events }: Props) => {
       />
     );
   });
-  return <>{circles.map((x) => x)}</>;
+  return <>{circles}</>;
 };
 
 export default Circles;
