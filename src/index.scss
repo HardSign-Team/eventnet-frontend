@@ -6,6 +6,6 @@ html, body {
   height: 100%;
   font: 100% $font-stack;
   color: $primary-color;
-  overflow-y: auto;
-  overflow-x: hidden;
+  font-family: "Public Sans", sans-serif;
+  text-align: center;
 }
