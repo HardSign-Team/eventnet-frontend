@@ -17,7 +17,6 @@ export async function requestEvents(
     },
   };
   const response = await fetch(url, options);
-  console.log(response);
   return {
     events: await response.json()
   };

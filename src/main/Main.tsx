@@ -8,6 +8,7 @@ import { Location } from "../dto/Location";
 import { PageInfo } from "../dto/PageInfo";
 import { useLocation, useNavigate } from "react-router-dom";
 import globalStore from "../stores/GlobalStore";
+import {requestEvent} from "../api/events/getEvent";
 
 export default function Main() {
   const { search } = useLocation();
@@ -28,7 +29,8 @@ export default function Main() {
   };
 
   const handleClick = async () => {
-      await request();
+      // await request();
+      requestEvent("1D84109D-157E-4CAC-B989-5C23ABD0212D").then(r => console.log(r.event));
   };
 
   const request = async () => {
