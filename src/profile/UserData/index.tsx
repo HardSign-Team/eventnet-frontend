@@ -1,5 +1,5 @@
 import React from "react";
-import "./UserData.css";
+import "./index.css";
 import { Gapped } from "@skbkontur/react-ui";
 
 type userDataProps = {

@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from "react";
-import styles from "./EventCreation.module.scss";
+import styles from "./index.module.scss";
 import { Gapped } from "@skbkontur/react-ui";
-import EventDatetimePicker from "../EventDatetimePicker/EventDatetimePicker";
-import { CustomSelector } from "../../shared/CustomSelector/CustomSelector";
-import CustomButton from "../../shared/CustomButton/CustomButton";
-import EventEndPicker from "../EventEndPicker/EventEndPicker";
-import PlacePicker from "../PlacePicker/PlacePicker";
-import TagsPicker from "../TagsPicker/TagsPickerProps";
-import DescriptionArea from "../DescriptionArea/DescriptionArea";
-import PhotoCarousel from "../../shared/PhotoCarousel/Carousel/PhotoCarousel";
+import EventDatetimePicker from "./EventDatetimePicker";
+import { CustomSelector } from "../shared/CustomSelector/CustomSelector";
+import CustomButton from "../shared/CustomButton/CustomButton";
+import EventEndPicker from "./EventEndPicker";
+import PlacePicker from "./PlacePicker";
+import TagsPicker from "./TagsPicker";
+import DescriptionArea from "./DescriptionArea";
+import PhotoCarousel from "../shared/PhotoCarousel/Carousel/PhotoCarousel";
+import {
+  calculateDuration,
+  calculateEndDatetime,
+} from "../utils/datetimeHelpers";
+import { cropped } from "../utils/cropHelpers";
 
 enum EventTypes {
   Public = "public",
   Private = "private",
 }
+
+const MAX_EVENT_NAME_LENGTH = 50;
+const MAX_EVENT_DESCRIPTION_LENGTH = 1000;
 
 // TODO ограничения на инпуты
 const EventCreation: React.FC = () => {
@@ -29,68 +37,12 @@ const EventCreation: React.FC = () => {
   const [selectedTags, setSelectedTags] = React.useState([]);
   const [eventDescription, setEventDescription] = useState("");
 
-  const calculateEndDatetime = (
-    dateStart: string,
-    timeStart: string,
-    duration: string
-  ) => {
-    const [day, month, year] = dateStart.split(".").map(Number);
-    const [hours, minutes] = timeStart.split(":").map(Number);
-    const [durationHours, durationMinutes] = duration.split(":").map(Number);
-
-    const dateObj = new Date(year, month - 1, day, hours, minutes);
-    dateObj.setHours(dateObj.getHours() + durationHours);
-    dateObj.setMinutes(dateObj.getMinutes() + durationMinutes);
-
-    const _dateEnd = [
-      dateObj.getDate(),
-      dateObj.getMonth() + 1,
-      dateObj.getFullYear(),
-    ]
-      .map((x) => x.toString().padStart(2, "0"))
-      .join(".");
-
-    const _timeEnd = [dateObj.getHours(), dateObj.getMinutes()]
-      .map((x) => x.toString().padStart(2, "0"))
-      .join(":");
-
-    return [_dateEnd, _timeEnd];
+  const updateEventName = (name: string) => {
+    setEventName(cropped(name, MAX_EVENT_NAME_LENGTH));
   };
 
-  const calculateDuration = (
-    dateStart: string,
-    timeStart: string,
-    dateEnd: string,
-    timeEnd: string
-  ) => {
-    const [dayStart, monthStart, yearStart] = dateStart.split(".").map(Number);
-    const [hoursStart, minutesStart] = timeStart.split(":").map(Number);
-    const [dayEnd, monthEnd, yearEnd] = dateEnd.split(".").map(Number);
-    const [hoursEnd, minutesEnd] = timeEnd.split(":").map(Number);
-
-    const datetimeStart = new Date(
-      yearStart,
-      monthStart - 1,
-      dayStart,
-      hoursStart,
-      minutesStart
-    ).getTime();
-    const datetimeEnd = new Date(
-      yearEnd,
-      monthEnd - 1,
-      dayEnd,
-      hoursEnd,
-      minutesEnd
-    ).getTime();
-
-    const hourDiff = datetimeEnd - datetimeStart;
-    const minDiff = hourDiff / 60 / 1000;
-    const hDiff = hourDiff / 3600 / 1000;
-
-    const hours = Math.floor(hDiff);
-    const minutes = minDiff - 60 * hours;
-
-    return [hours, minutes].map((x) => x.toString().padStart(2, "0")).join(":");
+  const updateEventDescription = (description: string) => {
+    setEventDescription(cropped(description, MAX_EVENT_DESCRIPTION_LENGTH));
   };
 
   useEffect(() => {
@@ -132,7 +84,7 @@ const EventCreation: React.FC = () => {
           className={styles.event_nameInput}
           placeholder={"Введите название..."}
           value={eventName}
-          onChange={(e) => setEventName(e.target.value)}
+          onChange={(e) => updateEventName(e.target.value)}
         />
         <EventDatetimePicker
           label={"Дата начала"}
@@ -168,7 +120,7 @@ const EventCreation: React.FC = () => {
         />
         <DescriptionArea
           eventDescription={eventDescription}
-          setEventDescription={setEventDescription}
+          updateEventDescription={updateEventDescription}
         />
         <CustomButton
           width={480}

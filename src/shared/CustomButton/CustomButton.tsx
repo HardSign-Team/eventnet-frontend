@@ -1,6 +1,7 @@
 import React from "react";
-import "./CustomButton.css";
+import "./CustomButton.scss";
 import { Gapped } from "@skbkontur/react-ui";
+import cn from "classnames";
 
 interface Props {
   readonly className?: string;
@@ -14,7 +15,7 @@ interface Props {
 }
 
 const CustomButton = ({
-  className,
+  className = "",
   onClick,
   label,
   classNameDiv,
@@ -27,7 +28,7 @@ const CustomButton = ({
     <Gapped vertical gap={7} className={classNameDiv}>
       <button
         style={{ height: height, width: width, fontSize: fontSize }}
-        className={className ?? "custom_button"}
+        className={cn(className, "custom_button")}
         onClick={onClick}
         onKeyPress={onKeyPress}
       >

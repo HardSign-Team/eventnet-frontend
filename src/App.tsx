@@ -3,13 +3,15 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Main from "./main/Main";
 import { Registration } from "./register/Registration";
 import { Login } from "./login/Login";
-import EventCreation from "./eventCreation/EventCreation/EventCreation";
+import EventCreation from "./eventCreation";
 import "./App.css";
 import { ResetPassword } from "./resetPassword/ResetPassword";
 import Header from "./shared/Header/Header";
-import Profile from "./profile/Profile/Profile";
+import Profile from "./profile";
 import { MainStore } from "./stores/MainStore";
 import { observer } from "mobx-react-lite";
+import { Footer } from "./shared/Footer";
+import { UserEvents } from "./userEvents";
 
 interface AppProps {
   store: MainStore;
@@ -17,8 +19,9 @@ interface AppProps {
 export const App: React.FC<AppProps> = observer(({ store }) => {
   return (
     <Router>
-      <div>
+      <div className={"app"}>
         <Header userStore={store.userStore} />
+        <div className={"content-wrapper"}>
         <Routes>
           <Route path="/register" element={<Registration />} />
           <Route path="/profile" element={<Profile />} />
@@ -31,8 +34,11 @@ export const App: React.FC<AppProps> = observer(({ store }) => {
             element={<ResetPassword userStore={store.userStore} />}
           />
           <Route path="/event-creation" element={<EventCreation />} />
+          <Route path="/user-events" element={<UserEvents />} />
           <Route path="/" element={<Main />} />
         </Routes>
+        </div>
+        <Footer />
       </div>
     </Router>
   );

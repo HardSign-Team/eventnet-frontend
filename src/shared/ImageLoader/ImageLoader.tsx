@@ -3,9 +3,19 @@ import styles from "./ImageLoader.module.scss";
 
 type ImageLoaderProps = {
   setImageURLS: (urls: string[]) => void;
+  maxImagesCount?: number;
+  labelText?: string;
+  style?: {};
 };
 
-const ImageLoader: React.FC<ImageLoaderProps> = ({ setImageURLS }) => {
+const DEFAULT_MAX_IMAGES_COUNT = 8;
+
+const ImageLoader: React.FC<ImageLoaderProps> = ({
+  labelText = "Загрузить фотографии...",
+  style = {},
+  setImageURLS,
+  maxImagesCount = DEFAULT_MAX_IMAGES_COUNT,
+}) => {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
 
   useEffect(() => {
@@ -19,7 +29,6 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ setImageURLS }) => {
 
   function onImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const allowedExtensions = ["jpg", "jpeg", "png", "bmp"];
-    const allowedImagesCount = 8;
 
     const files = e.target.files;
 
@@ -27,7 +36,7 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ setImageURLS }) => {
 
     const images = [];
 
-    for (let i = 0; i < Math.min(files.length, allowedImagesCount); i++) {
+    for (let i = 0; i < Math.min(files.length, maxImagesCount); i++) {
       const file = files[i];
       const fileName = file.name;
       const dotIndex = fileName.lastIndexOf(".") + 1;
@@ -41,7 +50,7 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ setImageURLS }) => {
   }
 
   return (
-    <div className={styles.imageLoader}>
+    <div className={styles.imageLoader} style={style}>
       <input
         className={styles.imageLoader__input}
         id={styles.imageLoader__input}
@@ -54,7 +63,7 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({ setImageURLS }) => {
         className={styles.imageLoader__label}
         htmlFor={styles.imageLoader__input}
       >
-        Загрузить фотографии...
+        {labelText}
       </label>
     </div>
   );

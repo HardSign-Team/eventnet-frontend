@@ -3,6 +3,7 @@ import { render } from "react-dom";
 import { App } from "./App";
 import { MainStore } from "./stores/MainStore";
 import { configure } from "mobx";
+import './index.scss'
 
 configure({
   enforceActions: "observed",

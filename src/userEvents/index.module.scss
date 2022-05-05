@@ -1,0 +1,21 @@
+.userEvents {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  padding-top: 30px;
+  width: 70%;
+  min-width: 480px;
+
+  &__userName {
+    font-weight: normal;
+    padding-bottom: 60px;
+  }
+
+  &__events {
+    padding-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+}
