@@ -1,6 +1,6 @@
 import { Gapped } from "@skbkontur/react-ui";
 import React, { useState } from "react";
-import ChangePasswordModal from "../ChangePasswordModal/ChangePasswordModal";
+import ChangePasswordModal from "../ChangePasswordModal";
 import { CustomInput } from "../../shared/CustomInput/CustomInput";
 import { CustomSelectDate } from "../../shared/CustomSelectDate/CustomSelectDate";
 import {
@@ -8,8 +8,13 @@ import {
   GenderSelector,
 } from "../../shared/GenderSelector/GenderSelector";
 import CustomButton from "../../shared/CustomButton/CustomButton";
+import ImageLoader from "../../shared/ImageLoader/ImageLoader";
 
-const EditProfile = () => {
+type EditProfileProps = {
+  setUserAvatar: (val: string) => void;
+};
+
+const EditProfile: React.FC<EditProfileProps> = ({ setUserAvatar }) => {
   const [userName, setUserName] = useState("");
   const [userPhone, setUserPhone] = useState("");
   const [userGender, setUserGender] = useState(genders.Male);
@@ -32,6 +37,12 @@ const EditProfile = () => {
   return (
     <>
       {modalOpened && <ChangePasswordModal onClose={closeModal} />}
+      <ImageLoader
+        labelText={"Изменить фото"}
+        setImageURLS={(avatars) => setUserAvatar(avatars[0])}
+        maxImagesCount={1}
+        style={{ padding: "10px 0 25px" }}
+      />
       <Gapped className={"profile_info-wrapper"} gap={7} vertical>
         <CustomInput
           label="Имя пользователя"

@@ -6,5 +6,6 @@ html, body {
   height: 100%;
   font: 100% $font-stack;
   color: $primary-color;
-  overflow-y: scroll;
+  font-family: "Public Sans", sans-serif;
+  text-align: center;
 }

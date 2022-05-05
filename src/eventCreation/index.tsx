@@ -1,19 +1,27 @@
-import React, { useState } from "react";
-import styles from "./EventCreation.module.scss";
+import React, { useEffect, useState } from "react";
+import styles from "./index.module.scss";
 import { Gapped } from "@skbkontur/react-ui";
-import EventDatetimePicker from "../EventDatetimePicker/EventDatetimePicker";
-import { CustomSelector } from "../../shared/CustomSelector/CustomSelector";
-import CustomButton from "../../shared/CustomButton/CustomButton";
-import EventEndPicker from "../EventEndPicker/EventEndPicker";
-import PlacePicker from "../PlacePicker/PlacePicker";
-import TagsPicker from "../TagsPicker/TagsPickerProps";
-import DescriptionArea from "../DescriptionArea/DescriptionArea";
-import PhotoCarousel from "../../shared/PhotoCarousel/Carousel/PhotoCarousel";
+import EventDatetimePicker from "./EventDatetimePicker";
+import { CustomSelector } from "../shared/CustomSelector/CustomSelector";
+import CustomButton from "../shared/CustomButton/CustomButton";
+import EventEndPicker from "./EventEndPicker";
+import PlacePicker from "./PlacePicker";
+import TagsPicker from "./TagsPicker";
+import DescriptionArea from "./DescriptionArea";
+import PhotoCarousel from "../shared/PhotoCarousel/Carousel/PhotoCarousel";
+import {
+  calculateDuration,
+  calculateEndDatetime,
+} from "../utils/datetimeHelpers";
+import { cropped } from "../utils/cropHelpers";
 
 enum EventTypes {
   Public = "public",
   Private = "private",
 }
+
+const MAX_EVENT_NAME_LENGTH = 50;
+const MAX_EVENT_DESCRIPTION_LENGTH = 1000;
 
 // TODO ограничения на инпуты
 const EventCreation: React.FC = () => {
@@ -29,6 +37,41 @@ const EventCreation: React.FC = () => {
   const [selectedTags, setSelectedTags] = React.useState([]);
   const [eventDescription, setEventDescription] = useState("");
 
+  const updateEventName = (name: string) => {
+    setEventName(cropped(name, MAX_EVENT_NAME_LENGTH));
+  };
+
+  const updateEventDescription = (description: string) => {
+    setEventDescription(cropped(description, MAX_EVENT_DESCRIPTION_LENGTH));
+  };
+
+  useEffect(() => {
+    if (dateStart && timeStart && duration) {
+      const [_dateEnd, _timeEnd] = calculateEndDatetime(
+        dateStart,
+        timeStart,
+        duration
+      );
+      setDateEnd(_dateEnd);
+      setTimeEnd(_timeEnd);
+    }
+  }, [dateStart, timeStart, duration]);
+
+  useEffect(() => {
+    if (dateStart && dateEnd && timeEnd) {
+      const newDuration = calculateDuration(
+        dateStart,
+        timeStart,
+        dateEnd,
+        timeEnd
+      );
+      // TODO поменять durationPicker т.к. он не умеет принимать время больше 23:59
+      setDuration(newDuration);
+    }
+  }, [dateEnd, timeEnd]);
+
+  const createEvent = () => {};
+
   return (
     <>
       <Gapped className={styles.eventCreation} vertical gap={20}>
@@ -41,7 +84,7 @@ const EventCreation: React.FC = () => {
           className={styles.event_nameInput}
           placeholder={"Введите название..."}
           value={eventName}
-          onChange={(e) => setEventName(e.target.value)}
+          onChange={(e) => updateEventName(e.target.value)}
         />
         <EventDatetimePicker
           label={"Дата начала"}
@@ -77,9 +120,14 @@ const EventCreation: React.FC = () => {
         />
         <DescriptionArea
           eventDescription={eventDescription}
-          setEventDescription={setEventDescription}
+          updateEventDescription={updateEventDescription}
         />
-        <CustomButton width={480} height={40} label={"Создать событие"} />
+        <CustomButton
+          width={480}
+          height={40}
+          label={"Создать событие"}
+          onClick={createEvent}
+        />
       </Gapped>
     </>
   );

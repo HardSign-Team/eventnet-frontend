@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import { Modal } from "@skbkontur/react-ui";
 import CustomButton from "../../shared/CustomButton/CustomButton";
+import YaMap from "../../main/YandexMap/YaMap";
+import "./index.scss";
 
 type ShowMapModalProps = {
   onClose: () => void;
 };
 
-const MapModal: React.FC<ShowMapModalProps> = ({ onClose }) => {
+const Index: React.FC<ShowMapModalProps> = ({ onClose }) => {
   const saveCoords = () => {};
 
   return (
     <Modal onClose={onClose}>
       <Modal.Body>
-        <div>bonanamama</div>
+        <div className={"map-wrapper"}>
+          <YaMap className={"modal-map"} />
+        </div>
       </Modal.Body>
       <Modal.Footer>
         <CustomButton
@@ -25,4 +29,4 @@ const MapModal: React.FC<ShowMapModalProps> = ({ onClose }) => {
   );
 };
 
-export default MapModal;
+export default Index;

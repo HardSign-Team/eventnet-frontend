@@ -1,13 +1,13 @@
 .profile {
-    margin: auto;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 320px;
+    padding-top: 30px;
 }
 
 .profile_avatar-wrapper {
-    margin-top: 65px;
 }
 
 .profile_avatar {
@@ -24,15 +24,4 @@
 
 .edit-button {
     margin: 10px 0 25px;
-}
-
-.change-avatar_button {
-    all: unset;
-    margin: 10px 0 25px;
-    font-size: 15px;
-    text-decoration: none;
-    border: none;
-    background: none;
-    color: #008d8e;
-    cursor: pointer;
 }
