@@ -5,12 +5,14 @@ import Index from "../MapModal";
 type PlacePickerProps = {
   coordinates: string;
   setCoordinates: (value: string) => void;
+  onClick?: () => void;
 };
 
 //TODO маска на инпуте для координат
 const PlacePicker: React.FC<PlacePickerProps> = ({
   coordinates,
   setCoordinates,
+  onClick
 }) => {
   const [showMapModal, setShowMapModal] = useState(false);
   const closeMapModal = () => {
@@ -23,7 +25,7 @@ const PlacePicker: React.FC<PlacePickerProps> = ({
 
   return (
     <>
-      {showMapModal && <Index onClose={closeMapModal} />}
+      {showMapModal && <Index onClose={closeMapModal} onClick={onClick} />}
       <div className={styles.eventPlacePicker}>
         <span className={styles.eventPlacePicker__label}>Координаты</span>
         <input

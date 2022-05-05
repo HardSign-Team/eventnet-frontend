@@ -42,7 +42,7 @@ const mapOptions = {
 
 const { eventStore, mapStore } = globalStore;
 
-type Props = { className: string; onClick: () => void };
+type Props = { className: string; onClick?: () => void };
 const YaMap = observer(({ className, onClick}: Props) => {
   const currentMapState = {
     center: mapStore.coordinates,
@@ -50,7 +50,7 @@ const YaMap = observer(({ className, onClick}: Props) => {
   };
 
   const onMapClick = async () => {
-    onClick();
+    onClick?.();
   };
 
   return (
