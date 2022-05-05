@@ -6,7 +6,6 @@ import { observer } from "mobx-react-lite";
 import globalStore from "../../stores/GlobalStore";
 
 const CIRCLE_RADIUS = 5;
-const MAX_ZOOM = 20;
 const MIN_ZOOM = 4;
 
 const circleOptions = {
@@ -43,14 +42,15 @@ const mapOptions = {
 
 const { eventStore, mapStore } = globalStore;
 
-const YaMap = observer(({ className }: { className: string }) => {
+type Props = { className: string; onClick: () => void };
+const YaMap = observer(({ className, onClick}: Props) => {
   const currentMapState = {
     center: mapStore.coordinates,
     zoom: 10,
   };
 
-  const onMapClick = (event: any) => {
-    const currentCoordinates = event.get("coords");
+  const onMapClick = async () => {
+    onClick();
   };
 
   return (

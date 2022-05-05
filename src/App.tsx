@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
 import Main from "./main/Main";
 import Registration from "./register/Registration";
 import Login from "./login/Login";
@@ -20,7 +20,8 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/resetPassword" element={<ResetPassword />} />
           <Route path="/event-creation" element={<EventCreation />} />
-          <Route path="/" element={<Main />} />
+          <Route path="/" element={<Navigate to="/events" replace/>}/>
+          <Route path="/events" element={<Main />} />
         </Routes>
       </div>
     </Router>
