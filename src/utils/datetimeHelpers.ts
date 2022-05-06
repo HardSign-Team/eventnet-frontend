@@ -61,3 +61,7 @@ export const calculateDuration = (
 
   return [hours, minutes].map((x) => x.toString().padStart(2, "0")).join(":");
 };
+
+export const formatTimeString = (time: string) => {
+  return time.split(":").slice(0, 2).join(":");
+};
