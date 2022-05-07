@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./index.module.scss";
 import { CustomSelector } from "../shared/CustomSelector/CustomSelector";
-import EventCard from "../main/EventCard/EventCard";
+import EventCard from "../pages/events/EventCard/EventCard";
 import globalStore from "../stores/GlobalStore";
 import { observer } from "mobx-react-lite";
 import Event from "../models/Event";

@@ -15,7 +15,7 @@ export class EventStore {
   private mockedId: number = 1;
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {});
   }
 
   // noinspection JSUnusedLocalSymbols
@@ -51,7 +51,7 @@ export class EventStore {
         },
       },
     ];
-    for (let i = 3; i < 20; i++) {
+    for (let i = 3; i < 200; i++) {
       result.push({
         id: i,
         info: {

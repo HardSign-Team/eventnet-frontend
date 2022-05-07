@@ -10,6 +10,6 @@ export class UserStore {
   public isAuth: boolean = false;
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {});
   }
 }
