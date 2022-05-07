@@ -1,11 +1,10 @@
 import { Clusterer, Map, YMaps } from "react-yandex-maps";
-import React, { useState } from "react";
+import React from "react";
 import "../style.css";
 import { observer } from "mobx-react-lite";
 import globalStore from "../../../stores/GlobalStore";
 import Circles from "./Circles/Circles";
 
-const MAX_ZOOM = 20;
 const MIN_ZOOM = 4;
 
 const mapStyle = {
@@ -20,7 +19,7 @@ const mapOptions = {
   yandexMapAutoSwitch: true,
 };
 
-const { eventStore, mapStore } = globalStore;
+const { eventLocationStore, mapStore } = globalStore;
 
 const YaMap = observer(({ className }: { className: string }) => {
   const currentMapState = {
@@ -28,8 +27,7 @@ const YaMap = observer(({ className }: { className: string }) => {
     zoom: 10,
   };
 
-  const onMapClick = (event: any) => {
-    const currentCoordinates = event.get("coords");
+  const onMapClick = (_: any) => {
   };
 
   return (
@@ -49,7 +47,7 @@ const YaMap = observer(({ className }: { className: string }) => {
         }}
       >
         <Clusterer>
-          <Circles events={eventStore.events} />
+          <Circles events={eventLocationStore.getAll()} />
         </Clusterer>
       </Map>
     </YMaps>

@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-import Event from "../../../../models/Event";
+import React from "react";
 import { Circle } from "react-yandex-maps";
-import EventBalloonContent from "../EventBalloonContent/EventBalloonContent";
-import ReactDOMServer from "react-dom/server";
+import {EventLocationViewModel} from "../../../../viewModels/EvenLocationViewModel";
 
 const CIRCLE_RADIUS = 5;
 const circleOptions = {
@@ -13,25 +11,26 @@ const circleOptions = {
 };
 
 type Props = {
-  events: Event[];
+  events: EventLocationViewModel[];
 };
 
 const Circles = ({ events }: Props) => {
   const circles: Array<JSX.Element> = [];
 
   events.forEach((event) => {
+    const location = [event.location.latitude, event.location.longitude];
     circles.push(
       <Circle
-        geometry={[event.info.coordinates, CIRCLE_RADIUS]}
+        geometry={[location, CIRCLE_RADIUS]}
         options={circleOptions}
         key={event.id}
         properties={{
-          balloonContent: ReactDOMServer.renderToString(
-            <EventBalloonContent
-              className={"event-balloon-content"}
-              event={event}
-            />
-          ),
+          // balloonContent: ReactDOMServer.renderToString(
+          //   <EventBalloonContent
+          //     className={"event-balloon-content"}
+          //     event={event}
+          //   />
+          // ),
         }}
         modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
       />
