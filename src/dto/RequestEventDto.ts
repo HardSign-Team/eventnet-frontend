@@ -1,5 +1,5 @@
-import {PageInfo} from "./PageInfo";
+import {PageInfoDto} from "./PageInfoDto";
 
 export class RequestEventDto {
-    public constructor(readonly filterModel: any, readonly pageInfo: PageInfo) {}
+    public constructor(readonly filterModel: any, readonly pageInfo: PageInfoDto) {}
 }

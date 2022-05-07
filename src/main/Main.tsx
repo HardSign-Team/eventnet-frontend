@@ -8,10 +8,10 @@ import {
 import { RequestEventDto } from "../dto/RequestEventDto";
 import { LocationFilterModel } from "../dto/LocationFilterModel";
 import { Location } from "../dto/Location";
-import { PageInfo } from "../dto/PageInfo";
+import { PageInfoDto } from "../dto/PageInfoDto";
 import { useLocation, useNavigate } from "react-router-dom";
 import globalStore from "../stores/GlobalStore";
-import { requestSearchByName } from "../api/events/searchByName";
+import {createEvent} from "../api/events/createEvent";
 
 export default function Main() {
   const { search } = useLocation();
@@ -34,7 +34,16 @@ export default function Main() {
   const handleClick = async () => {
     // await request();
     //requestEvent("1D84109D-157E-4CAC-B989-5C23ABD0212D").then(r => console.log(r.event));
-    requestSearchByName("name", 10).then((r) => console.log(r.events));
+    //requestSearchByName("name", 10).then((r) => console.log(r.events));
+    createEvent({
+      description: "Description",
+      endDate: new Date(),
+      id: "0000-0000-0000-0000",
+      location: new Location(0, 0),
+      name: "Name",
+      photos: [],
+      startDate: new Date(),
+    }).then((r) => console.log(r)).catch(r => console.log(r));
   };
 
   const request = async () => {
@@ -45,7 +54,7 @@ export default function Main() {
           10
         ),
       },
-      new PageInfo(1, 10)
+      new PageInfoDto(1, 10)
     );
     const params = buildRequestEventsParams(dto);
     navigate(`/events?${params}`);
