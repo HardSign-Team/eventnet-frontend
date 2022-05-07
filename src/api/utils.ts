@@ -5,3 +5,9 @@ export const STATUS_CODES = {
     OK: 200,
     BAD_REQUEST: 400
 }
+
+export const HTTP_METHODS = {
+    GET: "GET",
+    POST: "POST",
+    DELETE: "DELETE"
+}
