@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Menu, MenuItem, ProSidebar, SidebarContent } from "react-pro-sidebar";
+import { ProSidebar, SidebarContent } from "react-pro-sidebar";
 import "./SideBar.css";
 import "react-pro-sidebar/dist/css/styles.css";
 import EventList from "../EventList/EventList";
@@ -39,7 +39,7 @@ export default function SideBar({ className }: BarProps) {
         width={"316px"}
       >
         <SidebarContent style={sideBarContentStyles}>
-          <Toolbar />
+          <Toolbar  onSubmit={() => {}}/>
           <EventList />
         </SidebarContent>
       </ProSidebar>

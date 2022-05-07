@@ -1,7 +1,6 @@
 import React from "react";
 import EventCard from "../EventCard/EventCard";
 import "./EventList.css";
-import { observer } from "mobx-react-lite";
 import globalStore from "../../../stores/GlobalStore";
 
 const { eventStore } = globalStore;
