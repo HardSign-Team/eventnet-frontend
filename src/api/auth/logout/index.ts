@@ -1,4 +1,4 @@
-async function loginRequest(token: string) {
+async function logout(token: string) {
   return fetch("http://localhost:5203/api/auth/logout", {
     method: "POST",
     headers: {
@@ -11,4 +11,4 @@ async function loginRequest(token: string) {
     .catch((err) => console.error(err));
 }
 
-export { loginRequest };
+export { logout };
