@@ -77,8 +77,7 @@ const EventCreation: React.FC = () => {
       <Gapped className={styles.eventCreation} vertical gap={20}>
         <PhotoCarousel
           images={eventImages}
-          setImages={setEventImages}
-          withLoader={true}
+          withLoader={{ setImages: setEventImages }}
         />
         <input
           className={styles.event_nameInput}

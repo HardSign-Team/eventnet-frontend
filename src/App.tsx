@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
 import Main from "./main/Main";
 import { Registration } from "./register/Registration";
 import { Login } from "./login/Login";
@@ -13,6 +13,7 @@ import { observer } from "mobx-react-lite";
 import { Footer } from "./shared/Footer";
 import { UserEvents } from "./userEvents";
 import { CompletedRegister } from "./completedRegister";
+import { EventPage } from './eventPage';
 
 interface AppProps {
   store: MainStore;
@@ -36,11 +37,13 @@ export const App: React.FC<AppProps> = observer(({ store }) => {
             />
             <Route path="/event-creation" element={<EventCreation />} />
             <Route path="/user-events" element={<UserEvents />} />
-            <Route path="/" element={<Main />} />
             <Route
               path="/completed-register/:userId/:confirmKey"
               element={<CompletedRegister />}
             />
+            <Route path="/" element={<Navigate to="/events" replace/>}/>
+            <Route path="/events" element={<Main />} />
+            <Route path="/event-page" element={<EventPage />} />
           </Routes>
         </div>
         <Footer />

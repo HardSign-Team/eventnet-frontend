@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal } from "@skbkontur/react-ui";
 import CustomButton from "../../shared/CustomButton/CustomButton";
 import YaMap from "../../main/YandexMap/YaMap";
@@ -6,16 +6,17 @@ import "./index.scss";
 
 type ShowMapModalProps = {
   onClose: () => void;
+  onClick?: () => void;
 };
 
-const Index: React.FC<ShowMapModalProps> = ({ onClose }) => {
+const Index: React.FC<ShowMapModalProps> = ({ onClose, onClick }) => {
   const saveCoords = () => {};
 
   return (
     <Modal onClose={onClose}>
       <Modal.Body>
         <div className={"map-wrapper"}>
-          <YaMap className={"modal-map"} />
+          <YaMap className={"modal-map"} onClick={onClick}/>
         </div>
       </Modal.Body>
       <Modal.Footer>
