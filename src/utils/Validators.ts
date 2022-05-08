@@ -79,7 +79,7 @@ const mailValidator = createValidator<{ mail: string }>((b) => {
     (b) => {
       b.invalid((x) => !x, "Укажите адрес почты", "submit");
       b.invalid(
-        (x) => !/^[A-Za-z.]+@[a-z]+\.[a-z]{2,}$/.test(x),
+        (x) => !/^[A-Za-z.0-9]+@[a-z]+\.[a-z]{2,}$/.test(x),
         "Неверный адрес почты"
       );
     }

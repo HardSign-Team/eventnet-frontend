@@ -97,7 +97,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
           </ValidationWrapper>
           <div className="password_handler">
             <div className="label_helpers_source">
-              <a className="reset_password" href="../resetPassword">
+              <a className="reset_password" href="/reset-password">
                 Забыли пароль?
               </a>
               <div className="remember_password">
