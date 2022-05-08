@@ -33,7 +33,7 @@ export const Registration: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [dateBirthday, setDateBirthday] = useState("");
   const [gender, setGender] = useState(genders.Male);
-  const [isAcceptRegister, setIsAcceptRegister] = useState(false);
+  const [isAcceptRegister, setIsAcceptRegister] = useState(true);
   const [isErrorRegister, setIsErrorRegister] = useState(false);
 
   const registration = async (): Promise<void> => {
@@ -70,7 +70,9 @@ export const Registration: React.FC = () => {
   return (
     <div className="registration">
       <Logo className="logo_registration" width={200} height={200} />
-      {isAcceptRegister && <ModalAcceptRegistration mail={mail} />}
+      {isAcceptRegister && (
+        <ModalAcceptRegistration mail={mail} userName={userName} />
+      )}
       {isErrorRegister && (
         <p className="errorMessage">Данная почта уже зарегистрированна</p>
       )}
