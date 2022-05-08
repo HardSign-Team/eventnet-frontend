@@ -21,6 +21,7 @@ import {
   refContainer,
   registrationValidator,
 } from "../utils/Validators";
+import { SUCCESS } from "../api/requestResponseCodes";
 
 export const Registration: React.FC = () => {
   const [userName, setUserName] = useState("");
@@ -48,7 +49,7 @@ export const Registration: React.FC = () => {
       // TODO для отладки пригодится
       // console.log(JSON.stringify(userInfoRegister));
       registerRequest(userInfoRegister).then((x) => {
-        if (x !== undefined && x.message === 200) setIsAcceptRegister(true);
+        if (x !== undefined && x.message === SUCCESS) setIsAcceptRegister(true);
         else setIsErrorRegister(true);
       });
     }
