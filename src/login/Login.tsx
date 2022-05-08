@@ -23,7 +23,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
-  const route = useNavigate();
+  const navigate = useNavigate();
 
   const login = async (): Promise<void> => {
     if (!container) {
@@ -35,21 +35,25 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
     }
   };
 
+  const saveUserStore = (answer: any) => {
+    const tokens = answer.tokens;
+    userStore.accessToken = tokens.accessToken;
+    userStore.refreshToken = tokens.refreshToken;
+    userStore.expiredAt = tokens.expiredAt;
+    const user = answer.user;
+    userStore.email = user.email;
+    userStore.userName = user.userName;
+    userStore.birthDate = user.birthDate;
+    userStore.gender = user.gender;
+    userStore.userRoles = answer.userRoles;
+    userStore.isAuth = true;
+  };
+
   const executeLoginRequest = (user: userInfo) => {
     loginRequest(user).then((x) => {
       if (x.code === 200) {
-        const tokens = x.tokens;
-        userStore.accessToken = tokens.accessToken;
-        userStore.refreshToken = tokens.refreshToken;
-        userStore.expiredAt = tokens.expiredAt;
-        const user = x.user;
-        userStore.email = user.email;
-        userStore.userName = user.userName;
-        userStore.birthDate = user.birthDate;
-        userStore.gender = user.gender;
-        userStore.userRoles = x.userRoles;
-        userStore.isAuth = true;
-        route("/");
+        saveUserStore(x);
+        navigate("/");
       } else {
         setError(true);
       }
