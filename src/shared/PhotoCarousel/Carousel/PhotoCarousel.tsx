@@ -9,15 +9,13 @@ import arrowRight from "../../../assets/arrow_right.svg";
 import ImageLoader from "../../ImageLoader/ImageLoader";
 
 type PhotoCarouselProps = {
-  withLoader?: boolean;
   images: string[];
-  setImages: (images: string[]) => void;
+  withLoader?: { setImages: (images: string[]) => void };
 };
 
 const PhotoCarousel: React.FC<PhotoCarouselProps> = ({
-  withLoader = false,
+  withLoader,
   images,
-  setImages,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [pickedImage, setPickedImage] = useState("");
@@ -47,18 +45,22 @@ const PhotoCarousel: React.FC<PhotoCarouselProps> = ({
     <>
       {showModal && <PhotoModal image={pickedImage} onClose={closeModal} />}
       <div className={styles.wrapper}>
-        <button
-          className={styles.arrowPrev}
-          onClick={() => carousel?.current?.slickPrev()}
-        >
-          <img src={arrowLeft} alt={"arrow"} />
-        </button>
-        <button
-          className={styles.arrowNext}
-          onClick={() => carousel?.current?.slickNext()}
-        >
-          <img src={arrowRight} alt={"arrow"} />
-        </button>
+        {images.length > 1 && (
+          <>
+            <button
+              className={styles.arrowPrev}
+              onClick={() => carousel?.current?.slickPrev()}
+            >
+              <img src={arrowLeft} alt={"arrow"} />
+            </button>
+            <button
+              className={styles.arrowNext}
+              onClick={() => carousel?.current?.slickNext()}
+            >
+              <img src={arrowRight} alt={"arrow"} />
+            </button>
+          </>
+        )}
         <Slider className={styles.photoCarousel} {...settings} ref={carousel}>
           {images.length !== 0 ? (
             images.map((imageSrc) => (
@@ -76,7 +78,9 @@ const PhotoCarousel: React.FC<PhotoCarouselProps> = ({
             ))
           ) : (
             <div className={styles.photoCarousel__imageWrapper}>
-              {withLoader && <ImageLoader setImageURLS={setImages} />}
+              {withLoader && (
+                <ImageLoader setImageURLS={withLoader.setImages} />
+              )}
             </div>
           )}
         </Slider>

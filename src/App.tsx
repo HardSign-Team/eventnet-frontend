@@ -12,6 +12,7 @@ import { MainStore } from "./stores/MainStore";
 import { observer } from "mobx-react-lite";
 import { Footer } from "./shared/Footer";
 import { UserEvents } from "./userEvents";
+import { EventPage } from './eventPage';
 
 interface AppProps {
   store: MainStore;
@@ -39,6 +40,7 @@ export const App: React.FC<AppProps> = observer<AppProps>(({ store }) => {
             />
             <Route path="/event-creation" element={<EventCreation />} />
             <Route path="/user-events" element={<UserEvents />} />
+            <Route path="/event-page" element={<EventPage />} />
             <Route path="/" element={<Main />} />
           </Routes>
         </div>
