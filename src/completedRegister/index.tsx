@@ -1,7 +1,7 @@
 import styles from "./index.module.scss";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { confirmEmail } from "../api/auth/confirmEmail";
+import { confirmEmail } from "../api/auth/registration/confirmEmail";
 import { SUCCESS } from "../api/requestResponseCodes";
 
 export const CompletedRegister: React.FC = () => {

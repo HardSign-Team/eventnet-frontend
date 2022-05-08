@@ -9,7 +9,10 @@ import {
 } from "../shared/GenderSelector/GenderSelector";
 import { CustomSelectDate } from "../shared/CustomSelectDate/CustomSelectDate";
 import { FormContainer } from "../shared/FormContainer/FormContainer";
-import { userInfoRegister, registerRequest } from "../api/auth/registerRequest";
+import {
+  userInfoRegister,
+  registerRequest,
+} from "../api/auth/registration/registerRequest";
 import { ModalAcceptRegistration } from "./modalAcceptRegistration/ModalAcceptRegistration";
 import {
   text,
