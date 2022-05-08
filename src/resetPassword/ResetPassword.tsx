@@ -30,7 +30,7 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ userStore }) => {
   const [isErrorCodeConfirm, setIsErrorCodeConfirm] = useState(false);
   const [isErrorExistMail, setIsErrorExistMail] = useState(false);
   const [codeConfirm, setCodeConfirm] = useState("");
-  const [isPasswordChanged, setIsPasswordChanged] = useState(true);
+  const [isPasswordChanged, setIsPasswordChanged] = useState(false);
 
   const sendCodeToMail = async (): Promise<void> => {
     if (!container) {
