@@ -12,6 +12,7 @@ import { MainStore } from "./stores/MainStore";
 import { observer } from "mobx-react-lite";
 import { Footer } from "./shared/Footer";
 import { UserEvents } from "./userEvents";
+import { CompletedRegister } from "./completedRegister";
 
 interface AppProps {
   store: MainStore;
@@ -22,21 +23,25 @@ export const App: React.FC<AppProps> = observer(({ store }) => {
       <div className={"app"}>
         <Header userStore={store.userStore} />
         <div className={"content-wrapper"}>
-        <Routes>
-          <Route path="/register" element={<Registration />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route
-            path="/login"
-            element={<Login userStore={store.userStore} />}
-          />
-          <Route
-            path="/resetPassword"
-            element={<ResetPassword userStore={store.userStore} />}
-          />
-          <Route path="/event-creation" element={<EventCreation />} />
-          <Route path="/user-events" element={<UserEvents />} />
-          <Route path="/" element={<Main />} />
-        </Routes>
+          <Routes>
+            <Route path="/register" element={<Registration />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route
+              path="/login"
+              element={<Login userStore={store.userStore} />}
+            />
+            <Route
+              path="/reset-password"
+              element={<ResetPassword userStore={store.userStore} />}
+            />
+            <Route path="/event-creation" element={<EventCreation />} />
+            <Route path="/user-events" element={<UserEvents />} />
+            <Route path="/" element={<Main />} />
+            <Route
+              path="/completed-register/:userId/:confirmKey"
+              element={<CompletedRegister />}
+            />
+          </Routes>
         </div>
         <Footer />
       </div>
