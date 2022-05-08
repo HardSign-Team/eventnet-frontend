@@ -1,0 +1,63 @@
+.eventPage {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: auto;
+  padding-top: 30px;
+  width: 480px;
+  text-align: left;
+
+  .wrapper {
+    display: flex;
+
+    .eventInfo {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      gap: 7px;
+
+      .eventName {
+
+      }
+
+      .eventDateStart {
+
+      }
+
+      .eventDateEnd {
+
+      }
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      text-align: center;
+
+      .button {
+        all: unset;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        height: fit-content;
+
+        cursor: pointer;
+      }
+
+    }
+  }
+
+  .eventDescription {
+    .descriptionTitle {
+      color: #ADB4B3;
+    }
+
+    .description {
+      margin-top: 7px;
+    }
+  }
+
+  .comments {
+
+  }
+}

@@ -12,6 +12,7 @@ import { MainStore } from "./stores/MainStore";
 import { observer } from "mobx-react-lite";
 import { Footer } from "./shared/Footer";
 import { UserEvents } from "./userEvents";
+import { EventPage } from './eventPage';
 
 interface AppProps {
   store: MainStore;
@@ -41,6 +42,7 @@ export const App: React.FC<AppProps> = observer<AppProps>(({ store }) => {
             <Route path="/user-events" element={<UserEvents />} />
             <Route path="/" element={<Navigate to="/events" replace/>}/>
             <Route path="/events" element={<Main />} />
+            <Route path="/event-page" element={<EventPage />} />
           </Routes>
         </div>
         <Footer />
