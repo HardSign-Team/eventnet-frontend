@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Event from "../../../../models/Event";
 import { Circle } from "react-yandex-maps";
 import EventBalloonContent from "../EventBalloonContent/EventBalloonContent";

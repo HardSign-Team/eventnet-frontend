@@ -10,7 +10,7 @@ type Props = {
 
 const EventBalloonContent = ({ className, event }: Props) => {
   return (
-    <div style={{ height: "280px" }} className={className}>
+    <div className={className}>
       <EventCard event={event} />
     </div>
   );
