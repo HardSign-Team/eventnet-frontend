@@ -1,5 +1,5 @@
 .eventCard {
-  width: 250px;
+  width: 322px;
   height: 280px;
   border: 0.5px solid #b8b8b8;
   background-color: #ffffff;
@@ -21,7 +21,7 @@
     gap: 6px;
     text-align: center;
     justify-content: flex-end;
-    transform: translateY(-30px);
+    transform: translateY(-40px);
 
     .button {
       all: unset;
@@ -46,7 +46,7 @@
   &__startDate,
   &__dateDuration {
     height: 1rem;
-    font-size: 11px;
+    font-size: 12px;
   }
 
   &__startDate {

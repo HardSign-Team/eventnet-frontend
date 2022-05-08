@@ -18,8 +18,8 @@ const iconsStyle = {
   borderRadius: "50%",
   backgroundColor: "#D7DCD7",
   display: "inline-block",
-  width: "16px",
-  height: "16px",
+  width: "25px",
+  height: "25px",
 } as const;
 
 const getDescription = (description: string) =>
