@@ -14,6 +14,7 @@ import { container, loginValidator, refContainer } from "../utils/Validators";
 import { UserStore } from "../stores/UserStore";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
+import { SUCCESS } from "../api/requestResponseCodes";
 
 interface LoginProps {
   userStore: UserStore;
@@ -51,7 +52,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
 
   const executeLoginRequest = (user: userInfo) => {
     loginRequest(user).then((x) => {
-      if (x.code === 200) {
+      if (x.code === SUCCESS) {
         saveUserStore(x);
         navigate("/");
       } else {
