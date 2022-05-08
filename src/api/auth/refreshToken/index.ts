@@ -8,7 +8,7 @@ async function refreshToken(refreshToken: string) {
     body: JSON.stringify({ refreshToken: refreshToken }),
   })
     .then((x) => x.json())
-    .catch((err) => console.log(err));
+    .catch((err) => console.error(err));
 }
 
 export { refreshToken };

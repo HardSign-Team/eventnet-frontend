@@ -8,7 +8,7 @@ async function loginRequest(token: string) {
     },
   })
     .then((x) => x.json())
-    .catch((err) => console.log(err));
+    .catch((err) => console.error(err));
 }
 
 export { loginRequest };

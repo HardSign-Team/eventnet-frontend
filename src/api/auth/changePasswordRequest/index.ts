@@ -11,7 +11,7 @@ async function resetPasswordRequest(oldPassword: string, newPassword: string) {
     }),
   })
     .then((x) => x.json())
-    .catch((err) => console.log(err));
+    .catch((err) => console.error(err));
 }
 
 export { resetPasswordRequest };

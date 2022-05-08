@@ -11,7 +11,7 @@ async function confirmEmail(userId: string, code: string) {
     }),
   })
     .then((x) => x.json())
-    .catch((err) => console.log(err));
+    .catch((err) => console.error(err));
 }
 
 export { confirmEmail };

@@ -17,7 +17,7 @@ async function registerRequest(userInfo: userInfoRegister) {
     body: JSON.stringify(userInfo),
   })
     .then((x) => x.json())
-    .catch((err) => console.log(err));
+    .catch((err) => console.error(err));
 }
 
 export { registerRequest };
