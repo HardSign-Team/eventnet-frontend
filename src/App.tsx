@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
 import Main from "./main/Main";
 import { Registration } from "./register/Registration";
 import { Login } from "./login/Login";
@@ -40,8 +40,9 @@ export const App: React.FC<AppProps> = observer<AppProps>(({ store }) => {
             />
             <Route path="/event-creation" element={<EventCreation />} />
             <Route path="/user-events" element={<UserEvents />} />
+            <Route path="/" element={<Navigate to="/events" replace/>}/>
+            <Route path="/events" element={<Main />} />
             <Route path="/event-page" element={<EventPage />} />
-            <Route path="/" element={<Main />} />
           </Routes>
         </div>
         <Footer />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { slide as Menu } from "react-burger-menu";
 import Toolbar from "./Toolbar";
 import "./SideBar.css";
@@ -7,6 +7,7 @@ import BurgerMenuButton from "./BurgerMenuButton";
 
 type BarProps = {
   className: string;
+  onSubmit: (e: any) => void;
 };
 
 let styles = {
@@ -25,7 +26,7 @@ let styles = {
   },
 };
 
-export default function SideBar({ className }: BarProps) {
+export default function SideBar({ className, onSubmit }: BarProps) {
   return (
     <Menu
       className={className}
@@ -33,7 +34,7 @@ export default function SideBar({ className }: BarProps) {
       customCrossIcon={CrossMenuButton()}
       styles={styles}
     >
-      <Toolbar />
+      <Toolbar onSubmit={onSubmit} />
     </Menu>
   );
 }

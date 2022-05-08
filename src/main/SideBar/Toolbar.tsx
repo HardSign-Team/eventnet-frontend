@@ -49,7 +49,11 @@ const defaultData = {
   currentCoordinates: "",
 };
 
-const Toolbar = observer(() => {
+type Props = {
+  onSubmit: (e: any) => void
+};
+
+const Toolbar = observer(({onSubmit}: Props) => {
   const [state, setState] = useState<FormData>(defaultData);
   const [isOpenEvent, setIsOpenEvent] = useState(true);
   const [selectedItems, setSelectedItems] = React.useState([]);
@@ -79,6 +83,10 @@ const Toolbar = observer(() => {
     setIsOpenEvent(!isOpenEvent);
   };
 
+  const handleSubmit = (e: any) => {
+    onSubmit(e);
+  };
+
   const { eventName, currentCoordinates } = state;
 
   return (
@@ -87,7 +95,7 @@ const Toolbar = observer(() => {
         "toolbar-container " + (isOpenEvent ? "toolbar-show" : "toolbar-hidden")
       }
     >
-      <form className="form-horizontal">
+      <form className="form-horizontal" onSubmit={handleSubmit}>
         <Gapped
           gap={15}
           vertical
