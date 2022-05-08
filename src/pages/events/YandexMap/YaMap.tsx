@@ -28,7 +28,17 @@ const YaMap = observer(({ className }: { className: string }) => {
     zoom: 10,
   };
 
+  const closeCurrentBalloon = () => {
+    const close: any = document.querySelector(
+      'ymaps[class$="-balloon__close-button"]'
+    );
+    if (close != null) {
+      close.click();
+    }
+  };
+
   const onMapClick = (event: any) => {
+    closeCurrentBalloon();
     const currentCoordinates = event.get("coords");
   };
 
