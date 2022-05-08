@@ -1,3 +1,5 @@
+import { BASE_ROUTE, HTTP_METHODS } from "../../../utils";
+
 export type userInfoRegister = {
   birthDate: string;
   confirmPassword: string;
@@ -8,8 +10,8 @@ export type userInfoRegister = {
 };
 
 async function registerRequest(userInfo: userInfoRegister) {
-  return fetch("http://localhost:5203/api/auth/register", {
-    method: "POST",
+  return fetch(BASE_ROUTE + "/api/auth/register", {
+    method: HTTP_METHODS.POST,
     headers: {
       "Content-Type": "application/json",
       accept: "*/*",

@@ -1,6 +1,8 @@
+import { BASE_ROUTE, HTTP_METHODS } from "../../utils";
+
 async function refreshToken(refreshToken: string) {
-  return fetch("http://localhost:5203/api/token/refresh-token", {
-    method: "POST",
+  return fetch(BASE_ROUTE + "/api/token/refresh-token", {
+    method: HTTP_METHODS.POST,
     headers: {
       "Content-Type": "application/json;charset=utf-8",
       Accept: "application/json",

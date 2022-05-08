@@ -1,6 +1,8 @@
+import { BASE_ROUTE, HTTP_METHODS } from "../../../utils";
+
 async function resetPasswordRequest(oldPassword: string, newPassword: string) {
-  return fetch("http://localhost:5203/api/auth/change-password", {
-    method: "POST",
+  return fetch(BASE_ROUTE + "/api/auth/change-password", {
+    method: HTTP_METHODS.POST,
     headers: {
       "Content-Type": "application/json;charset=utf-8",
       Accept: "application/json",
