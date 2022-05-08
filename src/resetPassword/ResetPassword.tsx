@@ -2,15 +2,20 @@ import "./ResetPassword.scss";
 import React, { useState } from "react";
 import { CustomInput } from "../shared/CustomInput/CustomInput";
 import CustomButton from "../shared/CustomButton/CustomButton";
-import { Gapped } from "@skbkontur/react-ui";
 import { FormContainer } from "../shared/FormContainer/FormContainer";
 import {
   text,
   ValidationContainer,
   ValidationWrapper,
 } from "@skbkontur/react-ui-validations";
-import { container, refContainer, mailValidator } from "../utils/Validators";
+import {
+  container,
+  refContainer,
+  mailValidator,
+  resetPasswordValidator,
+} from "../utils/Validators";
 import { UserStore } from "../stores/UserStore";
+import { ModalAcceptedChangePassword } from "./ModalAcceptedChangePassword";
 
 interface ResetPasswordProps {
   userStore: UserStore;
@@ -21,28 +26,56 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ userStore }) => {
   const [mail, setMail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [enteredCodeConfirm, setEnteredCodeConfirm] = useState("");
+  const [isErrorCodeConfirm, setIsErrorCodeConfirm] = useState(false);
+  const [isErrorExistMail, setIsErrorExistMail] = useState(false);
   const [codeConfirm, setCodeConfirm] = useState("");
+  const [isPasswordChanged, setIsPasswordChanged] = useState(false);
 
   const sendCodeToMail = async (): Promise<void> => {
     if (!container) {
       return;
     }
     if (await container.validate()) {
+      // TODO проверка почты на существование
       setIsMailEntered(!isMailEntered);
+      // TODO вызов функции запроса на беке
     }
   };
 
-  const validator = mailValidator({
+  const acceptNewPassword = async (): Promise<void> => {
+    if (codeConfirm !== enteredCodeConfirm) {
+      setIsErrorCodeConfirm(true);
+      return;
+    }
+    if (!container) return;
+    if (await container.validate()) {
+      //TODO запрос на бек замены пароля
+
+      setIsPasswordChanged(true);
+    }
+  };
+
+  const mailValidatorUse = mailValidator({
     mail: mail,
+  });
+
+  const resetPasswordValidatorUse = resetPasswordValidator({
+    password: newPassword,
+    confirmPassword: confirmNewPassword,
   });
 
   return (
     <FormContainer className="resetPassword">
+      {isPasswordChanged && <ModalAcceptedChangePassword />}
       {!isMailEntered && (
         <ValidationContainer ref={refContainer}>
           <FormContainer>
+            {isErrorExistMail && (
+              <p className="resetPassword__error">Пользователя не существует</p>
+            )}
             <ValidationWrapper
-              validationInfo={validator.getNode((x) => x.mail).get()}
+              validationInfo={mailValidatorUse.getNode((x) => x.mail).get()}
               renderMessage={text("right")}
             >
               <CustomInput
@@ -52,6 +85,9 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ userStore }) => {
                 type={"mail"}
               />
             </ValidationWrapper>
+            {isErrorCodeConfirm && (
+              <p className="resetPassword__error">Неверный код</p>
+            )}
             <CustomButton
               classNameDiv="button__resetPassword"
               label="Отправить код"
@@ -65,32 +101,49 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ userStore }) => {
           {" "}
           <p className="mail-send-label first">
             {" "}
-            На почту <a className="mail-send">{mail}</a>
+            На почту <p className="mail-send">{mail}</p>
           </p>
           <p className="mail-send-label second">отправлен код подтверждения</p>
-          <Gapped vertical gap={7}>
-            <CustomInput
-              label="Введите код подтверждения"
-              onChange={setCodeConfirm}
-              value={codeConfirm}
-            />
-            <CustomInput
-              type="password"
-              label="Введите новый пароль"
-              onChange={setNewPassword}
-              value={newPassword}
-            />
-            <CustomInput
-              label="Подтвердите пароль"
-              type="password"
-              onChange={setConfirmNewPassword}
-              value={confirmNewPassword}
-            />
-            <CustomButton
-              classNameDiv="button__resetPassword"
-              label="Подтвердить"
-            />
-          </Gapped>{" "}
+          <ValidationContainer ref={refContainer}>
+            <FormContainer>
+              <CustomInput
+                label="Введите код подтверждения"
+                onChange={setCodeConfirm}
+                value={codeConfirm}
+              />
+              <ValidationWrapper
+                validationInfo={resetPasswordValidatorUse
+                  .getNode((x) => x.password)
+                  .get()}
+                renderMessage={text("right")}
+              >
+                <CustomInput
+                  type="password"
+                  label="Введите новый пароль"
+                  onChange={setNewPassword}
+                  value={newPassword}
+                />
+              </ValidationWrapper>
+              <ValidationWrapper
+                validationInfo={resetPasswordValidatorUse
+                  .getNode((x) => x.confirmPassword)
+                  .get()}
+                renderMessage={text("right")}
+              >
+                <CustomInput
+                  label="Подтвердите пароль"
+                  type="password"
+                  onChange={setConfirmNewPassword}
+                  value={confirmNewPassword}
+                />
+              </ValidationWrapper>
+              <CustomButton
+                classNameDiv="button__resetPassword"
+                label="Подтвердить"
+                onClick={acceptNewPassword}
+              />
+            </FormContainer>
+          </ValidationContainer>{" "}
         </>
       )}
     </FormContainer>

@@ -12,34 +12,35 @@ import { MainStore } from "./stores/MainStore";
 import { observer } from "mobx-react-lite";
 import { Footer } from "./shared/Footer";
 import { UserEvents } from "./userEvents";
+import { CompletedRegister } from "./completedRegister";
 import { EventPage } from './eventPage';
 
 interface AppProps {
   store: MainStore;
 }
-
-export const App: React.FC<AppProps> = observer<AppProps>(({ store }) => {
+export const App: React.FC<AppProps> = observer(({ store }) => {
   return (
     <Router>
       <div className={"app"}>
-        <Header />
+        <Header userStore={store.userStore} />
         <div className={"content-wrapper"}>
           <Routes>
-            <Route
-              path="/register"
-              element={<Registration userStore={store.userStore} />}
-            />
+            <Route path="/register" element={<Registration />} />
             <Route path="/profile" element={<Profile />} />
             <Route
               path="/login"
               element={<Login userStore={store.userStore} />}
             />
             <Route
-              path="/resetPassword"
+              path="/reset-password"
               element={<ResetPassword userStore={store.userStore} />}
             />
             <Route path="/event-creation" element={<EventCreation />} />
             <Route path="/user-events" element={<UserEvents />} />
+            <Route
+              path="/completed-register/:userId/:confirmKey"
+              element={<CompletedRegister />}
+            />
             <Route path="/" element={<Navigate to="/events" replace/>}/>
             <Route path="/events" element={<Main />} />
             <Route path="/event-page" element={<EventPage />} />
