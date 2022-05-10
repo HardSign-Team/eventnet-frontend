@@ -8,7 +8,7 @@ import {
 } from "../../shared/GenderSelector/GenderSelector";
 import { CustomSelectDate } from "../../shared/CustomSelectDate/CustomSelectDate";
 import { FormContainer } from "../../shared/FormContainer/FormContainer";
-import { userInfoRegister, registerRequest } from "../../api/registerRequest";
+import {registerRequest} from "../../api/registerRequest";
 import { ModalAcceptRegistration } from "./modalAcceptRegistration/ModalAcceptRegistration";
 import {
   text,
@@ -23,6 +23,8 @@ import {
 import { UserStore } from "../../stores/UserStore";
 import { observer } from "mobx-react-lite";
 import Logo from "../../shared/Logo/Logo";
+import {RegisterModel} from "../../dto/RegisterModel";
+import {Gender} from "../../dto/Gender";
 
 interface RegistrationProps {
   userStore: UserStore;
@@ -43,16 +45,20 @@ export const Registration: React.FC<RegistrationProps> = observer(
         return;
       }
       if (await container.validate()) {
-        const userInfoRegister: userInfoRegister = {
-          userName: userName,
-          email: mail,
-          password: password,
+        const registerModel: RegisterModel = {
+            birthDate: new Date(dateBirthday),
+            confirmPassword: confirmPassword,
+            gender: gender === genders.Male ? Gender.Male : Gender.Female, // TODO Micha, please, fix it. PLEASE!!!
+            userName: userName,
+            email: mail,
+            password: password
         };
         userStore.userName = userName;
         userStore.email = mail;
-        console.log(JSON.stringify(userInfoRegister));
-        registerRequest(userInfoRegister).then((r) => console.log(r));
-        setIsAcceptRegister(true);
+        registerRequest(registerModel).then((r) => {
+            console.log(r);
+            setIsAcceptRegister(true);
+        }).catch(console.error);
       }
     };
 
