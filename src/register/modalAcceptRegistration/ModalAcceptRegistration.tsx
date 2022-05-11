@@ -4,7 +4,7 @@ import { Modal } from "@skbkontur/react-ui";
 import CustomButton from "../../shared/CustomButton/CustomButton";
 import { useNavigate } from "react-router-dom";
 import { sendAgainEmailConfirmed } from "../../api/auth/registration/sendAgainEmailConfirmed";
-import { SUCCESS } from "../../api/requestResponseCodes";
+import { STATUS_CODES } from "../../api/utils";
 
 interface Props {
   readonly mail: string;
@@ -25,7 +25,7 @@ export const ModalAcceptRegistration: React.FC<Props> = ({
   const sendAgain = () => {
     setIsErrorSendRequest(false);
     sendAgainEmailConfirmed(userName).then((x) => {
-      if (x.code !== SUCCESS) {
+      if (x.code !== STATUS_CODES.ACCEPTED) {
         setIsErrorSendRequest(true);
       }
     });

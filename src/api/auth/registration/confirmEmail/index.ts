@@ -1,6 +1,8 @@
+import { BASE_ROUTE, HTTP_METHODS } from "../../../utils";
+
 async function confirmEmail(userId: string, code: string) {
-  return fetch("http://localhost:5203/api/auth/email-confrimation-message", {
-    method: "POST",
+  return fetch(BASE_ROUTE + "/api/auth/email-confrimation-message", {
+    method: HTTP_METHODS.POST,
     headers: {
       "Content-Type": "application/json;charset=utf-8",
       Accept: "application/json",

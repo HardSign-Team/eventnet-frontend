@@ -24,7 +24,7 @@ import {
   refContainer,
   registrationValidator,
 } from "../utils/Validators";
-import { SUCCESS } from "../api/requestResponseCodes";
+import { STATUS_CODES } from "../api/utils";
 
 export const Registration: React.FC = () => {
   const [userName, setUserName] = useState("");
@@ -33,7 +33,7 @@ export const Registration: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [dateBirthday, setDateBirthday] = useState("");
   const [gender, setGender] = useState(genders.Male);
-  const [isAcceptRegister, setIsAcceptRegister] = useState(true);
+  const [isAcceptRegister, setIsAcceptRegister] = useState(false);
   const [isErrorRegister, setIsErrorRegister] = useState(false);
 
   const registration = async (): Promise<void> => {
@@ -52,7 +52,8 @@ export const Registration: React.FC = () => {
       // TODO для отладки пригодится
       // console.log(JSON.stringify(userInfoRegister));
       registerRequest(userInfoRegister).then((x) => {
-        if (x !== undefined && x.message === SUCCESS) setIsAcceptRegister(true);
+        if (x !== undefined && x.message === STATUS_CODES.ACCEPTED)
+          setIsAcceptRegister(true);
         else setIsErrorRegister(true);
       });
     }

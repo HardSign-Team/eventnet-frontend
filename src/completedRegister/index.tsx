@@ -2,7 +2,7 @@ import styles from "./index.module.scss";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { confirmEmail } from "../api/auth/registration/confirmEmail";
-import { SUCCESS } from "../api/requestResponseCodes";
+import { STATUS_CODES } from "../api/utils";
 
 export const CompletedRegister: React.FC = () => {
   const { userId } = useParams();
@@ -11,7 +11,7 @@ export const CompletedRegister: React.FC = () => {
   useEffect(() => {
     if (userId !== undefined && confirmKey !== undefined)
       confirmEmail(userId, decodeURI(confirmKey)).then((x) => {
-        if (x.code === SUCCESS) setIdConfirmed(true);
+        if (x.code === STATUS_CODES.ACCEPTED) setIdConfirmed(true);
       });
   }, [userId, confirmKey]);
   return (

@@ -1,6 +1,8 @@
+import { BASE_ROUTE, HTTP_METHODS } from "../../../utils";
+
 async function sendCodeForgotPassword(email: string, code: string) {
-  return fetch("http://localhost:5203/api/auth/password/forgot/code", {
-    method: "GET",
+  return fetch(BASE_ROUTE + "/api/auth/password/forgot/code", {
+    method: HTTP_METHODS.GET,
     headers: {
       "Content-Type": "application/json",
       accept: "*/*",

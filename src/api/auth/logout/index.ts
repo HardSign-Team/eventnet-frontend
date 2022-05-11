@@ -1,6 +1,8 @@
+import { BASE_ROUTE, HTTP_METHODS } from "../../utils";
+
 async function logout(token: string) {
-  return fetch("http://localhost:5203/api/auth/logout", {
-    method: "POST",
+  return fetch(BASE_ROUTE + "/api/auth/logout", {
+    method: HTTP_METHODS.POST,
     headers: {
       "Content-Type": "application/json;charset=utf-8",
       Accept: "application/json",
