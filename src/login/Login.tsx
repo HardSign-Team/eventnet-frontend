@@ -51,8 +51,10 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
   };
 
   const executeLoginRequest = (user: userInfo) => {
+    setError(false);
+
     loginRequest(user).then((x) => {
-      if (x.code === STATUS_CODES.ACCEPTED) {
+      if (x.code === STATUS_CODES.OK) {
         saveUserStore(x);
         navigate("/");
       } else {

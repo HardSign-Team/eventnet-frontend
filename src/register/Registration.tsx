@@ -37,6 +37,7 @@ export const Registration: React.FC = () => {
   const [isErrorRegister, setIsErrorRegister] = useState(false);
 
   const registration = async (): Promise<void> => {
+    setIsErrorRegister(false);
     if (!container) {
       return;
     }
@@ -49,12 +50,11 @@ export const Registration: React.FC = () => {
         email: mail,
         password: password,
       };
-      // TODO для отладки пригодится
-      // console.log(JSON.stringify(userInfoRegister));
+
       registerRequest(userInfoRegister).then((x) => {
-        if (x !== undefined && x.message === STATUS_CODES.ACCEPTED)
+        if (x !== undefined && x.status === STATUS_CODES.OK) {
           setIsAcceptRegister(true);
-        else setIsErrorRegister(true);
+        } else setIsErrorRegister(true);
       });
     }
   };

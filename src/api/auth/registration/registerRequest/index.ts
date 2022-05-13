@@ -10,16 +10,18 @@ export type userInfoRegister = {
 };
 
 async function registerRequest(userInfo: userInfoRegister) {
-  return fetch(BASE_ROUTE + "/api/auth/register", {
-    method: HTTP_METHODS.POST,
-    headers: {
-      "Content-Type": "application/json",
-      accept: "*/*",
-    },
-    body: JSON.stringify(userInfo),
-  })
-    .then((x) => x.json())
-    .catch((err) => console.error(err));
+  return (
+    fetch(BASE_ROUTE + "/api/auth/register", {
+      method: HTTP_METHODS.POST,
+      headers: {
+        "Content-Type": "application/json",
+        accept: "*/*",
+      },
+      body: JSON.stringify(userInfo),
+    })
+      // .then((x) => x.json())
+      .catch((err) => console.error(err))
+  );
 }
 
 export { registerRequest };
