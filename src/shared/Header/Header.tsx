@@ -3,10 +3,19 @@ import React from "react";
 import Logo from "../Logo/Logo";
 import "./Header.css";
 import avatar from "../../assets/avatar.jpg";
+import { UserStore } from "../../stores/UserStore";
+import { observer } from "mobx-react-lite";
 
 const LOGO_WIDTH: number = window.screen.width / 32;
 
-export default function Header() {
+interface HeaderProps {
+  userStore: UserStore;
+}
+const Header: React.FC<HeaderProps> = observer(({ userStore }) => {
+  const logout = () => {
+    userStore.logout();
+  };
+
   return (
     <header>
       <Link to="/">
@@ -24,16 +33,30 @@ export default function Header() {
               <ul className="header_topmenu-container">
                 <li>
                   <figure className="header__profile-photo">
-                    <img src={avatar} alt="Avatar" className="avatar" />
-                  </figure>
-                  <ul className="header__submenu-container">
-                    <li>
-                      <Link to={"/profile"}>Профиль</Link>
-                    </li>
-                    <li>
-                      <Link to={"/login"}>Войти</Link>
-                    </li>
-                  </ul>
+                    <img
+                      src={userStore.image ? userStore.image : avatar}
+                      alt="Avatar"
+                      className="avatar"
+                    />
+                  </figure>{" "}
+                  {userStore.isAuth ? (
+                    <ul className="header__submenu-container">
+                      <li>
+                        <Link to={"/profile"}>Профиль</Link>
+                      </li>
+                      <li>
+                        <Link to={"/"} onClick={logout}>
+                          Выйти
+                        </Link>
+                      </li>
+                    </ul>
+                  ) : (
+                    <ul className="header__submenu-container">
+                      <li>
+                        <Link to={"/login"}>Войти</Link>
+                      </li>
+                    </ul>
+                  )}
                 </li>
               </ul>
             </nav>
@@ -42,4 +65,6 @@ export default function Header() {
       </nav>
     </header>
   );
-}
+});
+
+export default Header;

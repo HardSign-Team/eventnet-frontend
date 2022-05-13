@@ -9,16 +9,17 @@ import CrossMenuButton from "./Buttons/CrossMenuButton";
 
 type BarProps = {
   className: string;
+  onSubmit: (e: any) => void;
 };
 
-export default function SideBar({ className }: BarProps) {
+export default function SideBar({ className, onSubmit }: BarProps) {
   const [menuCollapse, setMenuCollapse] = useState(true);
 
   return (
     <div className={className}>
       <ProSidebar collapsedWidth={1} collapsed={menuCollapse} width={"350px"}>
         <SidebarContent>
-          <Toolbar />
+          <Toolbar onSubmit={onSubmit} />
           <EventList />
         </SidebarContent>
       </ProSidebar>

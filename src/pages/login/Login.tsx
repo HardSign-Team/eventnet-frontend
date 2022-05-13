@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import Logo from "../../shared/Logo/Logo";
 import "./Login.css";
 import CustomButton from "../../shared/CustomButton/CustomButton";
 import { CustomInput } from "../../shared/CustomInput/CustomInput";
 import { FormContainer } from "../../shared/FormContainer/FormContainer";
-import { userInfo, loginRequest } from "../../api/loginRequest";
 import {
   text,
   ValidationContainer,
@@ -17,7 +17,8 @@ import {
 import { UserStore } from "../../stores/UserStore";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
-import Logo from "../../shared/Logo/Logo";
+import { loginRequest, userInfo } from "../../api/auth/loginRequest";
+import { STATUS_CODES } from "../../api/utils";
 
 interface LoginProps {
   userStore: UserStore;
@@ -27,7 +28,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
-  const route = useNavigate();
+  const navigate = useNavigate();
 
   const login = async (): Promise<void> => {
     if (!container) {
@@ -35,15 +36,29 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
     }
     if (await container.validate()) {
       const user: userInfo = { login: userName, password: password };
-      checkLogin(user);
+      executeLoginRequest(user);
     }
   };
 
-  const checkLogin = (user: userInfo) => {
+  const saveUserStore = (answer: any) => {
+    const tokens = answer.tokens;
+    userStore.accessToken = tokens.accessToken;
+    userStore.refreshToken = tokens.refreshToken;
+    userStore.expiredAt = tokens.expiredAt;
+    const user = answer.user;
+    userStore.email = user.email;
+    userStore.userName = user.userName;
+    userStore.birthDate = user.birthDate;
+    userStore.gender = user.gender;
+    userStore.userRoles = answer.userRoles;
+    userStore.isAuth = true;
+  };
+
+  const executeLoginRequest = (user: userInfo) => {
     loginRequest(user).then((x) => {
-      if (x.code === 200) {
-        userStore.isAuth = true;
-        route("/");
+      if (x.code === STATUS_CODES.ACCEPTED) {
+        saveUserStore(x);
+        navigate("/");
       } else {
         setError(true);
       }
@@ -72,7 +87,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
               value={userName}
             />
           </ValidationWrapper>
-          {error && <p className="Error">Неправильный логин или пароль</p>}
+          {error && <p className="error">Неправильный логин или пароль</p>}
           <ValidationWrapper
             renderMessage={text("right")}
             validationInfo={validator.getNode((x) => x.password).get()}
@@ -86,7 +101,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
           </ValidationWrapper>
           <div className="password_handler">
             <div className="label_helpers_source">
-              <a className="reset_password" href="../resetPassword">
+              <a className="reset_password" href="/reset-password">
                 Забыли пароль?
               </a>
               <div className="remember_password">
@@ -109,7 +124,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
             />
           </div>
           <div className="change_to_registration">
-            <a className="not_acc">Нет аккаунта?</a>
+            <p className="not_acc">Нет аккаунта?</p>
             <a className="change_rout_to_registration" href="/register">
               Зарегистрироваться
             </a>

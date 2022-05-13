@@ -1,6 +1,7 @@
-import { makeAutoObservable } from "mobx";
 import Event from "../models/Event";
 import EventInfo from "../models/EventInfo";
+import {EventLocationViewModel} from "../viewModels/EvenLocationViewModel";
+import {makeAutoObservable} from "mobx";
 
 function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
@@ -9,7 +10,7 @@ function getRandomInt(min: number, max: number) {
 }
 
 export class EventStore {
-  public events: Array<Event> = this.fillEvents();
+  public events: Array<Event> = []; //EventStore.fillEvents();
 
   private mockedId: number = 1;
 
@@ -17,7 +18,8 @@ export class EventStore {
     makeAutoObservable(this, {});
   }
 
-  private fillEvents() {
+  // noinspection JSUnusedLocalSymbols
+  private static fillEvents() {
     let result: Array<Event> = [
       {
         id: 1,
@@ -84,5 +86,29 @@ export class EventStore {
 
   public deleteEvent(event: Event) {
     this.events = this.events.filter((ev) => ev.id === event.id);
+  }
+
+  addEvents(events: Array<EventLocationViewModel>) {
+      // TODO заглушка
+    const a = events.map(e => {
+      return {
+        id: Math.floor(Math.random() * 10000),
+        info: {
+          name: e.name,
+          coordinates: [e.location.latitude, e.location.longitude],
+          dateStart: new Date(2021, 10, 15),
+          likes: 2,
+          description: "",
+          dateEnd: new Date(2021, 10, 15),
+          photos: [
+            "https://cdn.iz.ru/sites/default/files/styles/1920x1080/public/article-2019-06/ZURR4215.JPG.jpg?itok=2KMsqbt9",
+          ],
+        },
+      }
+    });
+    for (const e of a) {
+      this.events.push(e as Event);
+    }
+    console.log(this.events)
   }
 }
