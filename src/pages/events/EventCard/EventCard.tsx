@@ -33,7 +33,7 @@ const EventCard = observer(({ event }: EventCardProps) => {
         src={(event.info.photos && event.info.photos[0]) || avatar}
         alt="EventPhoto"
         width={"100%"}
-        height={"125px"}
+        height={"150px"}
       />
       <div className={styles.eventInfo}>
         <h4 className={styles.eventCard__title}>{event.info.name}</h4>

@@ -9,7 +9,7 @@ import { ResetPassword } from "./pages/resetPassword/ResetPassword";
 import Header from "./shared/Header/Header";
 import Profile from "./pages/profile";
 import { Footer } from "./shared/Footer";
-import { UserEvents } from "./userEvents";
+import { UserEvents } from "./pages/userEvents";
 import globalStore from "./stores/GlobalStore";
 
 export const App = () => {

@@ -25,8 +25,8 @@
 
 .toolbar__horizontal-line {
   margin-bottom: 1rem;
-  width: 300px;
-  transform: translateX(-36.8px);
+  width: 350px;
+  transform: translateX(-2rem);
 }
 
 .toolbar-button-container {

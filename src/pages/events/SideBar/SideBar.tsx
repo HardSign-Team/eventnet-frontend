@@ -36,7 +36,7 @@ export default function SideBar({ className }: BarProps) {
         collapsed={menuCollapse}
         className={className + "__bar"}
         style={sideBarStyles}
-        width={"400px"}
+        width={"350px"}
       >
         <SidebarContent style={sideBarContentStyles}>
           <Toolbar />

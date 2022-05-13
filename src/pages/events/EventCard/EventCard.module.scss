@@ -1,21 +1,21 @@
 .eventCard {
-  width: 322px;
-  height: 280px;
+  display: inline-block;
+  box-sizing: content-box;
+  width: 280px;
+  height: 320px;
   border: 0.5px solid #b8b8b8;
   background-color: #ffffff;
   color: black;
-  display: flex;
   flex-direction: column;
+  text-align: initial;
 }
 
 .eventInfo {
-  height: 155px;
+  height: 170px;
   padding: 10px;
 }
 
 .eventCard {
-  display: flex;
-
   .buttons {
     display: flex;
     gap: 6px;
@@ -38,13 +38,14 @@
     margin-top: 10px;
   }
   &__description {
-    height: 35px;
+    height: 3rem;
     overflow: hidden;
     margin-top: 15px;
     font-size: 14px;
   }
   &__startDate,
   &__dateDuration {
+    justify-self: flex-end;
     height: 1rem;
     font-size: 12px;
   }
