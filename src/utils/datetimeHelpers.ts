@@ -1,3 +1,7 @@
+const normalizeNumber = (num: number) => {
+  return num.toString().padStart(2, "0");
+};
+
 export const calculateEndDatetime = (
   dateStart: string,
   timeStart: string,
@@ -16,11 +20,11 @@ export const calculateEndDatetime = (
     dateObj.getMonth() + 1,
     dateObj.getFullYear(),
   ]
-    .map((x) => x.toString().padStart(2, "0"))
+    .map((x) => normalizeNumber(x))
     .join(".");
 
   const _timeEnd = [dateObj.getHours(), dateObj.getMinutes()]
-    .map((x) => x.toString().padStart(2, "0"))
+    .map((x) => normalizeNumber(x))
     .join(":");
 
   return [_dateEnd, _timeEnd];
@@ -59,7 +63,7 @@ export const calculateDuration = (
   const hours = Math.floor(hDiff);
   const minutes = minDiff - 60 * hours;
 
-  return [hours, minutes].map((x) => x.toString().padStart(2, "0")).join(":");
+  return [hours, minutes].map((x) => normalizeNumber(x)).join(":");
 };
 
 export const formatTimeString = (time: string) => {
