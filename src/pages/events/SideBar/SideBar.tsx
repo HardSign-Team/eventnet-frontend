@@ -11,34 +11,13 @@ type BarProps = {
   className: string;
 };
 
-let sideBarContentStyles = {
-  backgroundColor: "#D7DCD7",
-  padding: "1em 2em 0",
-  fontSize: "1.15em",
-  position: "relative",
-  height: "100%",
-} as const;
-
-let sideBarStyles = {
-  position: "relative",
-  overflowY: "auto",
-  color: "#323232",
-  fontSize: "14px",
-} as const;
-
 export default function SideBar({ className }: BarProps) {
   const [menuCollapse, setMenuCollapse] = useState(true);
 
   return (
     <div className={className}>
-      <ProSidebar
-        collapsedWidth={1}
-        collapsed={menuCollapse}
-        className={className + "__bar"}
-        style={sideBarStyles}
-        width={"350px"}
-      >
-        <SidebarContent style={sideBarContentStyles}>
+      <ProSidebar collapsedWidth={1} collapsed={menuCollapse} width={"350px"}>
+        <SidebarContent>
           <Toolbar />
           <EventList />
         </SidebarContent>

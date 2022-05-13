@@ -5,9 +5,10 @@ import EventBalloonContent from "../EventBalloonContent/EventBalloonContent";
 import ReactDOMServer from "react-dom/server";
 
 const CIRCLE_RADIUS = 5;
+const CIRCLE_COLOR = "#008D8E";
 const circleOptions = {
-  fillColor: "#008D8E",
-  strokeColor: "#008D8E",
+  fillColor: CIRCLE_COLOR,
+  strokeColor: CIRCLE_COLOR,
   strokeOpacity: 0.9,
   strokeWidth: 10,
 };
