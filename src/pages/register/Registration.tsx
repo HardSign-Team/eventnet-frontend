@@ -35,6 +35,8 @@ export const Registration: React.FC = () => {
   const [isAcceptRegister, setIsAcceptRegister] = useState(false);
   const [isErrorRegister, setIsErrorRegister] = useState(false);
 
+  console.log(gender);
+
   const registration = async (): Promise<void> => {
     setIsErrorRegister(false);
     if (!container) {
@@ -50,6 +52,8 @@ export const Registration: React.FC = () => {
         email: mail,
         password: password,
       };
+
+      console.log(userInfoRegister);
 
       registerRequest(userInfoRegister).then((x) => {
         if (x !== undefined && x.status === STATUS_CODES.OK) {
@@ -135,7 +139,7 @@ export const Registration: React.FC = () => {
           <GenderSelector
             label="Укажите свой пол"
             classNameDiv="gender_selector"
-            onChange={() => setGender(gender)}
+            onChange={setGender}
             value={gender}
           />
           <CustomButton
