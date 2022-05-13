@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
 import Events from "./pages/events/Events";
 import { Registration } from "./pages/register/Registration";
 import { Login } from "./pages/login/Login";
@@ -12,20 +17,17 @@ import { Footer } from "./shared/Footer";
 import { UserEvents } from "./userEvents";
 import globalStore from "./stores/GlobalStore";
 import { CompletedRegister } from "./completedRegister";
-import { EventPage } from './eventPage';
+import { EventPage } from "./eventPage";
 
 export const App = () => {
   return (
     <Router>
       <div className={"app"}>
-        <Header userStore={store.userStore} />
+        <Header userStore={globalStore.userStore} />
         <div className={"content-wrapper"}>
           <Routes>
             <Route path="/register" element={<Registration />} />
-            <Route
-              path="/register"
-              element={<Registration userStore={globalStore.userStore} />}
-            />
+            <Route path="/register" element={<Registration />} />
             <Route path="/profile" element={<Profile />} />
             <Route
               path="/login"
@@ -33,8 +35,6 @@ export const App = () => {
             />
             <Route
               path="/reset-password"
-              element={<ResetPassword userStore={store.userStore} />}
-              path="/resetPassword"
               element={<ResetPassword userStore={globalStore.userStore} />}
             />
             <Route path="/event-creation" element={<EventCreation />} />
@@ -43,8 +43,7 @@ export const App = () => {
               path="/completed-register/:userId/:confirmKey"
               element={<CompletedRegister />}
             />
-            <Route path="/" element={<Navigate to="/events" replace/>}/>
-            <Route path="/events" element={<Main />} />
+            <Route path="/" element={<Navigate to="/events" replace />} />
             <Route path="/event-page" element={<EventPage />} />
             <Route path="/events" element={<Events />} />
           </Routes>

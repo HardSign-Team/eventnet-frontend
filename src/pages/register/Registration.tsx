@@ -1,19 +1,16 @@
 import React, { useState } from "react";
-import Logo from "../shared/Logo";
+import Logo from "../../shared/Logo/Logo";
 import "./Registration.css";
-import { CustomInput } from "../shared/CustomInput/CustomInput";
-import CustomButton from "../shared/CustomButton/CustomButton";
+import { CustomInput } from "../../shared/CustomInput/CustomInput";
+import CustomButton from "../../shared/CustomButton/CustomButton";
 import {
   genders,
   GenderSelector,
-} from "../shared/GenderSelector/GenderSelector";
-import { CustomSelectDate } from "../shared/CustomSelectDate/CustomSelectDate";
-import { FormContainer } from "../shared/FormContainer/FormContainer";
-import {
-  userInfoRegister,
-  registerRequest,
-} from "../api/auth/registration/registerRequest";
-import { ModalAcceptRegistration } from "./modalAcceptRegistration/ModalAcceptRegistration";
+} from "../../shared/GenderSelector/GenderSelector";
+import { CustomSelectDate } from "../../shared/CustomSelectDate/CustomSelectDate";
+import { FormContainer } from "../../shared/FormContainer/FormContainer";
+import { registerRequest } from "../../api/auth/registration/registerRequest";
+
 import {
   text,
   ValidationContainer,
@@ -23,8 +20,10 @@ import {
   container,
   refContainer,
   registrationValidator,
-} from "../utils/Validators";
-import { STATUS_CODES } from "../api/utils";
+} from "../../utils/Validators";
+import { STATUS_CODES } from "../../api/utils";
+import { RegisterModel } from "../../dto/RegisterModel";
+import { ModalAcceptRegistration } from "./ModalAcceptRegistration";
 
 export const Registration: React.FC = () => {
   const [userName, setUserName] = useState("");
@@ -42,7 +41,7 @@ export const Registration: React.FC = () => {
       return;
     }
     if (await container.validate()) {
-      const userInfoRegister: userInfoRegister = {
+      const userInfoRegister: RegisterModel = {
         birthDate: "2022-05-02T12:00:34.366Z",
         confirmPassword: confirmPassword,
         gender: gender,

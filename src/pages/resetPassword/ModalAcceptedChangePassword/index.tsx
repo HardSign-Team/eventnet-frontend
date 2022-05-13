@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./index.module.scss";
 import { Modal } from "@skbkontur/react-ui";
-import CustomButton from "../../shared/CustomButton/CustomButton";
+import CustomButton from "../../../shared/CustomButton/CustomButton";
 import { useNavigate } from "react-router-dom";
 
 export const ModalAcceptedChangePassword: React.FC = () => {

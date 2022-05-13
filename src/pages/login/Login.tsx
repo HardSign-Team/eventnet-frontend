@@ -1,20 +1,24 @@
 import React, { useState } from "react";
-import Logo from "../shared/Logo";
+import Logo from "../../shared/Logo/Logo";
 import "./Login.css";
-import CustomButton from "../shared/CustomButton/CustomButton";
-import { CustomInput } from "../shared/CustomInput/CustomInput";
-import { FormContainer } from "../shared/FormContainer/FormContainer";
-import { userInfo, loginRequest } from "../api/auth/loginRequest";
+import CustomButton from "../../shared/CustomButton/CustomButton";
+import { CustomInput } from "../../shared/CustomInput/CustomInput";
+import { FormContainer } from "../../shared/FormContainer/FormContainer";
+import { userInfo, loginRequest } from "../../api/auth/loginRequest";
 import {
   text,
   ValidationContainer,
   ValidationWrapper,
 } from "@skbkontur/react-ui-validations";
-import { container, loginValidator, refContainer } from "../utils/Validators";
-import { UserStore } from "../stores/UserStore";
+import {
+  container,
+  loginValidator,
+  refContainer,
+} from "../../utils/Validators";
+import { UserStore } from "../../stores/UserStore";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
-import { STATUS_CODES } from "../api/utils";
+import { STATUS_CODES } from "../../api/utils";
 
 interface LoginProps {
   userStore: UserStore;

@@ -1,10 +1,10 @@
-import styles from "./ModalAcceptRegistration.module.scss";
+import styles from "./index.scss";
 import React, { useState } from "react";
 import { Modal } from "@skbkontur/react-ui";
 import CustomButton from "../../../shared/CustomButton/CustomButton";
 import { useNavigate } from "react-router-dom";
-import { sendAgainEmailConfirmed } from "../../api/auth/registration/sendAgainEmailConfirmed";
-import { STATUS_CODES } from "../../api/utils";
+import { sendAgainEmailConfirmed } from "../../../api/auth/registration/sendAgainEmailConfirmed";
+import { STATUS_CODES } from "../../../api/utils";
 
 interface Props {
   readonly mail: string;

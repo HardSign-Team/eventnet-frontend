@@ -1,8 +1,8 @@
 import "./ResetPassword.scss";
 import React, { useState } from "react";
-import { CustomInput } from "../shared/CustomInput/CustomInput";
-import CustomButton from "../shared/CustomButton/CustomButton";
-import { FormContainer } from "../shared/FormContainer/FormContainer";
+import { CustomInput } from "../../shared/CustomInput/CustomInput";
+import CustomButton from "../../shared/CustomButton/CustomButton";
+import { FormContainer } from "../../shared/FormContainer/FormContainer";
 import {
   text,
   ValidationContainer,
@@ -13,8 +13,8 @@ import {
   refContainer,
   mailValidator,
   resetPasswordValidator,
-} from "../utils/Validators";
-import { UserStore } from "../stores/UserStore";
+} from "../../utils/Validators";
+import { UserStore } from "../../stores/UserStore";
 import { ModalAcceptedChangePassword } from "./ModalAcceptedChangePassword";
 
 interface ResetPasswordProps {
