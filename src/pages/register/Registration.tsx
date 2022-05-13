@@ -40,9 +40,10 @@ export const Registration: React.FC = () => {
     if (!container) {
       return;
     }
+
     if (await container.validate()) {
       const userInfoRegister: RegisterModel = {
-        birthDate: "2022-05-02T12:00:34.366Z",
+        birthDate: dateBirthday.split(".").reverse().join("-"),
         confirmPassword: confirmPassword,
         gender: gender,
         userName: userName,
@@ -74,7 +75,7 @@ export const Registration: React.FC = () => {
         <ModalAcceptRegistration mail={mail} userName={userName} />
       )}
       {isErrorRegister && (
-        <p className="errorMessage">Данная почта уже зарегистрированна</p>
+        <p className="errorMessage">Данные почта или имя уже ипользуются</p>
       )}
       <ValidationContainer ref={refContainer}>
         <FormContainer className="form__registration">
