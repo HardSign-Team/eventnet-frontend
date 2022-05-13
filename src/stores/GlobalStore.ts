@@ -1,22 +1,13 @@
 import { EventStore } from "./EventStore";
 import MapStore from "./MapStore";
+import { UserStore } from "./UserStore";
+import {EventLocationStore} from "./EventLocationStore";
 
 class GlobalStore {
-  private readonly _eventStore: EventStore;
-  private readonly _mapStore: MapStore;
-
-  constructor() {
-    this._eventStore = new EventStore();
-    this._mapStore = new MapStore();
-  }
-
-  get eventStore(): EventStore {
-    return this._eventStore;
-  }
-
-  get mapStore(): MapStore {
-    return this._mapStore;
-  }
+  public readonly eventStore: EventStore = new EventStore();
+  public readonly mapStore: MapStore = new MapStore();
+  public readonly userStore: UserStore = new UserStore();
+  public readonly eventLocationStore: EventLocationStore = new EventLocationStore();
 }
 
 const globalStore = new GlobalStore();

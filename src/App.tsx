@@ -1,24 +1,20 @@
 import React from "react";
 import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
-import Main from "./main/Main";
-import { Registration } from "./register/Registration";
-import { Login } from "./login/Login";
-import EventCreation from "./eventCreation";
+import Events from "./pages/events/Events";
+import { Registration } from "./pages/register/Registration";
+import { Login } from "./pages/login/Login";
+import EventCreation from "./pages/eventCreation";
 import "./App.css";
-import { ResetPassword } from "./resetPassword/ResetPassword";
+import { ResetPassword } from "./pages/resetPassword/ResetPassword";
 import Header from "./shared/Header/Header";
-import Profile from "./profile";
-import { MainStore } from "./stores/MainStore";
-import { observer } from "mobx-react-lite";
+import Profile from "./pages/profile";
 import { Footer } from "./shared/Footer";
 import { UserEvents } from "./userEvents";
+import globalStore from "./stores/GlobalStore";
 import { CompletedRegister } from "./completedRegister";
 import { EventPage } from './eventPage';
 
-interface AppProps {
-  store: MainStore;
-}
-export const App: React.FC<AppProps> = observer(({ store }) => {
+export const App = () => {
   return (
     <Router>
       <div className={"app"}>
@@ -26,14 +22,20 @@ export const App: React.FC<AppProps> = observer(({ store }) => {
         <div className={"content-wrapper"}>
           <Routes>
             <Route path="/register" element={<Registration />} />
+            <Route
+              path="/register"
+              element={<Registration userStore={globalStore.userStore} />}
+            />
             <Route path="/profile" element={<Profile />} />
             <Route
               path="/login"
-              element={<Login userStore={store.userStore} />}
+              element={<Login userStore={globalStore.userStore} />}
             />
             <Route
               path="/reset-password"
               element={<ResetPassword userStore={store.userStore} />}
+              path="/resetPassword"
+              element={<ResetPassword userStore={globalStore.userStore} />}
             />
             <Route path="/event-creation" element={<EventCreation />} />
             <Route path="/user-events" element={<UserEvents />} />
@@ -44,10 +46,11 @@ export const App: React.FC<AppProps> = observer(({ store }) => {
             <Route path="/" element={<Navigate to="/events" replace/>}/>
             <Route path="/events" element={<Main />} />
             <Route path="/event-page" element={<EventPage />} />
+            <Route path="/events" element={<Events />} />
           </Routes>
         </div>
         <Footer />
       </div>
     </Router>
   );
-});
+};
