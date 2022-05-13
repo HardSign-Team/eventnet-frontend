@@ -36,13 +36,14 @@ export default function Main() {
     //requestEvent("1D84109D-157E-4CAC-B989-5C23ABD0212D").then(r => console.log(r.event));
     //requestSearchByName("name", 10).then((r) => console.log(r.events));
     createEvent({
+      tags: [],
       description: "Description",
       endDate: new Date(),
       id: "0000-0000-0000-0000",
       location: new Location(0, 0),
       name: "Name",
       photos: [],
-      startDate: new Date(),
+      startDate: new Date()
     }).then((r) => console.log(r)).catch(r => console.log(r));
   };
 
