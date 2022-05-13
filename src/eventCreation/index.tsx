@@ -12,8 +12,14 @@ import PhotoCarousel from "../shared/PhotoCarousel/Carousel/PhotoCarousel";
 import {
   calculateDuration,
   calculateEndDatetime,
+  createDateFrom,
 } from "../utils/datetimeHelpers";
 import { cropped } from "../utils/cropHelpers";
+import { CreateEventModel } from "../dto/CreateEventModel";
+import { Location } from "../dto/Location";
+import { requestEventCreation } from "../api/events/requestEventCreation";
+import { createEvent } from "../api/events/createEvent";
+import { getIsCreated } from "../api/events/getIsCreated";
 
 enum EventTypes {
   Public = "public",
@@ -70,7 +76,31 @@ const EventCreation: React.FC = () => {
     }
   }, [dateEnd, timeEnd]);
 
-  const createEvent = () => {};
+  const handleEventCreation = async () => {
+    const [latitude, longitude] = coordinates.split(",").map((x) => +x.trim());
+
+    const eventId = await requestEventCreation();
+    console.log(eventId);
+
+    // TODO загружать ещё фотки и теги
+    const event: CreateEventModel = {
+      id: eventId,
+      location: new Location(latitude, longitude),
+      name: eventName,
+      photos: [],
+      startDate: createDateFrom(dateEnd, timeEnd),
+      tags: [],
+    };
+    console.log(event);
+
+    if (dateEnd && timeEnd)
+      event["endDate"] = createDateFrom(dateStart, timeStart);
+    if (eventDescription) event["description"] = eventDescription;
+
+    const { accepted } = await createEvent(event);
+
+    if (accepted) console.log("Is created: ", getIsCreated(eventId));
+  };
 
   return (
     <>
@@ -125,7 +155,7 @@ const EventCreation: React.FC = () => {
           width={480}
           height={40}
           label={"Создать событие"}
-          onClick={createEvent}
+          onClick={handleEventCreation}
         />
       </Gapped>
     </>
