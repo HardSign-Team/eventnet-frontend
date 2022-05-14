@@ -1,16 +1,17 @@
-import { BASE_ROUTE, HTTP_METHODS } from "../../../utils";
+import { BASE_ROUTE, HTTP_METHODS, STATUS_CODES } from "../../../utils";
 
-async function sendAgainEmailConfirmed(userId: string) {
-  return fetch(BASE_ROUTE + "/api/auth/email-confirmation-message", {
-    method: HTTP_METHODS.POST,
-    headers: {
-      "Content-Type": "application/json",
-      accept: "*/*",
-    },
-    body: JSON.stringify({ userId: userId }),
-  })
-    .then((x) => x.json())
-    .catch((err) => console.error(err));
+async function sendAgainEmailConfirmed(userName: string) {
+  const response = await fetch(
+    BASE_ROUTE + "/api/auth/email-confirmation-message?userName=" + userName,
+    {
+      method: HTTP_METHODS.POST,
+      headers: {
+        "Content-Type": "application/json",
+        accept: "*/*",
+      },
+    }
+  );
+  return response.status === STATUS_CODES.OK;
 }
 
 export { sendAgainEmailConfirmed };

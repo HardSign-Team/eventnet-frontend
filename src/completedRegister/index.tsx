@@ -1,19 +1,23 @@
 import styles from "./index.module.scss";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { confirmEmail } from "../api/auth/registration/confirmEmail";
-import { STATUS_CODES } from "../api/utils";
 
 export const CompletedRegister: React.FC = () => {
-  const { userId } = useParams();
-  const { confirmKey } = useParams();
-  const [isConfirmed, setIdConfirmed] = useState(true);
+  const [params] = useSearchParams();
+  const userId = params.get("userId");
+  const confirmKey = params.get("code");
+
+  const [isConfirmed, setIdConfirmed] = useState(false);
+
   useEffect(() => {
-    if (userId !== undefined && confirmKey !== undefined)
-      confirmEmail(userId, decodeURI(confirmKey)).then((x) => {
-        if (x.code === STATUS_CODES.ACCEPTED) setIdConfirmed(true);
+    if (userId !== null && confirmKey !== null) {
+      confirmEmail(userId, encodeURIComponent(confirmKey)).then((x) => {
+        if (x) setIdConfirmed(true);
       });
+    }
   }, [userId, confirmKey]);
+
   return (
     <div className={styles.completedRegister}>
       <div className={styles.content}>

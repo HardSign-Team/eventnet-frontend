@@ -1,26 +1,30 @@
-import { BASE_ROUTE, HTTP_METHODS } from "../../../utils";
+import { BASE_ROUTE, HTTP_METHODS, STATUS_CODES } from "../../../utils";
 
 async function resetPassword(
-  token: string,
-  mail: string,
+  code: string,
+  email: string,
   newPassword: string,
   confirmNewPassword: string
 ) {
-  return fetch(BASE_ROUTE + "/api/auth/password/reset", {
-    method: HTTP_METHODS.POST,
-    headers: {
-      "Content-Type": "application/json",
-      accept: "*/*",
-    },
-    body: JSON.stringify({
-      code: token,
-      email: mail,
-      newPassword: newPassword,
-      newPasswordConfirm: confirmNewPassword,
-    }),
-  })
-    .then((x) => x.json())
-    .catch((err) => console.error(err));
+  const response = await fetch(
+    BASE_ROUTE +
+      "/api/auth/password/reset?code=" +
+      code +
+      "&email=" +
+      email +
+      "&newPassword=" +
+      newPassword +
+      "&newPasswordConfirm=" +
+      confirmNewPassword,
+    {
+      method: HTTP_METHODS.POST,
+      headers: {
+        "Content-Type": "application/json",
+        accept: "*/*",
+      },
+    }
+  );
+  return response.status === STATUS_CODES.OK;
 }
 
 export { resetPassword };

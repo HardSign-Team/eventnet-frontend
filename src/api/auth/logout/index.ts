@@ -1,16 +1,15 @@
-import { BASE_ROUTE, HTTP_METHODS } from "../../utils";
+import { BASE_ROUTE, HTTP_METHODS, STATUS_CODES } from "../../utils";
 
 async function logout(token: string) {
-  return fetch(BASE_ROUTE + "/api/auth/logout", {
+  const response = await fetch(BASE_ROUTE + "/api/auth/logout", {
     method: HTTP_METHODS.POST,
     headers: {
       "Content-Type": "application/json;charset=utf-8",
       Accept: "application/json",
-      Authorization: token,
+      Authorization: "Bearer " + token,
     },
-  })
-    .then((x) => x.json())
-    .catch((err) => console.error(err));
+  });
+  return response.status === STATUS_CODES.OK;
 }
 
-export { logout };
+export { logout as logoutRequest };
