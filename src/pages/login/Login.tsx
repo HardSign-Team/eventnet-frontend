@@ -36,7 +36,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
     }
     if (await container.validate()) {
       const user: userInfo = { login: userName, password: password };
-      executeLoginRequest(user);
+      await executeLoginRequest(user);
     }
   };
 
@@ -54,17 +54,14 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
     userStore.isAuth = true;
   };
 
-  const executeLoginRequest = (user: userInfo) => {
+  const executeLoginRequest = async (user: userInfo) => {
     setError(false);
-
-    loginRequest(user).then((x) => {
-      if (x.code === STATUS_CODES.OK) {
-        saveUserStore(x);
-        navigate("/");
-      } else {
-        setError(true);
-      }
-    });
+    const response = await loginRequest(user);
+    if (response.status === STATUS_CODES.OK) {
+      const answer = await response.json();
+      saveUserStore(answer);
+      navigate("/");
+    } else setError(true);
   };
 
   const validator = loginValidator({
