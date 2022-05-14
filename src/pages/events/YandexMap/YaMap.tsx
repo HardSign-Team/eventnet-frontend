@@ -1,4 +1,11 @@
-import { Button, Clusterer, Map, YMaps, ZoomControl } from "react-yandex-maps";
+import {
+  Button,
+  Clusterer,
+  Map,
+  SearchControl,
+  YMaps,
+  ZoomControl,
+} from "react-yandex-maps";
 import React, { useState } from "react";
 import "../style.css";
 import { observer } from "mobx-react-lite";
@@ -9,6 +16,7 @@ import { BiHide, BiShow } from "react-icons/bi";
 import ReactDOMServer from "react-dom/server";
 
 const MIN_ZOOM = 4;
+const accessToken = process.env.REACT_APP_YANDEX_MAPS_API_KEY || "";
 
 const mapStyle = {
   position: "absolute",
@@ -52,7 +60,11 @@ const YaMap = observer(({ className, onClick }: Props) => {
   };
 
   return (
-    <YMaps className="yandex-maps">
+    <YMaps
+      className="yandex-maps"
+      enterprise={true}
+      query={{ apikey: accessToken }}
+    >
       <Map
         style={mapStyle}
         state={currentMapState}
@@ -69,6 +81,7 @@ const YaMap = observer(({ className, onClick }: Props) => {
           }
         }}
       >
+        <SearchControl options={{ float: "right" }} />
         <ZoomControl
           options={{
             size: "large",
