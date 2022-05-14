@@ -16,7 +16,6 @@ import { BiHide, BiShow } from "react-icons/bi";
 import ReactDOMServer from "react-dom/server";
 
 const MIN_ZOOM = 4;
-const accessToken = process.env.REACT_APP_YANDEX_MAPS_API_KEY || "";
 
 const mapStyle = {
   position: "absolute",
