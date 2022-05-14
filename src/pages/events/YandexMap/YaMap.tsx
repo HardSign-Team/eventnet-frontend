@@ -29,7 +29,7 @@ const mapOptions = {
   minZoom: MIN_ZOOM,
   yandexMapAutoSwitch: true,
 };
-
+const accessToken = process.env.REACT_APP_YANDEX_MAPS_API_KEY || "";
 const { eventStore, mapStore } = globalStore;
 
 type Props = { className: string; onClick?: () => void };
@@ -58,7 +58,6 @@ const YaMap = observer(({ className, onClick }: Props) => {
   const onClickButton = (event: any) => {
     setShowEvents(!showEvents);
   };
-
   return (
     <YMaps
       className="yandex-maps"
