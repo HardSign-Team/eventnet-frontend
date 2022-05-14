@@ -39,10 +39,7 @@ export const App = () => {
             />
             <Route path="/event-creation" element={<EventCreation />} />
             <Route path="/user-events" element={<UserEvents />} />
-            <Route
-              path="/completed-register/:userId/:confirmKey"
-              element={<CompletedRegister />}
-            />
+            <Route path="/completed-register" element={<CompletedRegister />} />
             <Route path="/" element={<Navigate to="/events" replace />} />
             <Route path="/event-page" element={<EventPage />} />
             <Route path="/events" element={<Events />} />
