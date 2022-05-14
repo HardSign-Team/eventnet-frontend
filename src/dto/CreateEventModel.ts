@@ -6,8 +6,8 @@ export interface CreateEventModel {
   startDate: Date;
   endDate?: Date;
   name: string;
-  description?: string;
+  description: string;
   location: Location;
   tags: string[];
-  photos: Blob[];
+  photos: File[];
 }

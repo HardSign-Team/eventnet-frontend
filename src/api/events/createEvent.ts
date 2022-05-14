@@ -1,5 +1,5 @@
 import { CreateEventModel } from "../../dto/CreateEventModel";
-import { BASE_ROUTE, STATUS_CODES } from "../utils";
+import {BASE_ROUTE, HTTP_METHODS, STATUS_CODES} from "../utils";
 
 type CreateEventResponse = {
   accepted: boolean;
@@ -11,10 +11,10 @@ export async function createEvent(
   const url = `${BASE_ROUTE}/api/events`;
   const formData = createFormData(model);
   const options: RequestInit = {
-    method: "POST",
+    method: HTTP_METHODS.POST,
     body: formData,
     headers: {
-      "Content-Type": "multipart/form-data",
+      'Accept': 'application/json'
     },
   };
   const response = await fetch(url, options);
@@ -25,22 +25,16 @@ export async function createEvent(
 
 function createFormData(model: CreateEventModel): FormData {
   const formData = new FormData();
-  const info: { [index: string]: string } = {
-    EventId: model.id,
-    StartDate: model.startDate.toUTCString(),
-    Name: model.name,
-    Location: JSON.stringify({
-      Latitude: model.location.latitude,
-      Longitude: model.location.longitude,
-    }),
-    Tags: JSON.stringify(model.tags),
-  };
 
-  if (model.endDate) info["EndDate"] = model.endDate.toUTCString();
-  if (model.description) info["Description"] = model.description;
-
-  formData.append("Info", JSON.stringify(info));
-  formData.append("Photos", JSON.stringify(model.photos));
+  formData.append("eventId", model.id);
+  formData.append("name", model.name);
+  formData.append("description", model.description);
+  formData.append("startDate", model.startDate.toISOString());
+  if (model.endDate) formData.append("endDate", model.endDate.toISOString());
+  formData.append("latitude", model.location.latitude.toString());
+  formData.append("longitude", model.location.longitude.toString())
+  model.tags.forEach(tag => formData.append("tags", tag));
+  model.photos.forEach(photo => formData.append("photos", photo));
 
   return formData;
 }

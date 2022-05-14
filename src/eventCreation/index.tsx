@@ -86,6 +86,7 @@ const EventCreation: React.FC = () => {
     const event: CreateEventModel = {
       id: eventId,
       location: new Location(latitude, longitude),
+      description: "",
       name: eventName,
       photos: [],
       startDate: createDateFrom(dateEnd, timeEnd),
