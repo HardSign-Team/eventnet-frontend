@@ -14,7 +14,7 @@ export class UserStore {
   public gender: string = "";
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {});
   }
 
   public logout() {

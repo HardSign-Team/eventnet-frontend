@@ -1,0 +1,57 @@
+.header2 {
+  text-align: left;
+  padding: 20px 5px;
+}
+
+.form-horizontal {
+  opacity: 1;
+}
+.form-hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.form-shown {
+  visibility: visible;
+  opacity: 1;
+}
+
+.label {
+  display: inline-block;
+  width: 100%;
+  font-size: 16px;
+  padding: 0;
+}
+
+.toolbar__horizontal-line {
+  margin-bottom: 1rem;
+  width: 300px;
+  transform: translateX(-36.8px);
+}
+
+.toolbar-button-container {
+  text-align: center;
+}
+
+.sidebar-btn {
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin: 1rem auto;
+}
+
+.toolbar__form-hidden {
+  position: relative;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: opacity 0.5s linear, max-height 0.5s linear;
+}
+
+.toolbar__form-show {
+  position: relative;
+  max-height: 150vh;
+  opacity: 1;
+  transition: max-height 0.5s linear, opacity 0.5s linear 0.2s;
+}

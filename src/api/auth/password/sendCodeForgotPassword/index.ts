@@ -1,7 +1,7 @@
-import { BASE_ROUTE, HTTP_METHODS } from "../../../utils";
+import { BASE_ROUTE, HTTP_METHODS, STATUS_CODES } from "../../../utils";
 
 async function sendCodeForgotPassword(email: string, code: string) {
-  return fetch(BASE_ROUTE + "/api/auth/password/forgot/code", {
+  const response = await fetch(BASE_ROUTE + "/api/auth/password/forgot/code", {
     method: HTTP_METHODS.GET,
     headers: {
       "Content-Type": "application/json",
@@ -11,9 +11,8 @@ async function sendCodeForgotPassword(email: string, code: string) {
       email: email,
       code: code,
     }),
-  })
-    .then((x) => x.json())
-    .catch((err) => console.error(err));
+  });
+  return response.status === STATUS_CODES.OK;
 }
 
 export { sendCodeForgotPassword };
