@@ -1,11 +1,12 @@
 import { CreateEventModel } from "../../dto/CreateEventModel";
-import {BASE_ROUTE, HTTP_METHODS, STATUS_CODES} from "../utils";
+import { BASE_ROUTE, HTTP_METHODS, STATUS_CODES } from "../utils";
 
 type CreateEventResponse = {
   accepted: boolean;
 };
 
 export async function createEvent(
+  token: string,
   model: CreateEventModel
 ): Promise<CreateEventResponse> {
   const url = `${BASE_ROUTE}/api/events`;
@@ -14,7 +15,8 @@ export async function createEvent(
     method: HTTP_METHODS.POST,
     body: formData,
     headers: {
-      'Accept': 'application/json'
+      Accept: "application/json",
+      Authorization: "Bearer " + token,
     },
   };
   const response = await fetch(url, options);
@@ -32,9 +34,9 @@ function createFormData(model: CreateEventModel): FormData {
   formData.append("startDate", model.startDate.toISOString());
   if (model.endDate) formData.append("endDate", model.endDate.toISOString());
   formData.append("latitude", model.location.latitude.toString());
-  formData.append("longitude", model.location.longitude.toString())
-  model.tags.forEach(tag => formData.append("tags", tag));
-  model.photos.forEach(photo => formData.append("photos", photo));
+  formData.append("longitude", model.location.longitude.toString());
+  model.tags.forEach((tag) => formData.append("tags", tag));
+  model.photos.forEach((photo) => formData.append("photos", photo));
 
   return formData;
 }

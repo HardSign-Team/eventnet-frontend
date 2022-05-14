@@ -27,14 +27,16 @@ export const App = () => {
         <div className={"content-wrapper"}>
           <Routes>
             <Route path="/register" element={<Registration />} />
-            <Route path="/register" element={<Registration />} />
             <Route path="/profile" element={<Profile />} />
             <Route
               path="/login"
               element={<Login userStore={globalStore.userStore} />}
             />
             <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/event-creation" element={<EventCreation />} />
+            <Route
+              path="/event-creation"
+              element={<EventCreation userStore={globalStore.userStore} />}
+            />
             <Route path="/user-events" element={<UserEvents />} />
             <Route path="/completed-register" element={<CompletedRegister />} />
             <Route path="/" element={<Navigate to="/events" replace />} />
