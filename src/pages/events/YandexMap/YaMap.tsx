@@ -1,4 +1,11 @@
-import { Button, Clusterer, Map, YMaps, ZoomControl } from "react-yandex-maps";
+import {
+  Button,
+  Clusterer,
+  Map,
+  SearchControl,
+  YMaps,
+  ZoomControl,
+} from "react-yandex-maps";
 import React, { useState } from "react";
 import "../style.css";
 import { observer } from "mobx-react-lite";
@@ -21,7 +28,7 @@ const mapOptions = {
   minZoom: MIN_ZOOM,
   yandexMapAutoSwitch: true,
 };
-
+const accessToken = process.env.REACT_APP_YANDEX_MAPS_API_KEY || "";
 const { eventStore, mapStore } = globalStore;
 
 type Props = { className: string; onClick?: () => void };
@@ -50,9 +57,12 @@ const YaMap = observer(({ className, onClick }: Props) => {
   const onClickButton = (event: any) => {
     setShowEvents(!showEvents);
   };
-
   return (
-    <YMaps className="yandex-maps">
+    <YMaps
+      className="yandex-maps"
+      enterprise={true}
+      query={{ apikey: accessToken }}
+    >
       <Map
         style={mapStyle}
         state={currentMapState}
@@ -69,6 +79,7 @@ const YaMap = observer(({ className, onClick }: Props) => {
           }
         }}
       >
+        <SearchControl options={{ float: "right" }} />
         <ZoomControl
           options={{
             size: "large",
