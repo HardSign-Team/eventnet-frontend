@@ -1,9 +1,12 @@
-import { Clusterer, Map, YMaps } from "react-yandex-maps";
-import React from "react";
+import { Button, Clusterer, Map, YMaps, ZoomControl } from "react-yandex-maps";
+import React, { useState } from "react";
 import "../style.css";
 import { observer } from "mobx-react-lite";
 import globalStore from "../../../stores/GlobalStore";
 import Circles from "./Circles/Circles";
+import "./YaMap.scss";
+import { BiHide, BiShow } from "react-icons/bi";
+import ReactDOMServer from "react-dom/server";
 
 const MIN_ZOOM = 4;
 
@@ -23,6 +26,7 @@ const { eventStore, mapStore } = globalStore;
 
 type Props = { className: string; onClick?: () => void };
 const YaMap = observer(({ className, onClick }: Props) => {
+  const [showEvents, setShowEvents] = useState(true);
   const currentMapState = {
     center: mapStore.coordinates,
     zoom: 10,
@@ -43,6 +47,10 @@ const YaMap = observer(({ className, onClick }: Props) => {
     onClick?.();
   };
 
+  const onClickButton = (event: any) => {
+    setShowEvents(!showEvents);
+  };
+
   return (
     <YMaps className="yandex-maps">
       <Map
@@ -61,8 +69,32 @@ const YaMap = observer(({ className, onClick }: Props) => {
           }
         }}
       >
+        <ZoomControl
+          options={{
+            size: "large",
+            position: { right: "25px", bottom: "50px" },
+          }}
+        />
+        <Button
+          options={{
+            size: "large",
+            maxWidth: 56,
+            position: { right: "25px", bottom: "275px" },
+          }}
+          data={{
+            content: showEvents
+              ? ReactDOMServer.renderToString(
+                  <BiShow className="yandex-maps__icon" />
+                )
+              : ReactDOMServer.renderToString(
+                  <BiHide className="yandex-maps__icon" />
+                ),
+          }}
+          defaultState={{ selected: true }}
+          onClick={onClickButton}
+        />
         <Clusterer>
-          <Circles events={eventStore.events} />
+          {showEvents && <Circles events={eventStore.events} />}
         </Clusterer>
       </Map>
     </YMaps>

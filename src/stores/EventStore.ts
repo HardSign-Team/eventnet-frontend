@@ -1,18 +1,16 @@
 import Event from "../models/Event";
 import EventInfo from "../models/EventInfo";
-import {EventLocationViewModel} from "../viewModels/EvenLocationViewModel";
-import {makeAutoObservable} from "mobx";
+import { EventLocationViewModel } from "../viewModels/EvenLocationViewModel";
+import { makeAutoObservable } from "mobx";
 
 function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
   max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
+  return Math.floor(Math.random() * (max - min)) + min;
 }
 
 export class EventStore {
-  public events: Array<Event> = []; //EventStore.fillEvents();
-
-  private mockedId: number = 1;
+  public events: Array<Event> = [];
 
   constructor() {
     makeAutoObservable(this, {});
@@ -67,15 +65,6 @@ export class EventStore {
     return result;
   }
 
-  public createEvent(eventInfo: EventInfo): number {
-    const newEvent: Event = {
-      id: this.mockedId++,
-      info: eventInfo,
-    };
-    this.events.push(newEvent);
-    return this.mockedId;
-  }
-
   public getEvents(): Array<Event> {
     return this.events;
   }
@@ -89,13 +78,12 @@ export class EventStore {
   }
 
   addEvents(events: Array<EventLocationViewModel>) {
-      // TODO заглушка
-    const a = events.map(e => {
+    const a = events.map((event) => {
       return {
         id: Math.floor(Math.random() * 10000),
         info: {
-          name: e.name,
-          coordinates: [e.location.latitude, e.location.longitude],
+          name: event.name,
+          coordinates: [event.location.latitude, event.location.longitude],
           dateStart: new Date(2021, 10, 15),
           likes: 2,
           description: "",
@@ -104,11 +92,10 @@ export class EventStore {
             "https://cdn.iz.ru/sites/default/files/styles/1920x1080/public/article-2019-06/ZURR4215.JPG.jpg?itok=2KMsqbt9",
           ],
         },
-      }
+      };
     });
     for (const e of a) {
       this.events.push(e as Event);
     }
-    console.log(this.events)
   }
 }
