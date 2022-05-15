@@ -1,7 +1,7 @@
 import { guid } from "../../viewModels/Guid";
 import { BASE_ROUTE, STATUS_CODES } from "../utils";
 
-enum EventSaveStatus {
+export enum EventSaveStatus {
   Saved,
   NotSavedDueToError,
   InProgress,

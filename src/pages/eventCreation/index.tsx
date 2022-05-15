@@ -19,7 +19,7 @@ import { CreateEventModel } from "../../dto/CreateEventModel";
 import { Location } from "../../dto/Location";
 import { requestEventCreation } from "../../api/events/requestEventCreation";
 import { createEvent } from "../../api/events/createEvent";
-import { getIsCreated } from "../../api/events/getIsCreated";
+import { EventSaveStatus, getIsCreated } from '../../api/events/getIsCreated';
 import { observer } from "mobx-react-lite";
 import globalStore from "../../stores/GlobalStore";
 
@@ -42,7 +42,7 @@ const EventCreation: React.FC = observer(() => {
   const [timeStart, setTimeStart] = useState("");
   const [dateEnd, setDateEnd] = useState("");
   const [timeEnd, setTimeEnd] = useState("");
-  const [coordinates, setCoordinates] = useState("");
+  const [coordinates, setCoordinates] = useState("56.817076, 60.611855");
   const [eventType, setEventType] = useState(EventTypes.Public);
   const [selectedTags, setSelectedTags] = React.useState([]);
   const [eventDescription, setEventDescription] = useState("");
@@ -102,8 +102,21 @@ const EventCreation: React.FC = observer(() => {
 
     const { accepted } = await createEvent(userStore.accessToken, event);
 
-    if (accepted)
-      console.log("Is created: ", getIsCreated(userStore.accessToken, eventId));
+    if (!accepted)
+      console.log("Error");
+
+    const responseCode = await getIsCreated(userStore.accessToken, eventId)
+
+    switch (responseCode){
+      case EventSaveStatus.Saved:
+        break;
+      case EventSaveStatus.NotSavedDueToError:
+        break;
+      case EventSaveStatus.InProgress:
+        break;
+    }
+
+    console.log(responseCode)
   };
 
   return (
