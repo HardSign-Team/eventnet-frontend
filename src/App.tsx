@@ -33,10 +33,7 @@ export const App = () => {
               element={<Login userStore={globalStore.userStore} />}
             />
             <Route path="/reset-password" element={<ResetPassword />} />
-            <Route
-              path="/event-creation"
-              element={<EventCreation userStore={globalStore.userStore} />}
-            />
+            <Route path="/event-creation" element={<EventCreation />} />
             <Route path="/user-events" element={<UserEvents />} />
             <Route path="/completed-register" element={<CompletedRegister />} />
             <Route path="/" element={<Navigate to="/events" replace />} />
