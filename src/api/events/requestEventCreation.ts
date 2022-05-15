@@ -6,8 +6,9 @@ export async function requestEventCreation(token: string): Promise<guid> {
   const options = {
     headers: {
       "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
     },
-    Authorization: "Bearer " + token,
+
   };
   const response = await fetch(url, options);
   return response.json();

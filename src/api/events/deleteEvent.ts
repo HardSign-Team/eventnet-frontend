@@ -6,7 +6,7 @@ export async function deleteEvent(eventId: guid) : Promise<boolean> {
     const options = {
         method: HTTP_METHODS.DELETE,
         headers: {
-            "Content-type": "application/json"
+            "Content-type": "application/json",
         }
     };
     const response = await fetch(url, options);

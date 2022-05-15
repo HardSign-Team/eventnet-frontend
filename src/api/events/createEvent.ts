@@ -15,8 +15,8 @@ export async function createEvent(
     method: HTTP_METHODS.POST,
     body: formData,
     headers: {
-      Accept: "application/json",
-      Authorization: "Bearer " + token,
+      "Accept": "application/json",
+      "Authorization": `Bearer ${token}`,
     },
   };
   const response = await fetch(url, options);
