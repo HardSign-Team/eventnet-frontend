@@ -14,6 +14,7 @@ import Circles from "./Circles/Circles";
 import "./YaMap.scss";
 import { BiHide, BiShow } from "react-icons/bi";
 import ReactDOMServer from "react-dom/server";
+import { Link } from "react-router-dom";
 
 const MIN_ZOOM = 4;
 
@@ -38,25 +39,39 @@ const YaMap = observer(({ className, onClick }: Props) => {
     center: mapStore.coordinates,
     zoom: 10,
   };
-
-  const closeCurrentBalloon = () => {
-    const close: any = document.querySelector(
-      'ymaps[class$="-balloon__close-button"]'
-    );
-    if (close != null) {
-      close.click();
-    }
-  };
+  //
+  // const closeCurrentBalloon = () => {
+  //   const close: any = document.querySelector(
+  //     'ymaps[class$="-balloon__close-button"]'
+  //   );
+  //   if (close != null) {
+  //     close.click();
+  //   }
+  // };
 
   const onMapClick = async (event: any) => {
-    closeCurrentBalloon();
-    const currentCoordinates = event.get("coords");
+    const map = event.get("map");
+    if (map.balloon.isOpen()) map.balloon.close();
+    else {
+      const coords = event.get("coords");
+      map.balloon.open(coords, {
+        contentHeader: `
+          <a class="balloon__link" href=/event-creation?lat=${coords[0]}&long=${coords[1]}>
+            Создать новое событие
+          </a>`,
+        contentBody:
+          "<p>Координаты события: " +
+          [coords[0].toPrecision(6), coords[1].toPrecision(6)].join(", ") +
+          "</p>",
+      });
+    }
     onClick?.();
   };
 
-  const onClickButton = (event: any) => {
+  const onClickButton = () => {
     setShowEvents(!showEvents);
   };
+
   return (
     <YMaps
       className="yandex-maps"
