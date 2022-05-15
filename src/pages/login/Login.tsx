@@ -28,7 +28,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
-  const [saveLogin, setSaveLogin] = useState(false);
+  const [saveLogin, setSaveLogin] = useState(true);
 
   const navigate = useNavigate();
 
@@ -112,6 +112,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
                   type="checkbox"
                   className="checked_remember_password"
                   onChange={() => setSaveLogin(!saveLogin)}
+                  checked={saveLogin}
                 />
                 <label className="label_checked" htmlFor="checked">
                   Запомнить меня

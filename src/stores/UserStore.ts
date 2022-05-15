@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { autorun, makeAutoObservable } from "mobx";
 import { loadLocalState, saveLocalState } from "../utils/StoragesUtils";
 
 export class UserStore {
@@ -18,30 +18,44 @@ export class UserStore {
   }
 
   public save() {
-    saveLocalState("accessToken", this.accessToken);
-    saveLocalState("expiredAt", this.expiredAt);
-    saveLocalState("refreshToken", this.refreshToken);
-    saveLocalState("userName", this.userName);
-    saveLocalState("email", this.email);
-    saveLocalState("userRoles", this.userRoles);
-    saveLocalState("isAuth", this.isAuth);
-    saveLocalState("image", this.image);
-    saveLocalState("birthDate", this.birthDate);
-    saveLocalState("gender", this.gender);
+    autorun(() => {
+      saveLocalState("accessToken", this.accessToken);
+      saveLocalState("expiredAt", this.expiredAt);
+      saveLocalState("refreshToken", this.refreshToken);
+      saveLocalState("userName", this.userName);
+      saveLocalState("email", this.email);
+      saveLocalState("userRoles", this.userRoles);
+      saveLocalState("isAuth", this.isAuth);
+      saveLocalState("image", this.image);
+      saveLocalState("birthDate", this.birthDate);
+      saveLocalState("gender", this.gender);
+    });
   }
 
-  public saveTokens(accessToken: string, refreshToken: string) {
-    saveLocalState("accessToken", accessToken);
-    saveLocalState("refreshToken", refreshToken);
+  public saveTokens(
+    accessToken: string,
+    refreshToken: string,
+    expiredAt: string
+  ) {
+    autorun(() => {
+      this.accessToken = accessToken;
+      this.refreshToken = refreshToken;
+      this.expiredAt = expiredAt;
+      saveLocalState("accessToken", accessToken);
+      saveLocalState("refreshToken", refreshToken);
+      saveLocalState("expiredAt", expiredAt);
+    });
   }
 
   public logout() {
     localStorage.clear();
-    this.isAuth = false;
-    this.accessToken = "";
-    this.email = "";
-    this.refreshToken = "";
-    this.userName = "";
-    this.userRoles = [];
+    autorun(() => {
+      this.isAuth = false;
+      this.accessToken = "";
+      this.email = "";
+      this.refreshToken = "";
+      this.userName = "";
+      this.userRoles = [];
+    });
   }
 }
