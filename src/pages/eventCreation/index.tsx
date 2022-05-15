@@ -23,11 +23,6 @@ import { EventSaveStatus, getIsCreated } from '../../api/events/getIsCreated';
 import { observer } from "mobx-react-lite";
 import globalStore from "../../stores/GlobalStore";
 
-enum EventTypes {
-  Public = "public",
-  Private = "private",
-}
-
 const MAX_EVENT_NAME_LENGTH = 50;
 const MAX_EVENT_DESCRIPTION_LENGTH = 1000;
 
@@ -43,7 +38,6 @@ const EventCreation: React.FC = observer(() => {
   const [dateEnd, setDateEnd] = useState("");
   const [timeEnd, setTimeEnd] = useState("");
   const [coordinates, setCoordinates] = useState("56.817076, 60.611855");
-  const [eventType, setEventType] = useState(EventTypes.Public);
   const [selectedTags, setSelectedTags] = React.useState([]);
   const [eventDescription, setEventDescription] = useState("");
 
@@ -146,15 +140,6 @@ const EventCreation: React.FC = observer(() => {
           setDuration={setDuration}
           timeEnd={timeEnd}
           setTimeEnd={setTimeEnd}
-        />
-        <CustomSelector
-          classNameDiv={styles.eventType_selector}
-          onChange={setEventType}
-          first={EventTypes.Public}
-          second={EventTypes.Private}
-          firstLabel={"Публичное"}
-          secondLabel={"Приватное"}
-          value={eventType}
         />
         <PlacePicker
           coordinates={coordinates}
