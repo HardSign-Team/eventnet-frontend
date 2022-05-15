@@ -1,7 +1,7 @@
 import styles from "./index.module.scss";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { confirmEmail } from "../api/auth/registration/confirmEmail";
+import { confirmEmail } from "../../../api/auth/registration/confirmEmail";
 
 export const CompletedRegister: React.FC = () => {
   const [params] = useSearchParams();
@@ -24,7 +24,7 @@ export const CompletedRegister: React.FC = () => {
         {isConfirmed ? (
           <>
             <p>Поздравляем!</p>
-            <p>Регистарция подтверждена </p>
+            <p>Регистрация завершена </p>
           </>
         ) : (
           <p>Время действия ссылки истекло</p>
