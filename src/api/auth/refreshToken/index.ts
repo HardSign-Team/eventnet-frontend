@@ -2,8 +2,6 @@ import { BASE_ROUTE, HTTP_METHODS, STATUS_CODES } from "../../utils";
 import globalStore from "../../../stores/GlobalStore";
 
 async function refreshToken(refreshToken: string, token: string) {
-  console.log(refreshToken);
-  console.log(token);
   const response = await fetch(BASE_ROUTE + "/api/token/refresh-token", {
     method: HTTP_METHODS.POST,
     headers: {
