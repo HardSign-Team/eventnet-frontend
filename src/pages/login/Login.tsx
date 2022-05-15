@@ -28,6 +28,8 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const [saveLogin, setSaveLogin] = useState(false);
+
   const navigate = useNavigate();
 
   const login = async (): Promise<void> => {
@@ -52,6 +54,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
     userStore.gender = user.gender;
     userStore.userRoles = answer.userRoles;
     userStore.isAuth = true;
+    if (saveLogin) userStore.save();
   };
 
   const executeLoginRequest = async (user: userInfo) => {
@@ -108,6 +111,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
                   id="checked"
                   type="checkbox"
                   className="checked_remember_password"
+                  onChange={() => setSaveLogin(!saveLogin)}
                 />
                 <label className="label_checked" htmlFor="checked">
                   Запомнить меня
