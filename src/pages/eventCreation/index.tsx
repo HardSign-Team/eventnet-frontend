@@ -22,8 +22,6 @@ import { EventSaveStatus, getIsCreated } from "../../api/events/getIsCreated";
 import { observer } from "mobx-react-lite";
 import globalStore from "../../stores/GlobalStore";
 import { StatusModal } from "./StatusModal";
-import { getDurationBetweenDates } from "../../utils/date";
-import { intervalToDuration } from "date-fns";
 
 const MAX_EVENT_NAME_LENGTH = 50;
 const MAX_EVENT_DESCRIPTION_LENGTH = 1000;
