@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Gapped } from "@skbkontur/react-ui";
 import EventDatetimePicker from "./EventDatetimePicker";
-import { CustomSelector } from "../../shared/CustomSelector/CustomSelector";
 import CustomButton from "../../shared/CustomButton/CustomButton";
 import EventEndPicker from "./EventEndPicker";
 import PlacePicker from "./PlacePicker";
@@ -19,9 +18,12 @@ import { CreateEventModel } from "../../dto/CreateEventModel";
 import { Location } from "../../dto/Location";
 import { requestEventCreation } from "../../api/events/requestEventCreation";
 import { createEvent } from "../../api/events/createEvent";
-import { EventSaveStatus, getIsCreated } from '../../api/events/getIsCreated';
+import { EventSaveStatus, getIsCreated } from "../../api/events/getIsCreated";
 import { observer } from "mobx-react-lite";
 import globalStore from "../../stores/GlobalStore";
+import { StatusModal } from "./StatusModal";
+import { getDurationBetweenDates } from "../../utils/date";
+import { intervalToDuration } from "date-fns";
 
 const MAX_EVENT_NAME_LENGTH = 50;
 const MAX_EVENT_DESCRIPTION_LENGTH = 1000;
@@ -41,12 +43,35 @@ const EventCreation: React.FC = observer(() => {
   const [selectedTags, setSelectedTags] = React.useState([]);
   const [eventDescription, setEventDescription] = useState("");
 
+  const [showStatusModal, setShowStatusModal] = useState(false);
+  const [modalStatus, setModalStatus] = useState(EventSaveStatus.Saved);
+
+  const closeStatusModal = () => {
+    setShowStatusModal(false);
+  };
+
+  const openStatusModal = (status: EventSaveStatus) => {
+    setModalStatus((_) => status);
+    setShowStatusModal(true);
+  };
+
   const updateEventName = (name: string) => {
     setEventName(cropped(name, MAX_EVENT_NAME_LENGTH));
   };
 
   const updateEventDescription = (description: string) => {
     setEventDescription(cropped(description, MAX_EVENT_DESCRIPTION_LENGTH));
+  };
+
+  const isDatesNotEmpty = () => {
+    return dateStart && timeStart && dateEnd && timeEnd;
+  };
+
+  const isValidDates = () => {
+    const start = createDateFrom(dateStart, timeStart);
+    const end = createDateFrom(dateEnd, timeEnd);
+
+    return end.getTime() - start.getTime() >= 0;
   };
 
   useEffect(() => {
@@ -62,7 +87,7 @@ const EventCreation: React.FC = observer(() => {
   }, [dateStart, timeStart, duration]);
 
   useEffect(() => {
-    if (dateStart && dateEnd && timeEnd) {
+    if (isDatesNotEmpty()) {
       const newDuration = calculateDuration(
         dateStart,
         timeStart,
@@ -74,47 +99,66 @@ const EventCreation: React.FC = observer(() => {
     }
   }, [dateEnd, timeEnd]);
 
+  const isValidData = () => {
+    if (isDatesNotEmpty() && !isValidDates()) return false;
+
+    return !!(
+      eventName &&
+      eventDescription &&
+      coordinates &&
+      dateStart &&
+      timeStart
+    );
+  };
+
+  const retryGetIsCreated = async (eventId: string) => {
+    let status = EventSaveStatus.InProgress;
+
+    while (status === EventSaveStatus.InProgress) {
+      status = await getIsCreated(userStore.accessToken, eventId);
+    }
+
+    return status;
+  };
+
   const handleEventCreation = async () => {
+    if (!isValidData()) {
+      openStatusModal(EventSaveStatus.NotSavedDueToError);
+      return;
+    }
     const [latitude, longitude] = coordinates.split(",").map((x) => +x.trim());
 
     const eventId = await requestEventCreation(userStore.accessToken);
 
-    // TODO загружать ещё фотки и теги
+    // TODO загружать ещё фотки
     const event: CreateEventModel = {
       id: eventId,
       location: new Location(latitude, longitude),
-      description: "",
+      description: eventDescription,
       name: eventName,
+      startDate: createDateFrom(dateStart, timeStart),
+      tags: selectedTags,
       photos: [],
-      startDate: createDateFrom(dateEnd, timeEnd),
-      tags: [],
     };
 
-    if (dateEnd && timeEnd)
-      event["endDate"] = createDateFrom(dateStart, timeStart);
-    if (eventDescription) event["description"] = eventDescription;
+    if (dateEnd && timeEnd) event["endDate"] = createDateFrom(dateEnd, timeEnd);
 
-    const { accepted } = await createEvent(userStore.accessToken, event);
+    await createEvent(userStore.accessToken, event);
 
-    if (!accepted)
-      console.log("Error");
+    const responseCode = await getIsCreated(userStore.accessToken, eventId);
+    openStatusModal(responseCode);
 
-    const responseCode = await getIsCreated(userStore.accessToken, eventId)
-
-    switch (responseCode){
-      case EventSaveStatus.Saved:
-        break;
-      case EventSaveStatus.NotSavedDueToError:
-        break;
-      case EventSaveStatus.InProgress:
-        break;
+    if (responseCode === EventSaveStatus.InProgress) {
+      const newResponseCode = await retryGetIsCreated(eventId);
+      openStatusModal(newResponseCode);
     }
-
-    console.log(responseCode)
   };
 
   return (
     <>
+      {showStatusModal && (
+        <StatusModal status={modalStatus} onClose={closeStatusModal} />
+      )}
       <Gapped className={styles.eventCreation} vertical gap={20}>
         <PhotoCarousel
           images={eventImages}

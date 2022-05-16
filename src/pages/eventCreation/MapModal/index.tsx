@@ -8,7 +8,7 @@ type ShowMapModalProps = {
   onClose: () => void;
 };
 
-const Index: React.FC<ShowMapModalProps> = ({ onClose }) => {
+const MapModal: React.FC<ShowMapModalProps> = ({ onClose }) => {
   const saveCoords = () => {};
 
   return (
@@ -29,4 +29,4 @@ const Index: React.FC<ShowMapModalProps> = ({ onClose }) => {
   );
 };
 
-export default Index;
+export default MapModal;
