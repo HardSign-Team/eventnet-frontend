@@ -7,68 +7,7 @@ import { TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
 import { observer } from "mobx-react-lite";
 import globalStore from "../../../../stores/GlobalStore";
 
-const tags = [
-  "Бьюти",
-  "Транспорт",
-  "Иностранные языки",
-  "Семья",
-  "Животные",
-  "Настроение",
-  "Тренды",
-  "Спорт",
-  "Работа",
-  "Мода",
-  "Еда",
-  "Путешествия",
-  "Природа",
-  "Интересы",
-  "Юмор",
-  "Селфи",
-  "инстаграм",
-  "инстаграманет",
-  "инстаграмнедели",
-  "инстаграм_порусски",
-  "нста",
-  "я",
-  "улыбка",
-  "селфи",
-  "красота",
-  "супер",
-  "природа",
-  "друзья",
-  "дружба",
-  "лайки",
-  "фото",
-  "фотография",
-  "любовь",
-  "любовьмоя",
-  "девушки",
-  "жизнь",
-  "жизньпрекрасна",
-  "инстаграманет",
-  "красиво",
-  "следуйзамной",
-  "лайкизалайки",
-  "лайкивinstagram",
-  "лайкните",
-  "лайк",
-  "лайкивинстаграме",
-  "селфи",
-  "прическа",
-  "причесон",
-  "прическанадлинныеволосы",
-  "прическамакияж",
-  "причесочка",
-  "инстамода",
-  "укладка",
-  "стрижка",
-  "покраска",
-  "покрасилась",
-  "мелирование",
-  "стиль",
-  "стильно",
-  "длинныеволосы",
-];
+const tags: string[] = [];
 
 export const getItems = (q: string): Promise<never[]> =>
   Promise.resolve(
@@ -90,10 +29,10 @@ const defaultData = {
 };
 
 type Props = {
-  onSubmit: (e: any) => void
+  onSubmit: (e: any) => void;
 };
 
-const Toolbar = observer(({onSubmit}: Props) => {
+const Toolbar = observer(({ onSubmit }: Props) => {
   const [state, setState] = useState<FormData>(defaultData);
   const [isOpenEvent, setIsOpenEvent] = useState(true);
   const [selectedItems, setSelectedItems] = React.useState([]);
@@ -114,8 +53,9 @@ const Toolbar = observer(({onSubmit}: Props) => {
       ...state,
       currentCoordinates: e.target.value,
     });
-    if (latitude && longitude)
+    if (latitude && longitude) {
       globalStore.mapStore.coordinates = [latitude, longitude];
+    }
   };
 
   const onClick = (e: any) => {

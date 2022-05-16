@@ -14,7 +14,7 @@ import Circles from "./Circles/Circles";
 import "./YaMap.scss";
 import { BiHide, BiShow } from "react-icons/bi";
 import ReactDOMServer from "react-dom/server";
-import { Link } from "react-router-dom";
+import { getDistanceFromLatLonInKm } from "../../../utils/distance";
 
 const MIN_ZOOM = 4;
 
@@ -32,45 +32,54 @@ const mapOptions = {
 const accessToken = process.env.REACT_APP_YANDEX_MAPS_API_KEY || "";
 const { eventStore, mapStore } = globalStore;
 
-type Props = { className: string; onClick?: () => void };
-const YaMap = observer(({ className, onClick }: Props) => {
-  const [showEvents, setShowEvents] = useState(true);
-  const currentMapState = {
-    center: mapStore.coordinates,
-    zoom: 10,
-  };
-  //
-  // const closeCurrentBalloon = () => {
-  //   const close: any = document.querySelector(
-  //     'ymaps[class$="-balloon__close-button"]'
-  //   );
-  //   if (close != null) {
-  //     close.click();
-  //   }
-  // };
-
-  const onMapClick = async (event: any) => {
-    const map = event.get("map");
-    if (map.balloon.isOpen()) map.balloon.close();
-    else {
-      const coords = event.get("coords");
-      map.balloon.open(coords, {
-        contentHeader: `
+function addBalloon(event: any) {
+  const map = event.get("map");
+  if (map.balloon.isOpen()) {
+    map.balloon.close();
+  } else {
+    const coords = event.get("coords");
+    map.balloon.open(coords, {
+      contentHeader: `
           <a class="balloon__link" href=/event-creation?lat=${coords[0]}&long=${coords[1]}>
             Создать новое событие
           </a>`,
-        contentBody:
-          "<p>Координаты события: " +
-          [coords[0].toPrecision(6), coords[1].toPrecision(6)].join(", ") +
-          "</p>",
-      });
-    }
+      contentBody:
+        "<p>Координаты события: " +
+        [coords[0].toPrecision(6), coords[1].toPrecision(6)].join(", ") +
+        "</p>",
+    });
+  }
+}
+
+type Props = { className: string; onClick?: () => void };
+
+const YaMap = observer(({ className, onClick }: Props) => {
+  const [showEvents, setShowEvents] = useState(true);
+  const [map, setMap] = useState<any>(null);
+  const onMapClick = async (event: any) => {
+    addBalloon(event);
     onClick?.();
+  };
+  const currentMapState = {
+    center: mapStore.coordinates,
+    zoom: 10,
   };
 
   const onClickButton = () => {
     setShowEvents(!showEvents);
   };
+
+  if (map !== null) {
+    map.behaviors.enable("scrollZoom");
+    map.behaviors.disable("dblClickZoom");
+    map.behaviors.disable("rightMouseButtonMagnifier");
+    map.events.add("boundschange", function (e: any) {
+      const [leftBound, rightBound] = e.get("newBounds");
+      console.log(
+        `Radius: ${getDistanceFromLatLonInKm(leftBound, rightBound)} km`
+      );
+    });
+  }
 
   return (
     <YMaps
@@ -88,9 +97,7 @@ const YaMap = observer(({ className, onClick }: Props) => {
         onClick={onMapClick}
         instanceRef={(map: any) => {
           if (map !== null) {
-            map.behaviors.enable("scrollZoom");
-            map.behaviors.disable("dblClickZoom");
-            map.behaviors.disable("rightMouseButtonMagnifier");
+            setMap(map);
           }
         }}
       >

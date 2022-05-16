@@ -12,8 +12,9 @@ import globalStore from "../../stores/GlobalStore";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Location } from "../../dto/Location";
 import { PageInfoDto } from "../../dto/PageInfoDto";
+import { observer } from "mobx-react-lite";
 
-export default function Events() {
+const Events = observer(() => {
   const { search } = useLocation();
   const query = React.useMemo(() => new URLSearchParams(search), [search]);
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ export default function Events() {
       document.body.style.overflow = "auto";
       document.getElementsByTagName("html")[0].style.overflow = "auto";
     };
-  });
+  }, [query]);
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     await request();
@@ -61,4 +62,6 @@ export default function Events() {
       <YandexMap className="ya-map" onClick={handleClick} />
     </div>
   );
-}
+});
+
+export default Events;
