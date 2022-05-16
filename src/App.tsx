@@ -17,7 +17,7 @@ import { Footer } from "./shared/Footer";
 import { UserEvents } from "./pages/userEvents";
 import globalStore from "./stores/GlobalStore";
 import { CompletedRegister } from "./pages/register/completedRegister";
-import { EventPage } from "./eventPage";
+import { EventPage } from "./pages/eventPage";
 
 export const App = () => {
   return (

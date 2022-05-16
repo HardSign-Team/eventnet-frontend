@@ -1,5 +1,6 @@
 import { guid } from "../viewModels/Guid";
 import { Location } from "./Location";
+import Image from '../models/Image';
 
 export interface CreateEventModel {
   id: guid;
@@ -9,5 +10,5 @@ export interface CreateEventModel {
   description: string;
   location: Location;
   tags: string[];
-  photos: File[];
+  photos: Image[];
 }

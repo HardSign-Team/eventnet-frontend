@@ -5,6 +5,7 @@ export enum EventSaveStatus {
   Saved,
   NotSavedDueToError,
   InProgress,
+  LongWaiting,
 }
 
 export async function getIsCreated(
@@ -16,7 +17,7 @@ export async function getIsCreated(
   const options = {
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
   };
   const response = await fetch(url, options);

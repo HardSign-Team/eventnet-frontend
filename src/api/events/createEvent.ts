@@ -36,7 +36,7 @@ function createFormData(model: CreateEventModel): FormData {
   formData.append("latitude", model.location.latitude.toString());
   formData.append("longitude", model.location.longitude.toString());
   model.tags.forEach((tag) => formData.append("tags", tag));
-  model.photos.forEach((photo) => formData.append("photos", photo));
+  model.photos.forEach((photo) => formData.append("photos", photo.file));
 
   return formData;
 }

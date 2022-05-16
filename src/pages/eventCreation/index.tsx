@@ -22,15 +22,17 @@ import { EventSaveStatus, getIsCreated } from "../../api/events/getIsCreated";
 import { observer } from "mobx-react-lite";
 import globalStore from "../../stores/GlobalStore";
 import { StatusModal } from "./StatusModal";
+import Image from "../../models/Image";
 
 const MAX_EVENT_NAME_LENGTH = 50;
 const MAX_EVENT_DESCRIPTION_LENGTH = 1000;
+const MAX_RETRIES = 10;
 
 const { userStore } = globalStore;
 
 // TODO ограничения на инпуты
 const EventCreation: React.FC = observer(() => {
-  const [eventImages, setEventImages] = useState<string[]>([]);
+  const [eventImages, setEventImages] = useState<Image[]>([]);
   const [eventName, setEventName] = useState("");
   const [duration, setDuration] = useState("");
   const [dateStart, setDateStart] = useState("");
@@ -110,13 +112,23 @@ const EventCreation: React.FC = observer(() => {
   };
 
   const retryGetIsCreated = async (eventId: string) => {
-    let status = EventSaveStatus.InProgress;
+    let counter = 0;
 
-    while (status === EventSaveStatus.InProgress) {
-      status = await getIsCreated(userStore.accessToken, eventId);
-    }
-
-    return status;
+    return new Promise<EventSaveStatus>((resolve) => {
+      const unsubscribe = setInterval(async () => {
+        counter++;
+        let status = await getIsCreated(userStore.accessToken, eventId);
+        console.log(status);
+        if (status === EventSaveStatus.Saved) {
+          clearInterval(unsubscribe);
+          resolve(status);
+        }
+        if (counter > MAX_RETRIES) {
+          clearInterval(unsubscribe);
+          resolve(EventSaveStatus.LongWaiting);
+        }
+      }, 1000);
+    });
   };
 
   const handleEventCreation = async () => {
@@ -128,7 +140,6 @@ const EventCreation: React.FC = observer(() => {
 
     const eventId = await requestEventCreation(userStore.accessToken);
 
-    // TODO загружать ещё фотки
     const event: CreateEventModel = {
       id: eventId,
       location: new Location(latitude, longitude),
@@ -136,7 +147,7 @@ const EventCreation: React.FC = observer(() => {
       name: eventName,
       startDate: createDateFrom(dateStart, timeStart),
       tags: selectedTags,
-      photos: [],
+      photos: eventImages,
     };
 
     if (dateEnd && timeEnd) event["endDate"] = createDateFrom(dateEnd, timeEnd);

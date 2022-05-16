@@ -39,7 +39,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ setUserAvatar }) => {
       {modalOpened && <ChangePasswordModal onClose={closeModal} />}
       <ImageLoader
         labelText={"Изменить фото"}
-        setImageURLS={(avatars) => setUserAvatar(avatars[0])}
+        setImages={(avatars) => setUserAvatar(avatars[0].url)}
         maxImagesCount={1}
         style={{ padding: "10px 0 25px" }}
       />

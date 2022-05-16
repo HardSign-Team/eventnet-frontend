@@ -32,6 +32,10 @@ export const StatusModal: React.FC<StatusModalProps> = ({
     case EventSaveStatus.InProgress:
       showLoader = true;
       break;
+    case EventSaveStatus.LongWaiting:
+      text = "Долгое время ожидания от сервера.";
+      isError = true;
+      break;
   }
 
   return (
