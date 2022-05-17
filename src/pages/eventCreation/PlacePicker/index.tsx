@@ -18,13 +18,19 @@ const PlacePicker: React.FC<PlacePickerProps> = ({
     setShowMapModal(false);
   };
 
+  const savePickedCoords = (pickedCoords: [number, number] | undefined) => {
+    pickedCoords && setCoordinates(pickedCoords.join(", "));
+  };
+
   const openMapModal = () => {
     setShowMapModal(true);
   };
 
   return (
     <>
-      {showMapModal && <MapModal onClose={closeMapModal} />}
+      {showMapModal && (
+        <MapModal onClose={closeMapModal} saveNewCoords={savePickedCoords} />
+      )}
       <div className={styles.eventPlacePicker}>
         <span className={styles.eventPlacePicker__label}>Координаты</span>
         <input

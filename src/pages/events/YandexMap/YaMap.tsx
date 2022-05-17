@@ -7,13 +7,13 @@ import Circles from "./Circles/Circles";
 
 const MIN_ZOOM = 4;
 
-const mapStyle = {
+export const mapStyle = {
   position: "absolute",
   width: "100%",
   height: "100%",
 } as const;
 
-const mapOptions = {
+export const mapOptions = {
   exitFullscreenByEsc: true,
   minZoom: MIN_ZOOM,
   yandexMapAutoSwitch: true,
@@ -27,8 +27,7 @@ const YaMap = observer(({ className }: { className: string }) => {
     zoom: 10,
   };
 
-  const onMapClick = (_: any) => {
-  };
+  const onMapClick = (_: any) => {};
 
   return (
     <YMaps className="yandex-maps">

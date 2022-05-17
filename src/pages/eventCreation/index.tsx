@@ -118,7 +118,7 @@ const EventCreation: React.FC = observer(() => {
       const unsubscribe = setInterval(async () => {
         counter++;
         let status = await getIsCreated(userStore.accessToken, eventId);
-        console.log(status);
+
         if (status === EventSaveStatus.Saved) {
           clearInterval(unsubscribe);
           resolve(status);

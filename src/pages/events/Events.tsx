@@ -2,14 +2,16 @@ import React, { useEffect } from "react";
 import YandexMap from "./YandexMap/YaMap";
 import SideBar from "./SideBar/SideBar";
 import "./style.css";
-import {useLocation} from "react-router-dom";
-import {requestEvents} from "../../api/events/getEvents";
+import { useLocation } from "react-router-dom";
+import { requestEvents } from "../../api/events/getEvents";
 import globalStore from "../../stores/GlobalStore";
 
 export default function Events() {
   useEffect(() => {
     if (query.toString() !== "") {
-      requestEvents(query).then((r) => globalStore.eventLocationStore.addRange(r.events));
+      requestEvents(query).then((r) =>
+        globalStore.eventLocationStore.addRange(r.events)
+      );
     }
 
     document.body.style.overflow = "hidden";
