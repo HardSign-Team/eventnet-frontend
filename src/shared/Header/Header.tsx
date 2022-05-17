@@ -12,6 +12,7 @@ const LOGO_WIDTH: number = window.screen.width / 32;
 interface HeaderProps {
   userStore: UserStore;
 }
+
 const Header: React.FC<HeaderProps> = observer(({ userStore }) => {
   const logout = async () => {
     if (await logoutRequest(userStore.accessToken)) userStore.logout();

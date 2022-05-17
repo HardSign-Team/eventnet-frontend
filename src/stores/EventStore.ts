@@ -1,8 +1,7 @@
 import Event from "../models/Event";
 import EventInfo from "../models/EventInfo";
-import {EventLocationViewModel} from "../viewModels/EvenLocationViewModel";
-import {makeAutoObservable} from "mobx";
-
+import { EventLocationViewModel } from "../viewModels/EvenLocationViewModel";
+import { makeAutoObservable } from "mobx";
 
 export class EventStore {
   public events: Array<Event> = [];
@@ -35,8 +34,8 @@ export class EventStore {
   }
 
   addEvents(events: Array<EventLocationViewModel>) {
-      // TODO заглушка
-    const a = events.map(e => {
+    // TODO заглушка
+    const a = events.map((e) => {
       return {
         id: Math.floor(Math.random() * 10000),
         info: {
@@ -47,14 +46,16 @@ export class EventStore {
           description: "",
           dateEnd: new Date(2021, 10, 15),
           photos: [
-            "https://cdn.iz.ru/sites/default/files/styles/1920x1080/public/article-2019-06/ZURR4215.JPG.jpg?itok=2KMsqbt9",
+            {
+              url: "https://cdn.iz.ru/sites/default/files/styles/1920x1080/public/article-2019-06/ZURR4215.JPG.jpg?itok=2KMsqbt9",
+            },
           ],
         },
-      }
+      };
     });
     for (const e of a) {
       this.events.push(e as Event);
     }
-    console.log(this.events)
+    console.log(this.events);
   }
 }
