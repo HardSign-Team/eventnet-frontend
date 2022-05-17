@@ -1,47 +1,48 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Main from "./main/Main";
-import { Registration } from "./register/Registration";
-import { Login } from "./login/Login";
-import EventCreation from "./eventCreation";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
+import Events from "./pages/events/Events";
+import { Registration } from "./pages/register/Registration";
+import { Login } from "./pages/login/Login";
+import EventCreation from "./pages/eventCreation";
 import "./App.css";
-import { ResetPassword } from "./resetPassword/ResetPassword";
+import { ResetPassword } from "./pages/resetPassword/ResetPassword";
 import Header from "./shared/Header/Header";
-import Profile from "./profile";
-import { MainStore } from "./stores/MainStore";
-import { observer } from "mobx-react-lite";
+import Profile from "./pages/profile";
 import { Footer } from "./shared/Footer";
+import { UserEvents } from "./pages/userEvents";
+import globalStore from "./stores/GlobalStore";
+import { CompletedRegister } from "./pages/register/completedRegister";
+import { EventPage } from "./pages/eventPage";
 
-interface AppProps {
-  store: MainStore;
-}
-
-export const App: React.FC<AppProps> = observer<AppProps>(({ store }) => {
+export const App = () => {
   return (
     <Router>
       <div className={"app"}>
-        <Header />
+        <Header userStore={globalStore.userStore} />
         <div className={"content-wrapper"}>
           <Routes>
-            <Route
-              path="/register"
-              element={<Registration userStore={store.userStore} />}
-            />
+            <Route path="/register" element={<Registration />} />
             <Route path="/profile" element={<Profile />} />
             <Route
               path="/login"
-              element={<Login userStore={store.userStore} />}
+              element={<Login userStore={globalStore.userStore} />}
             />
-            <Route
-              path="/resetPassword"
-              element={<ResetPassword userStore={store.userStore} />}
-            />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/event-creation" element={<EventCreation />} />
-            <Route path="/" element={<Main />} />
+            <Route path="/user-events" element={<UserEvents />} />
+            <Route path="/completed-register" element={<CompletedRegister />} />
+            <Route path="/" element={<Navigate to="/events" replace />} />
+            <Route path="/event-page" element={<EventPage />} />
+            <Route path="/events" element={<Events />} />
           </Routes>
         </div>
         <Footer />
       </div>
     </Router>
   );
-});
+};

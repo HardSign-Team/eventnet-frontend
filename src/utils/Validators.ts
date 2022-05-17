@@ -11,7 +11,7 @@ const registrationValidator = createValidator<RegistrationUserInfo>((b) => {
     (b) => {
       b.invalid((x) => !x, "Укажите имя", "submit");
       b.invalid(
-        (x) => !/^[A-Za-z,.'!\\-]{3,}$/.test(x),
+        (x) => !/^[0-9A-Za-z,.'!\\-]{3,}$/.test(x),
         "Неккоректное имя пользователя",
         "submit"
       );
@@ -22,7 +22,7 @@ const registrationValidator = createValidator<RegistrationUserInfo>((b) => {
     (b) => {
       b.invalid((x) => !x, "Укажите адрес почты", "submit");
       b.invalid(
-        (x) => !/^[A-Za-z.]+@[a-z]+\.[a-z]{2,}$/.test(x),
+        (x) => !/^[A-Za-z.0-9]+@[a-z]+\.[a-z]{2,}$/.test(x),
         "Неверный адрес почты"
       );
     }
@@ -79,8 +79,31 @@ const mailValidator = createValidator<{ mail: string }>((b) => {
     (b) => {
       b.invalid((x) => !x, "Укажите адрес почты", "submit");
       b.invalid(
-        (x) => !/^[A-Za-z.]+@[a-z]+\.[a-z]{2,}$/.test(x),
+        (x) => !/^[A-Za-z.0-9]+@[a-z]+\.[a-z]{2,}$/.test(x),
         "Неверный адрес почты"
+      );
+    }
+  );
+});
+
+const resetPasswordValidator = createValidator<{
+  password: string;
+  confirmPassword: string;
+}>((b) => {
+  b.prop(
+    (x) => x.password,
+    (b) => {
+      b.invalid((x) => !x, "Придумайте пароль", "submit");
+    }
+  );
+  b.prop(
+    (x) => x,
+    (b, password) => {
+      b.invalid((x) => !x.confirmPassword, "Подтвердите пароль", "submit");
+      b.invalid(
+        (x) => x.confirmPassword !== password.password,
+        "Пароли не совпадают",
+        "submit"
       );
     }
   );
@@ -95,4 +118,5 @@ export {
   container,
   refContainer,
   mailValidator,
+  resetPasswordValidator,
 };

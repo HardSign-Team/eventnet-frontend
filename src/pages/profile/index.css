@@ -1,0 +1,27 @@
+.profile {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 320px;
+    padding-top: 30px;
+}
+
+.profile_avatar-wrapper {
+}
+
+.profile_avatar {
+    width: 200px;
+    height: 200px;
+    vertical-align: middle;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile_info-wrapper {
+    width: 100%;
+}
+
+.edit-button {
+    margin: 10px 0 25px;
+}

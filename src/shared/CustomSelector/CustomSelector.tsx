@@ -1,5 +1,5 @@
 import styles from "./CustomSelector.module.scss";
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from "react";
 import cn from "classnames";
 import { CustomCheckbox } from "../CustomCheckbox/CustomCheckbox";
 
@@ -8,35 +8,38 @@ interface Props {
   readonly label?: string;
   readonly classNameDiv?: string;
   readonly onChange: Dispatch<SetStateAction<any>>;
-  readonly first: string,
-  readonly second: string
-  readonly firstLabel: string,
-  readonly secondLabel: string,
-  readonly value: string
+  readonly first: string;
+  readonly second: string;
+  readonly firstLabel: string;
+  readonly secondLabel: string;
+  readonly value: string;
 }
-
 
 export const CustomSelector: React.FC<Props> = ({
   classNameDiv,
   classNameLabel,
   label,
   onChange,
-   first, firstLabel, second, secondLabel, value
+  first,
+  firstLabel,
+  second,
+  secondLabel,
+  value,
 }) => {
+  const [isFirst, setIsFirst] = useState(value);
 
-  const [isFirst, setIsFirst] = useState(value)
-
-  const checkIsFirst = (gender:string) => {
-    return gender === first
-  }
-
-  const changeGender = (gender: string) => {
-    setIsFirst(gender);
-    onChange(checkIsFirst(gender) ? first : second);
+  const checkIsFirst = (value: string) => {
+    return value === first;
   };
+
+  const changeGender = (value: string) => {
+    setIsFirst(value);
+    onChange(checkIsFirst(value) ? first : second);
+  };
+
   return (
     <div className={cn(styles.CustomSelector, classNameDiv)}>
-      {typeof label !== 'undefined' && (
+      {typeof label !== "undefined" && (
         <p className={cn(styles.classNameLabel, classNameLabel)}>{label}</p>
       )}
       <div className={styles.changeSelector}>

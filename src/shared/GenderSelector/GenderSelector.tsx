@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction} from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import "./GenderSelector.css";
 import { CustomSelector } from "../CustomSelector/CustomSelector";
 
@@ -12,7 +12,7 @@ interface Props {
   readonly label: string;
   readonly classNameDiv?: string;
   readonly onChange: Dispatch<SetStateAction<any>>;
-  readonly value: string
+  readonly value: string;
 }
 
 export const GenderSelector: React.FC<Props> = ({
@@ -20,7 +20,7 @@ export const GenderSelector: React.FC<Props> = ({
   classNameDiv,
   label,
   onChange,
-    value
+  value,
 }) => {
   return (
     <CustomSelector

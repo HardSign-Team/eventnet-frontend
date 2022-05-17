@@ -1,0 +1,72 @@
+.login {
+    margin: auto;
+    padding-top: 30px;
+    display: inline-block;
+}
+
+.password_handler {
+    display: flex;
+    width: 320px;
+}
+
+.change_rout_to_registration {
+    font-size: 14px;
+    text-decoration: none;
+    color: #008d8e;
+    text-align: center;
+    margin-right: auto;
+    display: block;
+    margin-left: auto;
+    width: 200px;
+}
+
+.not_acc {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 12px;
+    text-align: center;
+}
+
+.logo-login {
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+}
+
+.reset_password {
+    font-size: 14px;
+    text-decoration: none;
+    color: #171f1d;
+}
+
+.label_checked {
+    font-size: 10px;
+    position: relative;
+    top: -2px;
+    right: 3px;
+}
+
+.login__button {
+    background: #008d8e;
+    width: 190px;
+    height: 30px;
+    color: #D7DCD7;
+    border-radius: 15px;
+    border: #008d8e;
+
+    margin-left: 20px;
+
+    cursor: pointer;
+}
+
+.checked_remember_password {
+    position: relative;
+    right: 8px;
+}
+
+.error {
+    font-size: 18px;
+    color: red;
+}
