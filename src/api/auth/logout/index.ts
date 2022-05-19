@@ -5,9 +5,9 @@ import globalStore from "../../../stores/GlobalStore";
 async function logout(token: string) {
   const response = await request(token);
   if (response.statusText === "Unauthorized") {
-    await refreshToken(globalStore.userStore.refreshToken, token);
+    await refreshToken(globalStore.userStore.getRefreshToken(), token);
     return (
-      (await request(globalStore.userStore.accessToken)).status ===
+      (await request(globalStore.userStore.getAccessToken())).status ===
       STATUS_CODES.OK
     );
   } else return response.status === STATUS_CODES.OK;

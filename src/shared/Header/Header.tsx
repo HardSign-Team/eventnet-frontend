@@ -15,7 +15,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = observer(({ userStore }) => {
   const logout = async () => {
-    if (await logoutRequest(userStore.accessToken)) userStore.logout();
+    if (await logoutRequest(userStore.getAccessToken())) userStore.logout();
   };
 
   return (
@@ -36,12 +36,12 @@ const Header: React.FC<HeaderProps> = observer(({ userStore }) => {
                 <li>
                   <figure className="header__profile-photo">
                     <img
-                      src={userStore.image ? userStore.image : avatar}
+                      src={userStore.getImage() ? userStore.getImage() : avatar}
                       alt="Avatar"
                       className="avatar"
                     />
                   </figure>{" "}
-                  {userStore.isAuth ? (
+                  {userStore.getIsAuth() ? (
                     <ul className="header__submenu-container">
                       <li>
                         <Link to={"/profile"}>Профиль</Link>

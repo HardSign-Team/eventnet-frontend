@@ -2,19 +2,99 @@ import { autorun, makeAutoObservable } from "mobx";
 import { loadLocalState, saveLocalState } from "../utils/StoragesUtils";
 
 export class UserStore {
-  public accessToken: string = loadLocalState("accessToken", "");
-  public expiredAt: string = loadLocalState("expiredAt", "");
-  public refreshToken: string = loadLocalState("refreshToken", "");
-  public userName: string = loadLocalState("userName", "");
-  public email: string = loadLocalState("email", "");
-  public userRoles: string[] = loadLocalState("userRoles", []);
-  public isAuth: boolean = loadLocalState("isAuth", false);
-  public image: string = loadLocalState("image", "");
-  public birthDate: string = loadLocalState("birthDate", "");
-  public gender: string = loadLocalState("gender", "");
+  private accessToken: string = loadLocalState("accessToken", "");
+  private expiredAt: string = loadLocalState("expiredAt", "");
+  private refreshToken: string = loadLocalState("refreshToken", "");
+  private userName: string = loadLocalState("userName", "");
+  private email: string = loadLocalState("email", "");
+  private userRoles: string[] = loadLocalState("userRoles", []);
+  private isAuth: boolean = loadLocalState("isAuth", false);
+  private image: string = loadLocalState("image", "");
+  private birthDate: string = loadLocalState("birthDate", "");
+  private gender: string = loadLocalState("gender", "");
 
   constructor() {
     makeAutoObservable(this, {});
+  }
+
+  public setGender(gender: string) {
+    this.gender = gender;
+  }
+
+  public getGender() {
+    return this.gender;
+  }
+
+  public setBirthDate(birthDate: string) {
+    this.birthDate = birthDate;
+  }
+
+  public getBirthDate() {
+    return this.birthDate;
+  }
+
+  public setImage(image: string) {
+    this.image = image;
+  }
+
+  public getImage() {
+    return this.image;
+  }
+
+  public setIsAuth(isAuth: boolean) {
+    this.isAuth = isAuth;
+  }
+
+  public getIsAuth() {
+    return this.isAuth;
+  }
+
+  public setUserRoles(userRoles: string[]) {
+    this.userRoles = userRoles;
+  }
+
+  public getUserRoles() {
+    return this.userRoles;
+  }
+
+  public setEmail(email: string) {
+    this.email = email;
+  }
+
+  public getEmail() {
+    return this.email;
+  }
+
+  public setUserName(userName: string) {
+    this.userName = userName;
+  }
+
+  public getUserName() {
+    return this.userName;
+  }
+
+  public setRefreshToken(refreshToken: string) {
+    this.refreshToken = refreshToken;
+  }
+
+  public getRefreshToken() {
+    return this.refreshToken;
+  }
+
+  public setExpiredAt(expiredAt: string) {
+    this.expiredAt = expiredAt;
+  }
+
+  public getExpiredAt() {
+    return this.expiredAt;
+  }
+
+  public getAccessToken() {
+    return this.accessToken;
+  }
+
+  public setAccessToken(accessToken: string) {
+    this.accessToken = accessToken;
   }
 
   public save() {

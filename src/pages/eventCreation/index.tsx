@@ -117,7 +117,7 @@ const EventCreation: React.FC = observer(() => {
     return new Promise<EventSaveStatus>((resolve) => {
       const unsubscribe = setInterval(async () => {
         counter++;
-        let status = await getIsCreated(userStore.accessToken, eventId);
+        let status = await getIsCreated(userStore.getAccessToken(), eventId);
         console.log(status);
         if (status === EventSaveStatus.Saved) {
           clearInterval(unsubscribe);
@@ -138,7 +138,7 @@ const EventCreation: React.FC = observer(() => {
     }
     const [latitude, longitude] = coordinates.split(",").map((x) => +x.trim());
 
-    const eventId = await requestEventCreation(userStore.accessToken);
+    const eventId = await requestEventCreation(userStore.getAccessToken());
 
     const event: CreateEventModel = {
       id: eventId,
@@ -152,9 +152,12 @@ const EventCreation: React.FC = observer(() => {
 
     if (dateEnd && timeEnd) event["endDate"] = createDateFrom(dateEnd, timeEnd);
 
-    await createEvent(userStore.accessToken, event);
+    await createEvent(userStore.getAccessToken(), event);
 
-    const responseCode = await getIsCreated(userStore.accessToken, eventId);
+    const responseCode = await getIsCreated(
+      userStore.getAccessToken(),
+      eventId
+    );
     openStatusModal(responseCode);
 
     if (responseCode === EventSaveStatus.InProgress) {
