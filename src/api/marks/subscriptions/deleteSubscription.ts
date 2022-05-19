@@ -3,13 +3,15 @@ import { SubscriptionsCountViewModel } from "../../../viewModels/SubscriptionsCo
 import { guid } from "../../../viewModels/Guid";
 
 export async function deleteSubscription(
-  eventId: guid
+  eventId: guid,
+  token: string
 ): Promise<SubscriptionsCountViewModel> {
   const url = `${BASE_ROUTE}/api/subscriptions/${eventId}`;
   const options = {
     headers: {
       method: HTTP_METHODS.DELETE,
       "Content-Type": "application/json",
+      Authorization: token,
     },
   };
   const response = await fetch(url, options);
