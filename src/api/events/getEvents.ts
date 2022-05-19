@@ -4,7 +4,7 @@ import { EventLocationViewModel } from "../../viewModels/EvenLocationViewModel";
 import { BASE_ROUTE } from "../utils";
 
 type RequestEventsResponse = {
-  events: Array<EventLocationViewModel>
+  events: Array<EventLocationViewModel>;
 };
 
 export async function requestEvents(
@@ -18,7 +18,7 @@ export async function requestEvents(
   };
   const response = await fetch(url, options);
   return {
-    events: await response.json()
+    events: await response.json(),
   };
 }
 

@@ -9,37 +9,17 @@ import CrossMenuButton from "./Buttons/CrossMenuButton";
 
 type BarProps = {
   className: string;
+  onSubmit: (e: any) => void;
 };
 
-let sideBarContentStyles = {
-  backgroundColor: "#D7DCD7",
-  padding: "1em 2em 0",
-  fontSize: "1.15em",
-  position: "relative",
-  height: "100%",
-} as const;
-
-let sideBarStyles = {
-  position: "relative",
-  overflowY: "auto",
-  color: "#323232",
-  fontSize: "14px",
-} as const;
-
-export default function SideBar({ className }: BarProps) {
+export default function SideBar({ className, onSubmit }: BarProps) {
   const [menuCollapse, setMenuCollapse] = useState(true);
 
   return (
     <div className={className}>
-      <ProSidebar
-        collapsedWidth={1}
-        collapsed={menuCollapse}
-        className={className + "__bar"}
-        style={sideBarStyles}
-        width={"316px"}
-      >
-        <SidebarContent style={sideBarContentStyles}>
-          <Toolbar  onSubmit={() => {}}/>
+      <ProSidebar collapsedWidth={1} collapsed={menuCollapse} width={"350px"}>
+        <SidebarContent>
+          <Toolbar onSubmit={onSubmit} />
           <EventList />
         </SidebarContent>
       </ProSidebar>

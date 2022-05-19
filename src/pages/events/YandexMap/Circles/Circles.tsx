@@ -1,36 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
+import Event from "../../../../models/Event";
 import { Circle } from "react-yandex-maps";
-import {EventLocationViewModel} from "../../../../viewModels/EvenLocationViewModel";
+import EventBalloonContent from "../EventBalloonContent/EventBalloonContent";
+import ReactDOMServer from "react-dom/server";
 
 const CIRCLE_RADIUS = 5;
+const CIRCLE_COLOR = "#008D8E";
 const circleOptions = {
-  fillColor: "#008D8E",
-  strokeColor: "#008D8E",
+  fillColor: CIRCLE_COLOR,
+  strokeColor: CIRCLE_COLOR,
   strokeOpacity: 0.9,
   strokeWidth: 10,
 };
 
 type Props = {
-  events: EventLocationViewModel[];
+  events: Event[];
 };
 
 const Circles = ({ events }: Props) => {
   const circles: Array<JSX.Element> = [];
 
   events.forEach((event) => {
-    const location = [event.location.latitude, event.location.longitude];
     circles.push(
       <Circle
-        geometry={[location, CIRCLE_RADIUS]}
+        geometry={[event.info.coordinates, CIRCLE_RADIUS]}
         options={circleOptions}
         key={event.id}
         properties={{
-          // balloonContent: ReactDOMServer.renderToString(
-          //   <EventBalloonContent
-          //     className={"event-balloon-content"}
-          //     event={event}
-          //   />
-          // ),
+          balloonContent: ReactDOMServer.renderToString(
+            <EventBalloonContent
+              className={"event-balloon-content"}
+              event={event}
+            />
+          ),
         }}
         modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
       />
