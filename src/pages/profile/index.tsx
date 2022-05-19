@@ -4,9 +4,17 @@ import "./index.css";
 import CustomButton from "../../shared/CustomButton/CustomButton";
 import WatchProfile from "./WatchProfile";
 import EditProfile from "./EditProfile";
+import { observer } from "mobx-react-lite";
+import { UserStore } from "../../stores/UserStore";
 
-const Profile = () => {
-  const [userAvatar, setUserAvatar] = useState(avatar);
+interface ProfileProps {
+  userStore: UserStore;
+}
+
+const Profile: React.FC<ProfileProps> = observer(({ userStore }) => {
+  const [userAvatar, setUserAvatar] = useState(
+    !userStore.getImage() ? avatar : userStore.getImage
+  );
   const [editing, setEditing] = useState(false);
 
   const reverseEditing = () => {
@@ -27,12 +35,12 @@ const Profile = () => {
         />
       )}
       {!editing ? (
-        <WatchProfile />
+        <WatchProfile userStore={userStore} />
       ) : (
-        <EditProfile setUserAvatar={setUserAvatar} />
+        <EditProfile userStore={userStore} setUserAvatar={setUserAvatar} />
       )}
     </div>
   );
-};
+});
 
 export default Profile;

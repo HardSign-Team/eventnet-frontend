@@ -44,16 +44,16 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
 
   const saveUserStore = (answer: any) => {
     const tokens = answer.tokens;
-    userStore.accessToken = tokens.accessToken;
-    userStore.refreshToken = tokens.refreshToken;
-    userStore.expiredAt = tokens.expiredAt;
+    userStore.setAccessToken(tokens.accessToken);
+    userStore.setRefreshToken(tokens.refreshToken);
+    userStore.setExpiredAt(tokens.expiredAt);
     const user = answer.user;
-    userStore.email = user.email;
-    userStore.userName = user.userName;
-    userStore.birthDate = user.birthDate;
-    userStore.gender = user.gender;
-    userStore.userRoles = answer.userRoles;
-    userStore.isAuth = true;
+    userStore.setEmail(user.email);
+    userStore.setUserName(user.userName);
+    userStore.setBirthDate(user.birthDate);
+    userStore.setGender(user.gender);
+    userStore.setUserRoles(answer.userRoles);
+    userStore.setIsAuth(true);
     if (saveLogin) userStore.save();
   };
 
