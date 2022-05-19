@@ -39,23 +39,23 @@ const Events = observer(() => {
     await request();
   };
 
-  const handleClick = async () => {
-    await request();
+  const handleClick = async (center: [number, number], radius: number) => {
+    await (function () {
+      const dto = new RequestEventDto(
+        {
+          radiusLocation: new LocationFilterModel(
+            new Location(center[0], center[1]),
+            radius
+          ),
+        },
+        new PageInfoDto(1, 100)
+      );
+      const params = buildRequestEventsParams(dto);
+      navigate(`/events?${params}`);
+    })();
   };
 
-  const request = async () => {
-    const dto = new RequestEventDto(
-      {
-        radiusLocation: new LocationFilterModel(
-          new Location(Math.random(), 0.6231),
-          10
-        ),
-      },
-      new PageInfoDto(1, 10)
-    );
-    const params = buildRequestEventsParams(dto);
-    navigate(`/events?${params}`);
-  };
+  const request = async () => {};
   return (
     <div className="main-page">
       <SideBar className="side-bar" onSubmit={handleSubmit} />

@@ -51,14 +51,16 @@ function addBalloon(event: any) {
   }
 }
 
-type Props = { className: string; onClick?: () => void };
+type Props = {
+  className: string;
+  onClick?: (center: [number, number], radius: number) => void;
+};
 
 const YaMap = observer(({ className, onClick }: Props) => {
   const [showEvents, setShowEvents] = useState(true);
   const [map, setMap] = useState<any>(null);
   const onMapClick = async (event: any) => {
     addBalloon(event);
-    onClick?.();
   };
   const currentMapState = {
     center: mapStore.coordinates,
@@ -75,9 +77,11 @@ const YaMap = observer(({ className, onClick }: Props) => {
     map.behaviors.disable("rightMouseButtonMagnifier");
     map.events.add("boundschange", function (e: any) {
       const [leftBound, rightBound] = e.get("newBounds");
-      console.log(
-        `Radius: ${getDistanceFromLatLonInKm(leftBound, rightBound)} km`
-      );
+      const newCenter = e.get("newCenter");
+      const radius = getDistanceFromLatLonInKm(leftBound, rightBound);
+      if (onClick) {
+        onClick(newCenter, radius);
+      }
     });
   }
 
