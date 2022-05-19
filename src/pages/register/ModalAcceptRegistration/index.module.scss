@@ -4,13 +4,20 @@
   & > p {
     margin-bottom: 10px;
   }
+
+  .mail {
+    color: #008D8E;
+    margin-top: 5px;
+  }
+
  .sendAgain {
-   cursor: pointer;
    color: #009ea0;
    margin: 0;
+   font-size: 14px;
 
    &:hover {
      color: #008D8E;
+     cursor: pointer;
    }
  }
 

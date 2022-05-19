@@ -7,6 +7,7 @@ import { formatTimeString } from "../../utils/datetimeHelpers";
 import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { GoLocation } from "react-icons/go";
 import cn from "classnames";
+import Image from "../../models/Image";
 
 const { eventStore } = globalStore;
 
@@ -31,7 +32,7 @@ export const EventPage: React.FC<EventPageProps> = ({
 
   return (
     <div className={styles.eventPage}>
-      <PhotoCarousel images={eventInfo.photos ?? [""]} />
+      <PhotoCarousel images={eventInfo.photos ?? [{} as Image]} />
       <div className={styles.wrapper}>
         <div className={styles.eventInfo}>
           <h2 className={styles.eventName}>{eventInfo.name}</h2>
@@ -65,7 +66,6 @@ export const EventPage: React.FC<EventPageProps> = ({
         <p className={styles.descriptionTitle}>Описание:</p>
         <p className={styles.description}>{eventInfo.description}</p>
       </div>
-      <div className={styles.comments}></div>
     </div>
   );
 };

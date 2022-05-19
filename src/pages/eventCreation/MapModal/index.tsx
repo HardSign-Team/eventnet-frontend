@@ -6,17 +6,16 @@ import "./index.scss";
 
 type ShowMapModalProps = {
   onClose: () => void;
-  onClick?: () => void;
 };
 
-const Index: React.FC<ShowMapModalProps> = ({ onClose, onClick }) => {
+const MapModal: React.FC<ShowMapModalProps> = ({ onClose }) => {
   const saveCoords = () => {};
 
   return (
     <Modal onClose={onClose}>
       <Modal.Body>
         <div className={"map-wrapper"}>
-          <YaMap className={"modal-map"} onClick={onClick}/>
+          <YaMap className={"modal-map"}/>
         </div>
       </Modal.Body>
       <Modal.Footer>
@@ -30,4 +29,4 @@ const Index: React.FC<ShowMapModalProps> = ({ onClose, onClick }) => {
   );
 };
 
-export default Index;
+export default MapModal;

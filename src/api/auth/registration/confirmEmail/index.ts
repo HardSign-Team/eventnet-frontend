@@ -1,19 +1,17 @@
-import { BASE_ROUTE, HTTP_METHODS } from "../../../utils";
+import { BASE_ROUTE, HTTP_METHODS, STATUS_CODES } from "../../../utils";
 
 async function confirmEmail(userId: string, code: string) {
-  return fetch(BASE_ROUTE + "/api/auth/email-confrimation-message", {
-    method: HTTP_METHODS.POST,
-    headers: {
-      "Content-Type": "application/json;charset=utf-8",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      userId: userId,
-      code: code,
-    }),
-  })
-    .then((x) => x.json())
-    .catch((err) => console.error(err));
+  const response = await fetch(
+    BASE_ROUTE + "/api/auth/confirm-email?userId=" + userId + "&code=" + code,
+    {
+      method: HTTP_METHODS.POST,
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Accept: "application/json",
+      },
+    }
+  );
+  return response.status === STATUS_CODES.OK;
 }
 
 export { confirmEmail };

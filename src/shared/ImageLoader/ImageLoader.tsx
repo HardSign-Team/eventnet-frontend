@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "./ImageLoader.module.scss";
+import Image from "../../models/Image";
 
 type ImageLoaderProps = {
-  setImageURLS: (urls: string[]) => void;
+  setImages: (images: Image[]) => void;
   maxImagesCount?: number;
   labelText?: string;
   style?: {};
@@ -13,20 +14,9 @@ const DEFAULT_MAX_IMAGES_COUNT = 8;
 const ImageLoader: React.FC<ImageLoaderProps> = ({
   labelText = "Загрузить фотографии...",
   style = {},
-  setImageURLS,
+  setImages,
   maxImagesCount = DEFAULT_MAX_IMAGES_COUNT,
 }) => {
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
-
-  useEffect(() => {
-    if (imageFiles.length < 1) return;
-    const newImageUrls: string[] = [];
-    imageFiles.forEach((image) =>
-      newImageUrls.push(URL.createObjectURL(image))
-    );
-    setImageURLS(newImageUrls);
-  }, [imageFiles]);
-
   function onImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const allowedExtensions = ["jpg", "jpeg", "png", "bmp"];
 
@@ -43,10 +33,11 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({
       const fileExtension = fileName
         .slice(dotIndex, fileName.length)
         .toLowerCase();
-      allowedExtensions.includes(fileExtension) && images.push(file);
+      allowedExtensions.includes(fileExtension) &&
+        images.push({ url: URL.createObjectURL(file), file: file });
     }
 
-    setImageFiles(images);
+    setImages(images);
   }
 
   return (

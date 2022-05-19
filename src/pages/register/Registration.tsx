@@ -9,11 +9,8 @@ import {
 } from "../../shared/GenderSelector/GenderSelector";
 import { CustomSelectDate } from "../../shared/CustomSelectDate/CustomSelectDate";
 import { FormContainer } from "../../shared/FormContainer/FormContainer";
-import {
-  userInfoRegister,
-  registerRequest,
-} from "../../api/auth/registration/registerRequest";
-import { ModalAcceptRegistration } from "./modalAcceptRegistration/ModalAcceptRegistration";
+import { registerRequest } from "../../api/auth/registration/registerRequest";
+
 import {
   text,
   ValidationContainer,
@@ -25,6 +22,8 @@ import {
   registrationValidator,
 } from "../../utils/Validators";
 import { STATUS_CODES } from "../../api/utils";
+import { RegisterModel } from "../../dto/RegisterModel";
+import { ModalAcceptRegistration } from "./ModalAcceptRegistration";
 
 export const Registration: React.FC = () => {
   const [userName, setUserName] = useState("");
@@ -37,24 +36,25 @@ export const Registration: React.FC = () => {
   const [isErrorRegister, setIsErrorRegister] = useState(false);
 
   const registration = async (): Promise<void> => {
+    setIsErrorRegister(false);
     if (!container) {
       return;
     }
+
     if (await container.validate()) {
-      const userInfoRegister: userInfoRegister = {
-        birthDate: "2022-05-02T12:00:34.366Z",
+      const userInfoRegister: RegisterModel = {
+        birthDate: dateBirthday.split(".").reverse().join("-"),
         confirmPassword: confirmPassword,
         gender: gender,
         userName: userName,
         email: mail,
         password: password,
       };
-      // TODO для отладки пригодится
-      // console.log(JSON.stringify(userInfoRegister));
+
       registerRequest(userInfoRegister).then((x) => {
-        if (x !== undefined && x.message === STATUS_CODES.ACCEPTED)
+        if (x !== undefined && x.status === STATUS_CODES.OK) {
           setIsAcceptRegister(true);
-        else setIsErrorRegister(true);
+        } else setIsErrorRegister(true);
       });
     }
   };
@@ -75,7 +75,7 @@ export const Registration: React.FC = () => {
         <ModalAcceptRegistration mail={mail} userName={userName} />
       )}
       {isErrorRegister && (
-        <p className="errorMessage">Данная почта уже зарегистрированна</p>
+        <p className="errorMessage">Данные почта или имя уже ипользуются</p>
       )}
       <ValidationContainer ref={refContainer}>
         <FormContainer className="form__registration">
@@ -135,7 +135,7 @@ export const Registration: React.FC = () => {
           <GenderSelector
             label="Укажите свой пол"
             classNameDiv="gender_selector"
-            onChange={() => setGender(gender)}
+            onChange={setGender}
             value={gender}
           />
           <CustomButton

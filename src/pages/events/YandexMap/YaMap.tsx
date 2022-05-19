@@ -30,7 +30,8 @@ const mapOptions = {
   yandexMapAutoSwitch: true,
 };
 const accessToken = process.env.REACT_APP_YANDEX_MAPS_API_KEY || "";
-const { eventStore, mapStore } = globalStore;
+
+const { eventLocationStore, mapStore } = globalStore;
 
 function addBalloon(event: any) {
   const map = event.get("map");
@@ -94,8 +95,6 @@ const YaMap = observer(({ className, onClick }: Props) => {
       <Map
         style={mapStyle}
         state={currentMapState}
-        width={"100%"}
-        height={"100%"}
         className={className}
         options={mapOptions}
         onClick={onMapClick}
@@ -131,7 +130,9 @@ const YaMap = observer(({ className, onClick }: Props) => {
           onClick={onClickButton}
         />
         <Clusterer>
-          {showEvents && <Circles events={eventStore.events} />}
+          {showEvents && (
+            <Circles events={globalStore.eventStore.getEvents()} />
+          )}
         </Clusterer>
       </Map>
     </YMaps>

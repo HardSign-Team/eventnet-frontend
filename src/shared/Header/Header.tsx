@@ -5,15 +5,17 @@ import "./Header.css";
 import avatar from "../../assets/avatar.jpg";
 import { UserStore } from "../../stores/UserStore";
 import { observer } from "mobx-react-lite";
+import { logoutRequest } from "../../api/auth/logout";
 
 const LOGO_WIDTH: number = window.screen.width / 32;
 
 interface HeaderProps {
   userStore: UserStore;
 }
+
 const Header: React.FC<HeaderProps> = observer(({ userStore }) => {
-  const logout = () => {
-    userStore.logout();
+  const logout = async () => {
+    if (await logoutRequest(userStore.accessToken)) userStore.logout();
   };
 
   return (

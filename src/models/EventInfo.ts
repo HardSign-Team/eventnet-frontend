@@ -1,3 +1,5 @@
+import Image from "./Image";
+
 export default interface EventInfo {
   dateStart: Date;
   name: string;
@@ -7,5 +9,5 @@ export default interface EventInfo {
   likes?: number;
   dislikes?: number;
   participants?: number;
-  photos?: Array<string>;
+  photos?: Array<Image>;
 }

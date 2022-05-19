@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Gapped } from "@skbkontur/react-ui";
 import EventDatetimePicker from "./EventDatetimePicker";
-import { CustomSelector } from "../../shared/CustomSelector/CustomSelector";
 import CustomButton from "../../shared/CustomButton/CustomButton";
 import EventEndPicker from "./EventEndPicker";
 import PlacePicker from "./PlacePicker";
@@ -12,30 +11,49 @@ import PhotoCarousel from "../../shared/PhotoCarousel/Carousel/PhotoCarousel";
 import {
   calculateDuration,
   calculateEndDatetime,
+  createDateFrom,
 } from "../../utils/datetimeHelpers";
 import { cropped } from "../../utils/cropHelpers";
-
-enum EventTypes {
-  Public = "public",
-  Private = "private",
-}
+import { CreateEventModel } from "../../dto/CreateEventModel";
+import { Location } from "../../dto/Location";
+import { requestEventCreation } from "../../api/events/requestEventCreation";
+import { createEvent } from "../../api/events/createEvent";
+import { EventSaveStatus, getIsCreated } from "../../api/events/getIsCreated";
+import { observer } from "mobx-react-lite";
+import globalStore from "../../stores/GlobalStore";
+import { StatusModal } from "./StatusModal";
+import Image from "../../models/Image";
 
 const MAX_EVENT_NAME_LENGTH = 50;
 const MAX_EVENT_DESCRIPTION_LENGTH = 1000;
+const MAX_RETRIES = 10;
+
+const { userStore } = globalStore;
 
 // TODO ограничения на инпуты
-const EventCreation: React.FC = () => {
-  const [eventImages, setEventImages] = useState<string[]>([]);
+const EventCreation: React.FC = observer(() => {
+  const [eventImages, setEventImages] = useState<Image[]>([]);
   const [eventName, setEventName] = useState("");
   const [duration, setDuration] = useState("");
   const [dateStart, setDateStart] = useState("");
   const [timeStart, setTimeStart] = useState("");
   const [dateEnd, setDateEnd] = useState("");
   const [timeEnd, setTimeEnd] = useState("");
-  const [coordinates, setCoordinates] = useState("");
-  const [eventType, setEventType] = useState(EventTypes.Public);
+  const [coordinates, setCoordinates] = useState("56.817076, 60.611855");
   const [selectedTags, setSelectedTags] = React.useState([]);
   const [eventDescription, setEventDescription] = useState("");
+
+  const [showStatusModal, setShowStatusModal] = useState(false);
+  const [modalStatus, setModalStatus] = useState(EventSaveStatus.Saved);
+
+  const closeStatusModal = () => {
+    setShowStatusModal(false);
+  };
+
+  const openStatusModal = (status: EventSaveStatus) => {
+    setModalStatus((_) => status);
+    setShowStatusModal(true);
+  };
 
   const updateEventName = (name: string) => {
     setEventName(cropped(name, MAX_EVENT_NAME_LENGTH));
@@ -43,6 +61,17 @@ const EventCreation: React.FC = () => {
 
   const updateEventDescription = (description: string) => {
     setEventDescription(cropped(description, MAX_EVENT_DESCRIPTION_LENGTH));
+  };
+
+  const isDatesNotEmpty = () => {
+    return dateStart && timeStart && dateEnd && timeEnd;
+  };
+
+  const isValidDates = () => {
+    const start = createDateFrom(dateStart, timeStart);
+    const end = createDateFrom(dateEnd, timeEnd);
+
+    return end.getTime() - start.getTime() >= 0;
   };
 
   useEffect(() => {
@@ -58,7 +87,7 @@ const EventCreation: React.FC = () => {
   }, [dateStart, timeStart, duration]);
 
   useEffect(() => {
-    if (dateStart && dateEnd && timeEnd) {
+    if (isDatesNotEmpty()) {
       const newDuration = calculateDuration(
         dateStart,
         timeStart,
@@ -70,10 +99,75 @@ const EventCreation: React.FC = () => {
     }
   }, [dateEnd, timeEnd]);
 
-  const createEvent = () => {};
+  const isValidData = () => {
+    if (isDatesNotEmpty() && !isValidDates()) return false;
+
+    return !!(
+      eventName &&
+      eventDescription &&
+      coordinates &&
+      dateStart &&
+      timeStart
+    );
+  };
+
+  const retryGetIsCreated = async (eventId: string) => {
+    let counter = 0;
+
+    return new Promise<EventSaveStatus>((resolve) => {
+      const unsubscribe = setInterval(async () => {
+        counter++;
+        let status = await getIsCreated(userStore.accessToken, eventId);
+        console.log(status);
+        if (status === EventSaveStatus.Saved) {
+          clearInterval(unsubscribe);
+          resolve(status);
+        }
+        if (counter > MAX_RETRIES) {
+          clearInterval(unsubscribe);
+          resolve(EventSaveStatus.LongWaiting);
+        }
+      }, 1000);
+    });
+  };
+
+  const handleEventCreation = async () => {
+    if (!isValidData()) {
+      openStatusModal(EventSaveStatus.NotSavedDueToError);
+      return;
+    }
+    const [latitude, longitude] = coordinates.split(",").map((x) => +x.trim());
+
+    const eventId = await requestEventCreation(userStore.accessToken);
+
+    const event: CreateEventModel = {
+      id: eventId,
+      location: new Location(latitude, longitude),
+      description: eventDescription,
+      name: eventName,
+      startDate: createDateFrom(dateStart, timeStart),
+      tags: selectedTags,
+      photos: eventImages,
+    };
+
+    if (dateEnd && timeEnd) event["endDate"] = createDateFrom(dateEnd, timeEnd);
+
+    await createEvent(userStore.accessToken, event);
+
+    const responseCode = await getIsCreated(userStore.accessToken, eventId);
+    openStatusModal(responseCode);
+
+    if (responseCode === EventSaveStatus.InProgress) {
+      const newResponseCode = await retryGetIsCreated(eventId);
+      openStatusModal(newResponseCode);
+    }
+  };
 
   return (
     <>
+      {showStatusModal && (
+        <StatusModal status={modalStatus} onClose={closeStatusModal} />
+      )}
       <Gapped className={styles.eventCreation} vertical gap={20}>
         <PhotoCarousel
           images={eventImages}
@@ -100,15 +194,6 @@ const EventCreation: React.FC = () => {
           timeEnd={timeEnd}
           setTimeEnd={setTimeEnd}
         />
-        <CustomSelector
-          classNameDiv={styles.eventType_selector}
-          onChange={setEventType}
-          first={EventTypes.Public}
-          second={EventTypes.Private}
-          firstLabel={"Публичное"}
-          secondLabel={"Приватное"}
-          value={eventType}
-        />
         <PlacePicker
           coordinates={coordinates}
           setCoordinates={setCoordinates}
@@ -125,11 +210,11 @@ const EventCreation: React.FC = () => {
           width={480}
           height={40}
           label={"Создать событие"}
-          onClick={createEvent}
+          onClick={handleEventCreation}
         />
       </Gapped>
     </>
   );
-};
+});
 
 export default EventCreation;

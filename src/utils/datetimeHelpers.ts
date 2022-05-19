@@ -1,13 +1,22 @@
+const normalizeNumber = (num: number) => {
+  return num.toString().padStart(2, "0");
+};
+
+export const createDateFrom = (date: string, time: string) => {
+  const [day, month, year] = date.split(".").map(Number);
+  const [hours, minutes] = time.split(":").map(Number);
+
+  return new Date(year, month - 1, day, hours, minutes);
+};
+
 export const calculateEndDatetime = (
   dateStart: string,
   timeStart: string,
   duration: string
 ) => {
-  const [day, month, year] = dateStart.split(".").map(Number);
-  const [hours, minutes] = timeStart.split(":").map(Number);
   const [durationHours, durationMinutes] = duration.split(":").map(Number);
 
-  const dateObj = new Date(year, month - 1, day, hours, minutes);
+  const dateObj = createDateFrom(dateStart, timeStart);
   dateObj.setHours(dateObj.getHours() + durationHours);
   dateObj.setMinutes(dateObj.getMinutes() + durationMinutes);
 
@@ -16,11 +25,11 @@ export const calculateEndDatetime = (
     dateObj.getMonth() + 1,
     dateObj.getFullYear(),
   ]
-    .map((x) => x.toString().padStart(2, "0"))
+    .map((x) => normalizeNumber(x))
     .join(".");
 
   const _timeEnd = [dateObj.getHours(), dateObj.getMinutes()]
-    .map((x) => x.toString().padStart(2, "0"))
+    .map((x) => normalizeNumber(x))
     .join(":");
 
   return [_dateEnd, _timeEnd];
@@ -32,25 +41,8 @@ export const calculateDuration = (
   dateEnd: string,
   timeEnd: string
 ) => {
-  const [dayStart, monthStart, yearStart] = dateStart.split(".").map(Number);
-  const [hoursStart, minutesStart] = timeStart.split(":").map(Number);
-  const [dayEnd, monthEnd, yearEnd] = dateEnd.split(".").map(Number);
-  const [hoursEnd, minutesEnd] = timeEnd.split(":").map(Number);
-
-  const datetimeStart = new Date(
-    yearStart,
-    monthStart - 1,
-    dayStart,
-    hoursStart,
-    minutesStart
-  ).getTime();
-  const datetimeEnd = new Date(
-    yearEnd,
-    monthEnd - 1,
-    dayEnd,
-    hoursEnd,
-    minutesEnd
-  ).getTime();
+  const datetimeStart = createDateFrom(dateStart, timeStart).getTime();
+  const datetimeEnd = createDateFrom(dateEnd, timeEnd).getTime();
 
   const hourDiff = datetimeEnd - datetimeStart;
   const minDiff = hourDiff / 60 / 1000;
@@ -59,7 +51,7 @@ export const calculateDuration = (
   const hours = Math.floor(hDiff);
   const minutes = minDiff - 60 * hours;
 
-  return [hours, minutes].map((x) => x.toString().padStart(2, "0")).join(":");
+  return [hours, minutes].map((x) => normalizeNumber(x)).join(":");
 };
 
 export const formatTimeString = (time: string) => {

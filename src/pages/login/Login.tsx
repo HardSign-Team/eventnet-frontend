@@ -4,6 +4,7 @@ import "./Login.css";
 import CustomButton from "../../shared/CustomButton/CustomButton";
 import { CustomInput } from "../../shared/CustomInput/CustomInput";
 import { FormContainer } from "../../shared/FormContainer/FormContainer";
+import { userInfo, loginRequest } from "../../api/auth/loginRequest";
 import {
   text,
   ValidationContainer,
@@ -17,7 +18,6 @@ import {
 import { UserStore } from "../../stores/UserStore";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
-import { loginRequest, userInfo } from "../../api/auth/loginRequest";
 import { STATUS_CODES } from "../../api/utils";
 
 interface LoginProps {
@@ -28,6 +28,8 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const [saveLogin, setSaveLogin] = useState(true);
+
   const navigate = useNavigate();
 
   const login = async (): Promise<void> => {
@@ -36,7 +38,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
     }
     if (await container.validate()) {
       const user: userInfo = { login: userName, password: password };
-      executeLoginRequest(user);
+      await executeLoginRequest(user);
     }
   };
 
@@ -52,17 +54,17 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
     userStore.gender = user.gender;
     userStore.userRoles = answer.userRoles;
     userStore.isAuth = true;
+    if (saveLogin) userStore.save();
   };
 
-  const executeLoginRequest = (user: userInfo) => {
-    loginRequest(user).then((x) => {
-      if (x.code === STATUS_CODES.ACCEPTED) {
-        saveUserStore(x);
-        navigate("/");
-      } else {
-        setError(true);
-      }
-    });
+  const executeLoginRequest = async (user: userInfo) => {
+    setError(false);
+    const response = await loginRequest(user);
+    if (response.status === STATUS_CODES.OK) {
+      const answer = await response.json();
+      saveUserStore(answer);
+      navigate("/");
+    } else setError(true);
   };
 
   const validator = loginValidator({
@@ -109,6 +111,8 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
                   id="checked"
                   type="checkbox"
                   className="checked_remember_password"
+                  onChange={() => setSaveLogin(!saveLogin)}
+                  checked={saveLogin}
                 />
                 <label className="label_checked" htmlFor="checked">
                   Запомнить меня

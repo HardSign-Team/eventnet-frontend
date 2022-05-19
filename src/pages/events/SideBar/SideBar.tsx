@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Menu, MenuItem, ProSidebar, SidebarContent } from "react-pro-sidebar";
+import { ProSidebar, SidebarContent } from "react-pro-sidebar";
 import "./SideBar.css";
 import "react-pro-sidebar/dist/css/styles.css";
 import EventList from "../EventList/EventList";
