@@ -1,13 +1,8 @@
 import Event from "../models/Event";
 import EventInfo from "../models/EventInfo";
-import {EventLocationViewModel} from "../viewModels/EvenLocationViewModel";
-import {makeAutoObservable} from "mobx";
-
-function getRandomInt(min: number, max: number) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-}
+import { EventLocationViewModel } from "../viewModels/EvenLocationViewModel";
+import { makeAutoObservable } from "mobx";
+import { guid } from "../viewModels/Guid";
 
 export class EventStore {
   public events: Array<Event> = [];
@@ -20,7 +15,7 @@ export class EventStore {
     return this.events;
   }
 
-  public getEventById(id: number): Event | undefined {
+  public getEventById(id: guid): Event | undefined {
     return this.events.find((event) => event.id === id);
   }
 
@@ -29,9 +24,9 @@ export class EventStore {
   }
 
   addEvents(events: Array<EventLocationViewModel>) {
-    const a = events.map((event) => {
+    const a: Array<Event> = events.map((event) => {
       return {
-        id: Math.floor(Math.random() * 10000),
+        id: event.id,
         info: {
           name: event.name,
           coordinates: [event.location.latitude, event.location.longitude],
@@ -39,16 +34,11 @@ export class EventStore {
           likes: 2,
           description: "",
           dateEnd: new Date(2021, 10, 15),
-          photos: [
-            {
-              url: "https://cdn.iz.ru/sites/default/files/styles/1920x1080/public/article-2019-06/ZURR4215.JPG.jpg?itok=2KMsqbt9",
-            },
-          ],
         },
       };
     });
     for (const e of a) {
-      this.events.push(e as Event);
+      if (!this.events.some((event) => event.id === e.id)) this.events.push(e);
     }
   }
 }

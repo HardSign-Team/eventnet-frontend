@@ -31,7 +31,7 @@ export const mapOptions = {
 };
 const accessToken = process.env.REACT_APP_YANDEX_MAPS_API_KEY || "";
 
-const { eventLocationStore, mapStore } = globalStore;
+const { mapStore } = globalStore;
 
 function addBalloon(event: any) {
   const map = event.get("map");
@@ -59,7 +59,6 @@ type Props = {
 
 const YaMap = observer(({ className, onClick }: Props) => {
   const [showEvents, setShowEvents] = useState(true);
-  const [map, setMap] = useState<any>(null);
   const onMapClick = async (event: any) => {
     addBalloon(event);
   };
@@ -71,20 +70,6 @@ const YaMap = observer(({ className, onClick }: Props) => {
   const onClickButton = () => {
     setShowEvents(!showEvents);
   };
-
-  if (map !== null) {
-    map.behaviors.enable("scrollZoom");
-    map.behaviors.disable("dblClickZoom");
-    map.behaviors.disable("rightMouseButtonMagnifier");
-    map.events.add("boundschange", function (e: any) {
-      const [leftBound, rightBound] = e.get("newBounds");
-      const newCenter = e.get("newCenter");
-      const radius = getDistanceFromLatLonInKm(leftBound, rightBound);
-      if (onClick) {
-        onClick(newCenter, radius);
-      }
-    });
-  }
 
   return (
     <YMaps
@@ -98,9 +83,19 @@ const YaMap = observer(({ className, onClick }: Props) => {
         className={className}
         options={mapOptions}
         onClick={onMapClick}
+        onBoundsChange={(map: any) => {
+          const [leftBound, rightBound] = map.get("newBounds");
+          const newCenter = map.get("newCenter");
+          const radius = getDistanceFromLatLonInKm(leftBound, rightBound);
+          if (onClick) {
+            onClick(newCenter, radius);
+          }
+        }}
         instanceRef={(map: any) => {
           if (map !== null) {
-            setMap(map);
+            map.behaviors.enable("scrollZoom");
+            map.behaviors.disable("dblClickZoom");
+            map.behaviors.disable("rightMouseButtonMagnifier");
           }
         }}
       >

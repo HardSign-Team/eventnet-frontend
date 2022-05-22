@@ -9,8 +9,8 @@ const CIRCLE_COLOR = "#008D8E";
 const circleOptions = {
   fillColor: CIRCLE_COLOR,
   strokeColor: CIRCLE_COLOR,
-  strokeOpacity: 0.9,
-  strokeWidth: 10,
+  strokeOpacity: 1,
+  strokeWidth: 15,
 };
 
 type Props = {
