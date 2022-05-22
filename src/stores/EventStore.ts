@@ -1,7 +1,8 @@
 import Event from "../models/Event";
 import EventInfo from "../models/EventInfo";
-import {EventLocationViewModel} from "../viewModels/EvenLocationViewModel";
-import {makeAutoObservable} from "mobx";
+import { EventLocationViewModel } from "../viewModels/EvenLocationViewModel";
+import { makeAutoObservable } from "mobx";
+import { guid } from '../viewModels/Guid';
 
 function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
@@ -20,7 +21,7 @@ export class EventStore {
     return this.events;
   }
 
-  public getEventById(id: number): Event | undefined {
+  public getEventById(id: guid): Event | undefined {
     return this.events.find((event) => event.id === id);
   }
 
@@ -31,7 +32,7 @@ export class EventStore {
   addEvents(events: Array<EventLocationViewModel>) {
     const a = events.map((event) => {
       return {
-        id: Math.floor(Math.random() * 10000),
+        id: event.id,
         info: {
           name: event.name,
           coordinates: [event.location.latitude, event.location.longitude],
@@ -50,5 +51,15 @@ export class EventStore {
     for (const e of a) {
       this.events.push(e as Event);
     }
+    const ids = new Set(this.events.map((x) => x.id));
+    this.events = this.events.filter((ev) => {
+      if (ids.has(ev.id)) {
+        ids.delete(ev.id);
+        return true;
+      } else {
+        return false;
+      }
+    });
+    console.log(this.events)
   }
 }
