@@ -6,17 +6,18 @@ import { Map, Placemark, YMaps } from "react-yandex-maps";
 import globalStore from "../../../stores/GlobalStore";
 import { mapOptions, mapStyle } from "../../events/YandexMap/YaMap";
 import { observer } from "mobx-react-lite";
+import { Coordinates } from '../../../models/Coordinates';
 
 type ShowMapModalProps = {
   onClose: () => void;
-  saveNewCoords: (coords: [number, number] | undefined) => void;
+  saveNewCoords: (coords: Coordinates | undefined) => void;
 };
 
 const { mapStore } = globalStore;
 
 const MapModal: React.FC<ShowMapModalProps> = observer(
   ({ onClose, saveNewCoords }) => {
-    const [coords, setCoords] = useState<[number, number]>();
+    const [coords, setCoords] = useState<Coordinates>();
 
     const currentMapState = {
       center: mapStore.coordinates,
