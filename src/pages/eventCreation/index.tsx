@@ -22,6 +22,8 @@ import { observer } from "mobx-react-lite";
 import globalStore from "../../stores/GlobalStore";
 import { StatusModal } from "./StatusModal";
 import Image from "../../models/Image";
+import { useLocation } from "react-router-dom";
+import { formatCoordinates } from "../../utils/coordinatesHelper";
 
 const MAX_EVENT_NAME_LENGTH = 50;
 const MAX_EVENT_DESCRIPTION_LENGTH = 1000;
@@ -31,6 +33,9 @@ const { userStore } = globalStore;
 
 // TODO ограничения на инпуты
 const EventCreation: React.FC = observer(() => {
+  const { search } = useLocation();
+  const query = React.useMemo(() => new URLSearchParams(search), [search]);
+
   const [eventImages, setEventImages] = useState<Image[]>([]);
   const [eventName, setEventName] = useState("");
   const [duration, setDuration] = useState("");
@@ -72,6 +77,13 @@ const EventCreation: React.FC = observer(() => {
 
     return end.getTime() - start.getTime() >= 0;
   };
+
+  useEffect(() => {
+    const [lat, long] = [query.get("lat"), query.get("long")];
+    if (!lat || !long) return;
+
+    setCoordinates(formatCoordinates([+lat, +long]));
+  }, [query]);
 
   useEffect(() => {
     if (dateStart && timeStart && duration) {
