@@ -24,7 +24,7 @@ const mapStyle = {
   height: "100%",
 } as const;
 
-const mapOptions = {
+export const mapOptions = {
   exitFullscreenByEsc: true,
   minZoom: MIN_ZOOM,
   yandexMapAutoSwitch: true,
