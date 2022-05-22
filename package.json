@@ -16,6 +16,7 @@
     "classnames": "^2.3.1",
     "fork-ts-checker-webpack-plugin": "^7.2.1",
     "js-base64": "^3.7.2",
+    "lodash": "^4.17.21",
     "mobx": "^6.5.0",
     "mobx-react-lite": "^3.3.0",
     "moment": "^2.29.2",
@@ -63,6 +64,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.182",
     "@types/react-burger-menu": "^2.8.3",
     "@types/react-slick": "^0.23.8",
     "css-loader": "^6.7.1",
