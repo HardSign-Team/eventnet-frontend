@@ -7,59 +7,7 @@ import { TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
 import { observer } from "mobx-react-lite";
 import globalStore from "../../../../stores/GlobalStore";
 
-const tags = [
-  "ЖОПА",
-  "ОГergОНЬ",
-  "КРergУТА",
-  "ЗАМЕЧАТЛЬНО",
-  "ТОПergОВО",
-  "ОПhgУПЕННО",
-  "краdfhсота",
-  "кенdfhигсберг",
-  "море",
-  "ЖОПА",
-  "ОГОНЬ",
-  "КРУТА",
-  "ЗАМЕЧАТЛЬНО",
-  "ТОПrgeОВО",
-  "ОПУПЕННО",
-  "крergаwсота",
-  "кенergигсберг",
-  "ЖОergПА",
-  "ОГОwНЬ",
-  "КРУТА",
-  "ЗАМЕЧАТЛЬНО",
-  "ТОПОВО",
-  "ОПУПЕННО",
-  "красота",
-  "кенигсберг",
-  "море",
-  "ЖОПА",
-  "ОГОНЬ",
-  "КРУТА",
-  "ЗАМЕЧАТЛЬНО",
-  "ТОПОВО",
-  "ОПУПЕННО",
-  "красота",
-  "кенигсберг",
-  "ЖОwПА",
-  "ОГОwНЬ",
-  "КРУТА",
-  "ЗwАМЕЧАТЛЬНО",
-  "ТОПwwОВО",
-  "ОПУПЕННО",
-  "кwрасота",
-  "кенигсберг",
-  "морwе",
-  "ЖОПА",
-  "ОГОwНЬ",
-  "КРУТА",
-  "ЗАwМЕЧАТЛЬНО",
-  "ТОПОwВО",
-  "ОПУПwЕННО",
-  "краwсота",
-  "кенwигсберг",
-];
+const tags: string[] = [];
 
 export const getItems = (q: string): Promise<never[]> =>
   Promise.resolve(
@@ -68,7 +16,6 @@ export const getItems = (q: string): Promise<never[]> =>
         (x) => x.toLowerCase().includes(q.toLowerCase()) || x.toString() === q
       )
       .map((x) => x.toLowerCase())
-    // .slice(0, 5) // TODO: Доделать автокомплит
   ).then();
 
 type FormData = {
@@ -82,10 +29,10 @@ const defaultData = {
 };
 
 type Props = {
-  onSubmit: (e: any) => void
+  onSubmit: (e: any) => void;
 };
 
-const Toolbar = observer(({onSubmit}: Props) => {
+const Toolbar = observer(({ onSubmit }: Props) => {
   const [state, setState] = useState<FormData>(defaultData);
   const [isOpenEvent, setIsOpenEvent] = useState(true);
   const [selectedItems, setSelectedItems] = React.useState([]);
@@ -106,8 +53,9 @@ const Toolbar = observer(({onSubmit}: Props) => {
       ...state,
       currentCoordinates: e.target.value,
     });
-    if (latitude && longitude)
+    if (latitude && longitude) {
       globalStore.mapStore.coordinates = [latitude, longitude];
+    }
   };
 
   const onClick = (e: any) => {

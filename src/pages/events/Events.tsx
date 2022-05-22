@@ -2,32 +2,66 @@ import React, { useEffect } from "react";
 import YandexMap from "./YandexMap/YaMap";
 import SideBar from "./SideBar/SideBar";
 import "./style.css";
-import { useLocation } from "react-router-dom";
-import { requestEvents } from "../../api/events/getEvents";
+import { RequestEventDto } from "../../dto/RequestEventDto";
+import { LocationFilterModel } from "../../dto/LocationFilterModel";
+import {
+  buildRequestEventsParams,
+  requestEvents,
+} from "../../api/events/getEvents";
 import globalStore from "../../stores/GlobalStore";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Location } from "../../dto/Location";
+import { PageInfoDto } from "../../dto/PageInfoDto";
+import { observer } from "mobx-react-lite";
 
-export default function Events() {
+const Events = observer(() => {
+  const { search } = useLocation();
+  const query = React.useMemo(() => new URLSearchParams(search), [search]);
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (query.toString() !== "") {
-      requestEvents(query).then((r) =>
-        globalStore.eventLocationStore.addRange(r.events)
-      );
+      requestEvents(query)
+        .then((r) => {
+          globalStore.eventStore.addEvents(r.events);
+        })
+        .catch((e: any) => console.log(e.message));
     }
-
     document.body.style.overflow = "hidden";
     document.getElementsByTagName("html")[0].style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "auto";
       document.getElementsByTagName("html")[0].style.overflow = "auto";
     };
-  });
-  const { search } = useLocation();
-  const query = React.useMemo(() => new URLSearchParams(search), [search]);
+  }, [query]);
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    await request();
+  };
 
+  const handleClick = async (center: [number, number], radius: number) => {
+    await (function () {
+      const dto = new RequestEventDto(
+        {
+          radiusLocation: new LocationFilterModel(
+            new Location(center[0], center[1]),
+            radius
+          ),
+        },
+        new PageInfoDto(1, 100)
+      );
+      const params = buildRequestEventsParams(dto);
+      navigate(`/events?${params}`);
+    })();
+  };
+
+  const request = async () => {};
   return (
     <div className="main-page">
-      <SideBar className="side-bar" />
-      <YandexMap className="ya-map" />
+      <SideBar className="side-bar" onSubmit={handleSubmit} />
+      <YandexMap className="ya-map" onClick={handleClick} />
     </div>
   );
-}
+});
+
+export default Events;

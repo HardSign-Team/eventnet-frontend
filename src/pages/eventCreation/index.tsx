@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { Gapped } from "@skbkontur/react-ui";
 import EventDatetimePicker from "./EventDatetimePicker";
 import CustomButton from "../../shared/CustomButton/CustomButton";
 import EventEndPicker from "./EventEndPicker";
