@@ -39,7 +39,7 @@ const EventCreation: React.FC = observer(() => {
   const [timeStart, setTimeStart] = useState("");
   const [dateEnd, setDateEnd] = useState("");
   const [timeEnd, setTimeEnd] = useState("");
-  const [coordinates, setCoordinates] = useState("56.817076, 60.611855");
+  const [coordinates, setCoordinates] = useState("");
   const [selectedTags, setSelectedTags] = React.useState([]);
   const [eventDescription, setEventDescription] = useState("");
 
@@ -168,7 +168,7 @@ const EventCreation: React.FC = observer(() => {
       {showStatusModal && (
         <StatusModal status={modalStatus} onClose={closeStatusModal} />
       )}
-      <Gapped className={styles.eventCreation} vertical gap={20}>
+      <main className={styles.eventCreation}>
         <PhotoCarousel
           images={eventImages}
           withLoader={{ setImages: setEventImages }}
@@ -212,7 +212,7 @@ const EventCreation: React.FC = observer(() => {
           label={"Создать событие"}
           onClick={handleEventCreation}
         />
-      </Gapped>
+      </main>
     </>
   );
 });

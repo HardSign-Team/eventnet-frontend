@@ -7,7 +7,7 @@ import Circles from "./Circles/Circles";
 
 const MIN_ZOOM = 4;
 
-export const mapStyle = {
+const mapStyle = {
   position: "absolute",
   width: "100%",
   height: "100%",

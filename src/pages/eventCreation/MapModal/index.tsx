@@ -4,7 +4,7 @@ import CustomButton from '../../../shared/CustomButton/CustomButton';
 import './index.scss';
 import { Map, Placemark, YMaps } from 'react-yandex-maps';
 import globalStore from '../../../stores/GlobalStore';
-import { mapOptions, mapStyle } from '../../events/YandexMap/YaMap';
+import { mapOptions } from '../../events/YandexMap/YaMap';
 import { observer } from 'mobx-react-lite';
 import { Coordinates } from '../../../models/Coordinates';
 

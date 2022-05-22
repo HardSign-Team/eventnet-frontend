@@ -1,14 +1,16 @@
 .eventCreation {
   margin: auto;
-  padding-top: 30px;
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
+  gap: 15px;
   width: 480px;
   font-size: 18px;
   color: #323232;
 
   .event_nameInput {
     all: unset;
+    margin-top: 10px;
     width: 100%;
     text-align: left;
     font-size: 24px;
