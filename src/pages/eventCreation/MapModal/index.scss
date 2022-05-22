@@ -1,5 +1,8 @@
 .map-wrapper {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 70vw;
   height: 70vh;
 }
