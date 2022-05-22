@@ -59,7 +59,7 @@ export const StatusModal: React.FC<StatusModalProps> = ({
       <Modal.Footer>
         {status === EventSaveStatus.Saved && (
           <NavLink to={"/events"}>
-            <CustomButton label={"Вернуться на карту"} width={"100%"} />
+            <CustomButton label={"Вернуться на карту"} />
           </NavLink>
         )}
       </Modal.Footer>

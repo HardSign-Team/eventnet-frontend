@@ -13,7 +13,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Location } from "../../dto/Location";
 import { PageInfoDto } from "../../dto/PageInfoDto";
 import { observer } from "mobx-react-lite";
-import { throttle } from 'lodash';
 
 const Events = observer(() => {
   const { search } = useLocation();
@@ -40,19 +39,21 @@ const Events = observer(() => {
     await request();
   };
 
-  const handleClick = throttle((center: [number, number], radius: number) => {
-    const dto = new RequestEventDto(
-      {
-        radiusLocation: new LocationFilterModel(
-          new Location(center[0], center[1]),
-          radius
-        ),
-      },
-      new PageInfoDto(1, 100)
-    );
-    const params = buildRequestEventsParams(dto);
-    navigate(`/events?${params}`);
-  }, 500);
+  const handleClick = async (center: [number, number], radius: number) => {
+    await (function () {
+      const dto = new RequestEventDto(
+        {
+          radiusLocation: new LocationFilterModel(
+            new Location(center[0], center[1]),
+            radius
+          ),
+        },
+        new PageInfoDto(1, 100)
+      );
+      const params = buildRequestEventsParams(dto);
+      navigate(`/events?${params}`);
+    })();
+  };
 
   const request = async () => {};
   return (
