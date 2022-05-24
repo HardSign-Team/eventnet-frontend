@@ -126,7 +126,7 @@ const YaMap = observer(({ className, onClick }: Props) => {
         />
         <Clusterer>
           {showEvents && (
-            <Circles events={globalStore.eventStore.getEvents()} />
+            <Circles events={globalStore.eventLocationStore.getAll()} />
           )}
         </Clusterer>
       </Map>
