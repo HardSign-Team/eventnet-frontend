@@ -1,5 +1,6 @@
 import { autorun, makeAutoObservable } from "mobx";
 import { loadLocalState, saveLocalState } from "../utils/StoragesUtils";
+import { BASE_ROUTE } from "../api/utils";
 
 export class UserStore {
   private accessToken: string = loadLocalState("accessToken", "");
@@ -46,8 +47,10 @@ export class UserStore {
     this.image = image;
   }
 
-  public getImage() {
-    return this.image;
+  public getImage(width: number = 512, height: number = 512) {
+    if (this.image)
+      return `${BASE_ROUTE}/${this.image}?width=${width}&height=${height}`;
+    else return false;
   }
 
   public setIsAuth(isAuth: boolean) {

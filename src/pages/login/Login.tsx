@@ -54,6 +54,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
     userStore.setUserRoles(answer.userRoles);
     userStore.setIsAuth(true);
     userStore.setId(user.id);
+    userStore.setImage(user.avatarUrl);
     if (saveLogin) userStore.save();
   };
 

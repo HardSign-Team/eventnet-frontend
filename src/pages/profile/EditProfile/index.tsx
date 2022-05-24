@@ -10,21 +10,24 @@ import ImageLoader from "../../../shared/ImageLoader/ImageLoader";
 import { UserStore } from "../../../stores/UserStore";
 import { observer } from "mobx-react-lite";
 import { changeInfo } from "../../../api/profile/changeInfo";
+import Image from "../../../models/Image";
+import { updatePhoto } from "../../../api/profile/updatePhoto";
 
 type EditProfileProps = {
   userStore: UserStore;
   setEditProfile: Dispatch<boolean>;
+  setUserAvatar: Dispatch<Image[]>;
+  userAvatar: Image[];
 };
 
 const EditProfile: React.FC<EditProfileProps> = observer(
-  ({ userStore, setEditProfile }) => {
+  ({ userStore, setEditProfile, setUserAvatar, userAvatar }) => {
     const [userName, setUserName] = useState(userStore.getUserName());
     const [userGender, setUserGender] = useState(userStore.getGender());
     const [birthDate, setBirthDate] = useState(
       new Date(userStore.getBirthDate()).toLocaleDateString()
     );
     const [isError, setIsError] = useState(false);
-
     const [modalOpened, setModalOpened] = useState(false);
 
     const openModal = () => {
@@ -42,10 +45,15 @@ const EditProfile: React.FC<EditProfileProps> = observer(
 
     const saveProfileState = async () => {
       setIsError(false);
-      if (await changeInfo(userName, birthDate, userGender)) {
+      const responseUpdatePhoto = await updatePhoto(userAvatar[0].file);
+      if (
+        (await changeInfo(userName, birthDate, userGender)) &&
+        responseUpdatePhoto
+      ) {
         userStore.setUserName(userName);
         userStore.setGender(userGender);
         userStore.setBirthDate(getDate(birthDate));
+        userStore.setImage(responseUpdatePhoto);
         userStore.save();
         setEditProfile(false);
       } else {
@@ -58,7 +66,7 @@ const EditProfile: React.FC<EditProfileProps> = observer(
         {modalOpened && <ChangePasswordModal onClose={closeModal} />}
         <ImageLoader
           labelText={"Изменить фото"}
-          setImages={(avatars) => userStore.setImage(avatars[0].url)}
+          setImages={setUserAvatar}
           maxImagesCount={1}
           style={{ padding: "10px 0 25px" }}
         />
