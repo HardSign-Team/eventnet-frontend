@@ -24,7 +24,7 @@ export const CustomCheckbox: React.FC<Props> = ({
           onChange={onClick}
           checked={checked}
         />
-        <span className="checkmark"></span>
+        <span className="checkmark" />
       </label>
     </div>
   );
