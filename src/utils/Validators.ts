@@ -109,6 +109,36 @@ const resetPasswordValidator = createValidator<{
   );
 });
 
+const changePasswordValidator = createValidator<{
+  oldPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}>((b) => {
+  b.prop(
+    (x) => x.oldPassword,
+    (b) => {
+      b.invalid((x) => !x, "Введите пароль", "submit");
+    }
+  );
+  b.prop(
+    (x) => x.newPassword,
+    (b) => {
+      b.invalid((x) => !x, "Введите пароль", "submit");
+    }
+  );
+  b.prop(
+    (x) => x,
+    (b, password) => {
+      b.invalid((x) => !x.confirmNewPassword, "Подтвердите пароль", "submit");
+      b.invalid(
+        (x) => x.confirmNewPassword !== password.newPassword,
+        "Пароли не совпадают",
+        "submit"
+      );
+    }
+  );
+});
+
 let container: Nullable<ValidationContainer> = null;
 const refContainer = (el: Nullable<ValidationContainer>) => (container = el);
 
@@ -119,4 +149,5 @@ export {
   refContainer,
   mailValidator,
   resetPasswordValidator,
+  changePasswordValidator,
 };
