@@ -81,7 +81,6 @@ export const Registration: React.FC = () => {
         <FormContainer className="form__registration">
           <ValidationWrapper
             validationInfo={validator.getNode((x) => x.name).get()}
-            renderMessage={text("right")}
           >
             <CustomInput
               label="Укажите имя пользователя"
@@ -91,7 +90,6 @@ export const Registration: React.FC = () => {
           </ValidationWrapper>
           <ValidationWrapper
             validationInfo={validator.getNode((x) => x.email).get()}
-            renderMessage={text("right")}
           >
             <CustomInput
               label="Ваш адрес эл. почты"
@@ -102,7 +100,6 @@ export const Registration: React.FC = () => {
           </ValidationWrapper>
           <ValidationWrapper
             validationInfo={validator.getNode((x) => x.password).get()}
-            renderMessage={text("right")}
           >
             <CustomInput
               type="password"
@@ -111,10 +108,7 @@ export const Registration: React.FC = () => {
               value={password}
             />
           </ValidationWrapper>
-          <ValidationWrapper
-            validationInfo={validator.getNode((x) => x).get()}
-            renderMessage={text("right")}
-          >
+          <ValidationWrapper validationInfo={validator.getNode((x) => x).get()}>
             <CustomInput
               type="password"
               label="Подтвердите пароль"
@@ -124,7 +118,6 @@ export const Registration: React.FC = () => {
           </ValidationWrapper>
           <ValidationWrapper
             validationInfo={validator.getNode((x) => x.born).get()}
-            renderMessage={text("right")}
           >
             <CustomSelectDate
               date={dateBirthday}

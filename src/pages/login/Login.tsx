@@ -82,7 +82,6 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
         <FormContainer>
           <ValidationWrapper
             validationInfo={validator.getNode((x) => x.login).get()}
-            renderMessage={text("right")}
           >
             <CustomInput
               label="Эл. почта или имя пользователя"
@@ -92,7 +91,6 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
           </ValidationWrapper>
           {error && <p className="error">Неправильный логин или пароль</p>}
           <ValidationWrapper
-            renderMessage={text("right")}
             validationInfo={validator.getNode((x) => x.password).get()}
           >
             <CustomInput
