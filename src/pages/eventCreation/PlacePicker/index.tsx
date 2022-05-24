@@ -3,14 +3,13 @@ import styles from "./index.module.scss";
 import MapModal from "../MapModal";
 import { Input } from "@skbkontur/react-ui";
 import { Coordinates } from "../../../models/Coordinates";
+import { formatCoordinates } from "../../../utils/coordinatesHelper";
 
 type PlacePickerProps = {
   coordinates: string;
   setCoordinates: (value: string) => void;
   onClick?: () => void;
 };
-
-const COORDS_SEP = ", ";
 
 //TODO маска на инпуте для координат
 const PlacePicker: React.FC<PlacePickerProps> = ({
@@ -20,10 +19,6 @@ const PlacePicker: React.FC<PlacePickerProps> = ({
   const [showMapModal, setShowMapModal] = useState(false);
   const closeMapModal = () => {
     setShowMapModal(false);
-  };
-
-  const formatCoordinates = (coords: Coordinates) => {
-    return coords.map((x) => x.toFixed(6)).join(COORDS_SEP);
   };
 
   const savePickedCoords = (pickedCoords: Coordinates | undefined) => {
