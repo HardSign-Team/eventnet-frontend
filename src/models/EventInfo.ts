@@ -1,9 +1,10 @@
 import Image from "./Image";
+import { Coordinates } from "./Coordinates";
 
 export default interface EventInfo {
   dateStart: Date;
   name: string;
-  coordinates: [number, number];
+  coordinates: Coordinates;
   dateEnd?: Date;
   description?: string;
   likes?: number;

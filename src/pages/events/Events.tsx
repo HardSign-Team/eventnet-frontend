@@ -14,6 +14,7 @@ import { Location } from "../../dto/Location";
 import { PageInfoDto } from "../../dto/PageInfoDto";
 import { observer } from "mobx-react-lite";
 import { throttle } from "lodash";
+import { Coordinates } from "../../models/Coordinates";
 
 const Events = observer(() => {
   const { search } = useLocation();
@@ -24,7 +25,7 @@ const Events = observer(() => {
     if (query.toString() !== "") {
       requestEvents(query)
         .then((r) => {
-          globalStore.eventStore.addEvents(r.events);
+          globalStore.eventLocationStore.addRange(r.events);
         })
         .catch((e: any) => console.log(e.message));
     }
@@ -37,10 +38,9 @@ const Events = observer(() => {
   }, [query]);
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    await request();
   };
 
-  const handleClick = throttle((center: [number, number], radius: number) => {
+  const onChangeBound = throttle((center: Coordinates, radius: number) => {
     const dto = new RequestEventDto(
       {
         radiusLocation: new LocationFilterModel(
@@ -54,11 +54,10 @@ const Events = observer(() => {
     navigate(`/events?${params}`);
   }, 500);
 
-  const request = async () => {};
   return (
     <div className="main-page">
       <SideBar className="side-bar" onSubmit={handleSubmit} />
-      <YandexMap className="ya-map" onClick={handleClick} />
+      <YandexMap className="ya-map" onChangeBound={onChangeBound} />
     </div>
   );
 });

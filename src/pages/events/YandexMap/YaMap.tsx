@@ -54,10 +54,10 @@ function addBalloon(event: any) {
 
 type Props = {
   className: string;
-  onClick?: (center: [number, number], radius: number) => void;
+  onChangeBound?: (center: [number, number], radius: number) => void;
 };
 
-const YaMap = observer(({ className, onClick }: Props) => {
+const YaMap = observer(({ className, onChangeBound }: Props) => {
   const [showEvents, setShowEvents] = useState(true);
   const onMapClick = async (event: any) => {
     addBalloon(event);
@@ -87,8 +87,8 @@ const YaMap = observer(({ className, onClick }: Props) => {
           const [leftBound, rightBound] = map.get("newBounds");
           const newCenter = map.get("newCenter");
           const radius = getDistanceFromLatLonInKm(leftBound, rightBound);
-          if (onClick) {
-            onClick(newCenter, radius);
+          if (onChangeBound) {
+            onChangeBound(newCenter, radius);
           }
         }}
         instanceRef={(map: any) => {

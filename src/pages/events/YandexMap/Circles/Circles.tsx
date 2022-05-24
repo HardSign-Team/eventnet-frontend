@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Event from "../../../../models/Event";
 import { Circle } from "react-yandex-maps";
 import EventBalloonContent from "../EventBalloonContent/EventBalloonContent";
 import ReactDOMServer from "react-dom/server";
 import { EventLocationViewModel } from "../../../../viewModels/EvenLocationViewModel";
+import { EventViewModel } from "../../../../viewModels/EventViewModel";
+import { requestEvent } from "../../../../api/events/getEvent";
+import { Coordinates } from "../../../../models/Coordinates";
+import { guid } from "../../../../viewModels/Guid";
 
 const CIRCLE_RADIUS = 5;
 const CIRCLE_COLOR = "#008D8E";
 const circleOptions = {
+  fill: true,
   fillColor: CIRCLE_COLOR,
   strokeColor: CIRCLE_COLOR,
+  opacity: 1,
   strokeOpacity: 1,
   strokeWidth: 15,
 };
@@ -18,26 +24,68 @@ type Props = {
   events: EventLocationViewModel[];
 };
 
+export const evmToEvent = (event: EventViewModel): Event => {
+  return {
+    id: event.id,
+    info: {
+      dateStart: new Date(event.startDate),
+      name: event.name,
+      coordinates: [event.location.latitude, event.location.longitude],
+      dateEnd: new Date(event.endDate || ""),
+      description: event.description,
+      likes: event.marks.likes,
+      dislikes: event.marks.dislikes,
+      participants: event.totalSubscriptions,
+    },
+  };
+};
+
 const Circles = ({ events }: Props) => {
   const circles: Array<JSX.Element> = [];
 
-  events.forEach((event) => {
+  const getEvent = async (eventId: guid) => {
+    const evm = await requestEvent(eventId);
+    return evmToEvent(evm.event);
+  };
+
+  const getEventId = (coords: Coordinates) => {
+    const epsilon = 0.005;
+    let eventId = "";
+    events.forEach((e) => {
+      if (
+        Math.abs(coords[0] - e.location.latitude) < epsilon &&
+        Math.abs(coords[1] - e.location.longitude) < epsilon
+      ) {
+        eventId = e.id;
+        return;
+      }
+    });
+    return eventId;
+  };
+
+  const onCircleClick = async (c: any) => {
+    const map = c.get("map");
+    const coords = c.get("coords");
+    const eventId = getEventId(coords);
+    const event = await getEvent(eventId);
+    map.balloon.open(
+      c.get("coords"),
+      ReactDOMServer.renderToString(
+        <EventBalloonContent
+          className={"event-balloon-content"}
+          event={event}
+        />
+      )
+    );
+  };
+
+  events.forEach((e) => {
     circles.push(
       <Circle
-        geometry={[
-          [event.location.latitude, event.location.longitude],
-          CIRCLE_RADIUS,
-        ]}
+        geometry={[[e.location.latitude, e.location.longitude], CIRCLE_RADIUS]}
         options={circleOptions}
-        key={event.id}
-        // properties={{
-        //   balloonContent: ReactDOMServer.renderToString(
-        //     <EventBalloonContent
-        //       className={"event-balloon-content"}
-        //       event={event}
-        //     />
-        //   ),
-        // }}
+        key={e.id}
+        onClick={onCircleClick}
         modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
       />
     );
