@@ -21,7 +21,7 @@ export const CustomCheckbox: React.FC<Props> = ({
         <input
           className={className ?? "radio_button"}
           type="radio"
-          onClick={() => onClick()}
+          onChange={onClick}
           checked={checked}
         />
         <span className="checkmark"></span>
