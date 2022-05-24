@@ -2,7 +2,7 @@ import { BASE_ROUTE, HTTP_METHODS, STATUS_CODES } from "../../../utils";
 import { refreshToken } from "../../refreshToken";
 import globalStore from "../../../../stores/GlobalStore";
 
-async function resetPasswordRequest(oldPassword: string, newPassword: string) {
+async function changePassword(oldPassword: string, newPassword: string) {
   const response = await request(oldPassword, newPassword);
   if (response.statusText === "Unauthorized") {
     await refreshToken();
@@ -25,4 +25,4 @@ async function request(oldPassword: string, newPassword: string) {
   });
 }
 
-export { resetPasswordRequest };
+export { changePassword };

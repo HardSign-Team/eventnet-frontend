@@ -37,7 +37,7 @@ const Profile: React.FC<ProfileProps> = observer(({ userStore }) => {
       {!editing ? (
         <WatchProfile userStore={userStore} />
       ) : (
-        <EditProfile userStore={userStore} setUserAvatar={setUserAvatar} />
+        <EditProfile userStore={userStore} setEditProfile={setEditing} />
       )}
     </div>
   );
