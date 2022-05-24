@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import React from "react";
 import Logo from "../Logo/Logo";
 import "./Header.css";
-import avatar from "../../assets/avatar.jpg";
 import { UserStore } from "../../stores/UserStore";
 import { observer } from "mobx-react-lite";
 import { logoutRequest } from "../../api/auth/logout";
@@ -36,7 +35,7 @@ const Header: React.FC<HeaderProps> = observer(({ userStore }) => {
                 <li>
                   <figure className="header__profile-photo">
                     <img
-                      src={userStore.getImage() ? userStore.getImage() : avatar}
+                      src={userStore.getImage()}
                       alt="Avatar"
                       className="avatar"
                     />

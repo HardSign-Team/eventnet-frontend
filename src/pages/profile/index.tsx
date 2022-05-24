@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import avatar from "../../assets/avatar.jpg";
 import "./index.css";
 import CustomButton from "../../shared/CustomButton/CustomButton";
 import WatchProfile from "./WatchProfile";
@@ -24,13 +23,7 @@ const Profile: React.FC<ProfileProps> = observer(({ userStore }) => {
     <div className="profile">
       <figure className={"profile_avatar-wrapper"}>
         <img
-          src={
-            !userAvatar[0]
-              ? !userStore.getImage()
-                ? avatar
-                : userStore.getImage()
-              : userAvatar[0].url
-          }
+          src={!userAvatar[0] ? userStore.getImage() : userAvatar[0].url}
           alt="user avatar"
           className="profile_avatar"
         />

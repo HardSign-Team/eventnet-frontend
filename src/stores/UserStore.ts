@@ -1,6 +1,7 @@
 import { autorun, makeAutoObservable } from "mobx";
 import { loadLocalState, saveLocalState } from "../utils/StoragesUtils";
 import { BASE_ROUTE } from "../api/utils";
+import avatar from "../assets/avatar.jpg";
 
 export class UserStore {
   private accessToken: string = loadLocalState("accessToken", "");
@@ -48,9 +49,9 @@ export class UserStore {
   }
 
   public getImage(width: number = 512, height: number = 512) {
-    if (this.image)
+    if (this.image !== "default-avatar.jpeg")
       return `${BASE_ROUTE}/${this.image}?width=${width}&height=${height}`;
-    else return false;
+    else return avatar;
   }
 
   public setIsAuth(isAuth: boolean) {
