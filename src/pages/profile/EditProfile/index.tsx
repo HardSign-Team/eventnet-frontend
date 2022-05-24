@@ -45,15 +45,17 @@ const EditProfile: React.FC<EditProfileProps> = observer(
 
     const saveProfileState = async () => {
       setIsError(false);
-      const responseUpdatePhoto = await updatePhoto(userAvatar[0].file);
+      let responseUpdatePhoto = "";
+      if (userAvatar[0])
+        responseUpdatePhoto = await updatePhoto(userAvatar[0].file);
       if (
         (await changeInfo(userName, birthDate, userGender)) &&
-        responseUpdatePhoto
+        (responseUpdatePhoto === "" || responseUpdatePhoto)
       ) {
         userStore.setUserName(userName);
         userStore.setGender(userGender);
         userStore.setBirthDate(getDate(birthDate));
-        userStore.setImage(responseUpdatePhoto);
+        if (responseUpdatePhoto !== "") userStore.setImage(responseUpdatePhoto);
         userStore.save();
         setEditProfile(false);
       } else {
