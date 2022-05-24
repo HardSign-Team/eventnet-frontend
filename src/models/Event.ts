@@ -1,6 +1,7 @@
 import EventInfo from "./EventInfo";
+import { guid } from "../viewModels/Guid";
 
 export default interface Event {
-  id: number;
+  id: guid;
   info: EventInfo;
 }

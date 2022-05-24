@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { Gapped } from "@skbkontur/react-ui";
 import EventDatetimePicker from "./EventDatetimePicker";
 import CustomButton from "../../shared/CustomButton/CustomButton";
 import EventEndPicker from "./EventEndPicker";
@@ -23,6 +22,8 @@ import { observer } from "mobx-react-lite";
 import globalStore from "../../stores/GlobalStore";
 import { StatusModal } from "./StatusModal";
 import Image from "../../models/Image";
+import { useLocation } from "react-router-dom";
+import { formatCoordinates } from "../../utils/coordinatesHelper";
 
 const MAX_EVENT_NAME_LENGTH = 50;
 const MAX_EVENT_DESCRIPTION_LENGTH = 1000;
@@ -32,6 +33,9 @@ const { userStore } = globalStore;
 
 // TODO ограничения на инпуты
 const EventCreation: React.FC = observer(() => {
+  const { search } = useLocation();
+  const query = React.useMemo(() => new URLSearchParams(search), [search]);
+
   const [eventImages, setEventImages] = useState<Image[]>([]);
   const [eventName, setEventName] = useState("");
   const [duration, setDuration] = useState("");
@@ -39,7 +43,7 @@ const EventCreation: React.FC = observer(() => {
   const [timeStart, setTimeStart] = useState("");
   const [dateEnd, setDateEnd] = useState("");
   const [timeEnd, setTimeEnd] = useState("");
-  const [coordinates, setCoordinates] = useState("56.817076, 60.611855");
+  const [coordinates, setCoordinates] = useState("");
   const [selectedTags, setSelectedTags] = React.useState([]);
   const [eventDescription, setEventDescription] = useState("");
 
@@ -73,6 +77,13 @@ const EventCreation: React.FC = observer(() => {
 
     return end.getTime() - start.getTime() >= 0;
   };
+
+  useEffect(() => {
+    const [lat, long] = [query.get("lat"), query.get("long")];
+    if (!lat || !long) return;
+
+    setCoordinates(formatCoordinates([+lat, +long]));
+  }, [query]);
 
   useEffect(() => {
     if (dateStart && timeStart && duration) {
@@ -117,8 +128,8 @@ const EventCreation: React.FC = observer(() => {
     return new Promise<EventSaveStatus>((resolve) => {
       const unsubscribe = setInterval(async () => {
         counter++;
-        let status = await getIsCreated(userStore.getAccessToken(), eventId);
-        console.log(status);
+        let status = await getIsCreated(userStore.accessToken, eventId);
+
         if (status === EventSaveStatus.Saved) {
           clearInterval(unsubscribe);
           resolve(status);
@@ -138,7 +149,7 @@ const EventCreation: React.FC = observer(() => {
     }
     const [latitude, longitude] = coordinates.split(",").map((x) => +x.trim());
 
-    const eventId = await requestEventCreation(userStore.getAccessToken());
+    const eventId = await requestEventCreation(userStore.accessToken);
 
     const event: CreateEventModel = {
       id: eventId,
@@ -152,12 +163,9 @@ const EventCreation: React.FC = observer(() => {
 
     if (dateEnd && timeEnd) event["endDate"] = createDateFrom(dateEnd, timeEnd);
 
-    await createEvent(userStore.getAccessToken(), event);
+    await createEvent(userStore.accessToken, event);
 
-    const responseCode = await getIsCreated(
-      userStore.getAccessToken(),
-      eventId
-    );
+    const responseCode = await getIsCreated(userStore.accessToken, eventId);
     openStatusModal(responseCode);
 
     if (responseCode === EventSaveStatus.InProgress) {
@@ -171,7 +179,7 @@ const EventCreation: React.FC = observer(() => {
       {showStatusModal && (
         <StatusModal status={modalStatus} onClose={closeStatusModal} />
       )}
-      <Gapped className={styles.eventCreation} vertical gap={20}>
+      <main className={styles.eventCreation}>
         <PhotoCarousel
           images={eventImages}
           withLoader={{ setImages: setEventImages }}
@@ -215,7 +223,7 @@ const EventCreation: React.FC = observer(() => {
           label={"Создать событие"}
           onClick={handleEventCreation}
         />
-      </Gapped>
+      </main>
     </>
   );
 });

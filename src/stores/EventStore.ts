@@ -2,30 +2,20 @@ import Event from "../models/Event";
 import EventInfo from "../models/EventInfo";
 import { EventLocationViewModel } from "../viewModels/EvenLocationViewModel";
 import { makeAutoObservable } from "mobx";
+import { guid } from "../viewModels/Guid";
 
 export class EventStore {
   public events: Array<Event> = [];
 
-  private mockedId: number = 1;
-
   constructor() {
     makeAutoObservable(this, {});
-  }
-
-  public createEvent(eventInfo: EventInfo): number {
-    const newEvent: Event = {
-      id: this.mockedId++,
-      info: eventInfo,
-    };
-    this.events.push(newEvent);
-    return this.mockedId;
   }
 
   public getEvents(): Array<Event> {
     return this.events;
   }
 
-  public getEventById(id: number): Event | undefined {
+  public getEventById(id: guid): Event | undefined {
     return this.events.find((event) => event.id === id);
   }
 
@@ -34,28 +24,21 @@ export class EventStore {
   }
 
   addEvents(events: Array<EventLocationViewModel>) {
-    // TODO заглушка
-    const a = events.map((e) => {
+    const a: Array<Event> = events.map((event) => {
       return {
-        id: Math.floor(Math.random() * 10000),
+        id: event.id,
         info: {
-          name: e.name,
-          coordinates: [e.location.latitude, e.location.longitude],
+          name: event.name,
+          coordinates: [event.location.latitude, event.location.longitude],
           dateStart: new Date(2021, 10, 15),
           likes: 2,
           description: "",
           dateEnd: new Date(2021, 10, 15),
-          photos: [
-            {
-              url: "https://cdn.iz.ru/sites/default/files/styles/1920x1080/public/article-2019-06/ZURR4215.JPG.jpg?itok=2KMsqbt9",
-            },
-          ],
         },
       };
     });
     for (const e of a) {
-      this.events.push(e as Event);
+      if (!this.events.some((event) => event.id === e.id)) this.events.push(e);
     }
-    console.log(this.events);
   }
 }

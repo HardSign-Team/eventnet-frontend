@@ -12,8 +12,19 @@
   top: calc(50vh - 70px - 28px);
 }
 
+.pro-sidebar {
+  overflow-y: auto;
+  font-size: 14px;
+}
+
 .pro-sidebar-content {
   overflow-y: auto;
+  color: #323232;
+  background-color: #d7dcd7;
+  padding: 1em 2em 0;
+  font-size: 1.15em;
+  position: relative;
+  height: 100%;
 }
 
 .pro-sidebar::-webkit-scrollbar,

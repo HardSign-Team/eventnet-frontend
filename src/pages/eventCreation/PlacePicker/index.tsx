@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import styles from "./index.module.scss";
 import MapModal from "../MapModal";
+import { Input } from "@skbkontur/react-ui";
+import { Coordinates } from "../../../models/Coordinates";
+import { formatCoordinates } from "../../../utils/coordinatesHelper";
 
 type PlacePickerProps = {
   coordinates: string;
@@ -18,22 +21,27 @@ const PlacePicker: React.FC<PlacePickerProps> = ({
     setShowMapModal(false);
   };
 
+  const savePickedCoords = (pickedCoords: Coordinates | undefined) => {
+    pickedCoords && setCoordinates(formatCoordinates(pickedCoords));
+  };
+
   const openMapModal = () => {
     setShowMapModal(true);
   };
 
   return (
     <>
-      {showMapModal && <MapModal onClose={closeMapModal} />}
+      {showMapModal && (
+        <MapModal onClose={closeMapModal} saveNewCoords={savePickedCoords} />
+      )}
       <div className={styles.eventPlacePicker}>
         <span className={styles.eventPlacePicker__label}>Координаты</span>
-        <input
-          type="text"
+        <Input
           className={styles.eventPlacePicker__input}
-          placeholder={"56.817076, 60.611855"}
           value={coordinates}
-          onChange={(e) => setCoordinates(e.target.value)}
+          onValueChange={(value) => setCoordinates(value)}
         />
+
         <span
           onClick={openMapModal}
           className={styles.eventPlacePicker__mapLink}
