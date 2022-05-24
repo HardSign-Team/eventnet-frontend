@@ -12,7 +12,6 @@ import { FormContainer } from "../../shared/FormContainer/FormContainer";
 import { registerRequest } from "../../api/auth/registration/registerRequest";
 
 import {
-  text,
   ValidationContainer,
   ValidationWrapper,
 } from "@skbkontur/react-ui-validations";

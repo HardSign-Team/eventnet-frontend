@@ -6,7 +6,6 @@ import { CustomInput } from "../../shared/CustomInput/CustomInput";
 import { FormContainer } from "../../shared/FormContainer/FormContainer";
 import { userInfo, loginRequest } from "../../api/auth/loginRequest";
 import {
-  text,
   ValidationContainer,
   ValidationWrapper,
 } from "@skbkontur/react-ui-validations";
