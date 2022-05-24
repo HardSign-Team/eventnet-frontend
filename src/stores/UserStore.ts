@@ -12,9 +12,18 @@ export class UserStore {
   private image: string = loadLocalState("image", "");
   private birthDate: string = loadLocalState("birthDate", "");
   private gender: string = loadLocalState("gender", "");
+  private id: string = loadLocalState("id", "");
 
   constructor() {
     makeAutoObservable(this, {});
+  }
+
+  public setId(id: string) {
+    this.id = id;
+  }
+
+  public getId() {
+    return this.id;
   }
 
   public setGender(gender: string) {
@@ -109,6 +118,7 @@ export class UserStore {
       saveLocalState("image", this.image);
       saveLocalState("birthDate", this.birthDate);
       saveLocalState("gender", this.gender);
+      saveLocalState("id", this.id);
     });
   }
 
@@ -136,6 +146,8 @@ export class UserStore {
       this.refreshToken = "";
       this.userName = "";
       this.userRoles = [];
+      this.id = "";
+      this.image = "";
     });
   }
 }

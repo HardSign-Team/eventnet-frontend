@@ -54,6 +54,7 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
     userStore.setGender(user.gender);
     userStore.setUserRoles(answer.userRoles);
     userStore.setIsAuth(true);
+    userStore.setId(user.id);
     if (saveLogin) userStore.save();
   };
 
