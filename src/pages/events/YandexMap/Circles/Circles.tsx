@@ -8,6 +8,7 @@ import { EventViewModel } from "../../../../viewModels/EventViewModel";
 import { requestEvent } from "../../../../api/events/getEvent";
 import { Coordinates } from "../../../../models/Coordinates";
 import { guid } from "../../../../viewModels/Guid";
+import globalStore from "../../../../stores/GlobalStore";
 
 const CIRCLE_RADIUS = 5;
 const CIRCLE_COLOR = "#008D8E";
@@ -49,15 +50,14 @@ const Circles = ({ events }: Props) => {
   };
 
   const getEventId = (coords: Coordinates) => {
-    const epsilon = 0.005;
     let eventId = "";
+    let min = 10000;
     events.forEach((e) => {
-      if (
-        Math.abs(coords[0] - e.location.latitude) < epsilon &&
-        Math.abs(coords[1] - e.location.longitude) < epsilon
-      ) {
+      const dx = Math.abs(coords[0] - e.location.latitude);
+      const dy = Math.abs(coords[1] - e.location.longitude);
+      if (dx * dx + dy * dy < min) {
         eventId = e.id;
-        return;
+        min = dx * dx + dy * dy;
       }
     });
     return eventId;
@@ -68,6 +68,7 @@ const Circles = ({ events }: Props) => {
     const coords = c.get("coords");
     const eventId = getEventId(coords);
     const event = await getEvent(eventId);
+    globalStore.eventStore.addEvent(event);
     map.balloon.open(
       c.get("coords"),
       ReactDOMServer.renderToString(

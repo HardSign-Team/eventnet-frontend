@@ -3,6 +3,8 @@ import EventInfo from "../models/EventInfo";
 import { EventLocationViewModel } from "../viewModels/EvenLocationViewModel";
 import { makeAutoObservable } from "mobx";
 import { guid } from "../viewModels/Guid";
+import { requestEventsFullInfo } from "../api/events/getEvents";
+import { evmToEvent } from "../pages/events/YandexMap/Circles/Circles";
 
 export class EventStore {
   public events: Array<Event> = [];
@@ -23,22 +25,18 @@ export class EventStore {
     this.events = this.events.filter((ev) => ev.id === event.id);
   }
 
+  _has(event: Event) {
+    return this.events.some((e) => e.id === event.id);
+  }
+
+  addEvent(event: Event) {
+    if (!this._has(event)) this.events.push(event);
+  }
+
   addEvents(events: Array<EventLocationViewModel>) {
-    const a: Array<Event> = events.map((event) => {
-      return {
-        id: event.id,
-        info: {
-          name: event.name,
-          coordinates: [event.location.latitude, event.location.longitude],
-          dateStart: new Date(2021, 10, 15),
-          likes: 2,
-          description: "",
-          dateEnd: new Date(2021, 10, 15),
-        },
-      };
-    });
-    for (const e of a) {
-      if (!this.events.some((event) => event.id === e.id)) this.events.push(e);
-    }
+    const eventsIds = events.map((e) => e.id);
+    requestEventsFullInfo(eventsIds)
+      .then((data) => data.events)
+      .then((ev) => ev.forEach((event) => this.events.push(evmToEvent(event))));
   }
 }
