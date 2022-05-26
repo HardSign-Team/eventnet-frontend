@@ -4,19 +4,29 @@ import "./index.css";
 import CustomButton from "../../shared/CustomButton/CustomButton";
 import WatchProfile from "./WatchProfile";
 import EditProfile from "./EditProfile";
+import Image from "../../models/Image";
 
 const Profile = () => {
-  const [userAvatar, setUserAvatar] = useState(avatar);
+  const [userAvatar, setUserAvatar] = useState<Image[]>([{
+    url: avatar,
+    file: null,
+  }]);
   const [editing, setEditing] = useState(false);
 
   const reverseEditing = () => {
     setEditing(!editing);
   };
 
+  console.log(userAvatar)
+
   return (
     <div className="profile">
       <figure className={"profile_avatar-wrapper"}>
-        <img src={userAvatar} alt="user avatar" className="profile_avatar" />
+        <img
+          src={userAvatar[0].url}
+          alt="user avatar"
+          className="profile_avatar"
+        />
       </figure>
       {!editing && (
         <CustomButton
