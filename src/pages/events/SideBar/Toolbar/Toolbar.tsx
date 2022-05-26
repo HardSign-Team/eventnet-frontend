@@ -33,6 +33,10 @@ const Toolbar = observer(({ onSubmit }: Props) => {
   const [selectedItems, setSelectedItems] = React.useState([]);
 
   useEffect(() => {
+    if (state.eventName === "") {
+      return;
+    }
+
     const timeoutId = setTimeout(() => {
       requestSearchByName(state.eventName)
         .then((data) => data.events)
@@ -41,7 +45,7 @@ const Toolbar = observer(({ onSubmit }: Props) => {
         .catch(console.error);
     }, 1000);
     return () => clearTimeout(timeoutId);
-  }, [state]);
+  }, [state, state.eventName]);
 
   const getItems = (q: string): Promise<never[]> =>
     Promise.resolve(
