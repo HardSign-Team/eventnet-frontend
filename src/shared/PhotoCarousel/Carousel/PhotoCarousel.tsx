@@ -66,18 +66,22 @@ const PhotoCarousel: React.FC<PhotoCarouselProps> = ({
     <>
       {showModal && <PhotoModal image={pickedImage} onClose={closeModal} />}
       <div className={styles.wrapper}>
-        <button
-          className={styles.arrowPrev}
-          onClick={() => carousel?.current?.slickPrev()}
-        >
-          <img src={arrowLeft} alt={"arrow left"} />
-        </button>
-        <button
-          className={styles.arrowNext}
-          onClick={() => carousel?.current?.slickNext()}
-        >
-          <img src={arrowRight} alt={"arrow right"} />
-        </button>
+        {images.length > 0 && (
+          <>
+            <button
+              className={styles.arrowPrev}
+              onClick={() => carousel?.current?.slickPrev()}
+            >
+              <img src={arrowLeft} alt={"arrow left"} />
+            </button>
+            <button
+              className={styles.arrowNext}
+              onClick={() => carousel?.current?.slickNext()}
+            >
+              <img src={arrowRight} alt={"arrow right"} />
+            </button>
+          </>
+        )}
         <Slider className={styles.photoCarousel} {...settings} ref={carousel}>
           {images.map((image) => (
             <div
