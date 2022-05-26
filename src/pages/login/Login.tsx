@@ -47,8 +47,8 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
     const refreshToken = tokens.refreshToken;
     userStore.setAccessToken(accessToken.tokenString);
     userStore.setRefreshToken(refreshToken.tokenString);
-    userStore.setExpiredAtAccessToken(accessToken.expiredAt);
-    userStore.setExpiredAtRefreshToken(refreshToken.expiredAt);
+    userStore.setExpiredAtAccessToken(accessToken.expireAt);
+    userStore.setExpiredAtRefreshToken(refreshToken.expireAt);
     const user = answer.user;
     userStore.setEmail(user.email);
     userStore.setUserName(user.userName);
