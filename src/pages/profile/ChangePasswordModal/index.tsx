@@ -24,7 +24,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
 }) => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [confirmNewPassword, setRepeatedPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [isAccepted, setIsAccepted] = useState(false);
 
   const validator = changePasswordValidator({
@@ -37,11 +37,11 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
     if (!container) {
       return;
     }
-    if (await container.validate()) {
-      if (await changePassword(oldPassword, newPassword)) {
-        setIsAccepted(true);
-      }
-    }
+    if (
+      (await container.validate()) &&
+      (await changePassword(oldPassword, newPassword))
+    )
+      setIsAccepted(true);
   };
 
   return (
@@ -76,7 +76,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
               <CustomInput
                 type={"password"}
                 label="Повтор пароля"
-                onChange={setRepeatedPassword}
+                onChange={setConfirmNewPassword}
                 value={confirmNewPassword}
               />
             </ValidationWrapper>

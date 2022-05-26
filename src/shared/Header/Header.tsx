@@ -14,7 +14,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = observer(({ userStore }) => {
   const logout = async () => {
-    if (await logoutRequest(userStore.getAccessToken())) userStore.logout();
+    if (await logoutRequest()) userStore.logout();
   };
 
   return (

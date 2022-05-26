@@ -13,6 +13,10 @@ async function changeInfo(userName: string, birthDate: string, gender: string) {
 }
 
 async function request(userName: string, birthDate: string, gender: string) {
+  const generateDate = (date: string) => {
+    const arr = date.split(".");
+    return arr[2] + "-" + arr[1] + "-" + arr[0];
+  };
   return await fetch(
     `${BASE_ROUTE}/api/users/${globalStore.userStore.getId()}`,
     {
@@ -24,7 +28,7 @@ async function request(userName: string, birthDate: string, gender: string) {
       },
       body: JSON.stringify({
         userName: userName,
-        birthDate: birthDate,
+        birthDate: generateDate(birthDate),
         gender: gender,
       }),
     }

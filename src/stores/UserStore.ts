@@ -5,7 +5,14 @@ import avatar from "../assets/avatar.jpg";
 
 export class UserStore {
   private accessToken: string = loadLocalState("accessToken", "");
-  private expiredAt: string = loadLocalState("expiredAt", "");
+  private expiredAtAccessToken: string = loadLocalState(
+    "expiredAtAccessToken",
+    ""
+  );
+  private expiredAtRefreshToken: string = loadLocalState(
+    "expiredAtRefreshToken",
+    ""
+  );
   private refreshToken: string = loadLocalState("refreshToken", "");
   private userName: string = loadLocalState("userName", "");
   private email: string = loadLocalState("email", "");
@@ -18,6 +25,14 @@ export class UserStore {
 
   constructor() {
     makeAutoObservable(this, {});
+  }
+
+  public setExpiredAtRefreshToken(expiredAtRefreshToken: string) {
+    this.expiredAtRefreshToken = expiredAtRefreshToken;
+  }
+
+  public getExpiredAtRefreshToken() {
+    return this.expiredAtRefreshToken;
   }
 
   public setId(id: string) {
@@ -49,7 +64,7 @@ export class UserStore {
   }
 
   public getImage(width: number = 512, height: number = 512) {
-    if (this.image !== "default-avatar.jpeg")
+    if (this.image !== "default-avatar.jpeg" && this.image !== "")
       return `${BASE_ROUTE}/${this.image}?width=${width}&height=${height}`;
     else return avatar;
   }
@@ -94,12 +109,12 @@ export class UserStore {
     return this.refreshToken;
   }
 
-  public setExpiredAt(expiredAt: string) {
-    this.expiredAt = expiredAt;
+  public setExpiredAtAccessToken(expiredAtAccessToken: string) {
+    this.expiredAtAccessToken = expiredAtAccessToken;
   }
 
-  public getExpiredAt() {
-    return this.expiredAt;
+  public getExpiredAtAccessToken() {
+    return this.expiredAtAccessToken;
   }
 
   public getAccessToken() {
@@ -113,7 +128,8 @@ export class UserStore {
   public save() {
     autorun(() => {
       saveLocalState("accessToken", this.accessToken);
-      saveLocalState("expiredAt", this.expiredAt);
+      saveLocalState("expiredAtAccessToken", this.expiredAtAccessToken);
+      saveLocalState("expiredAtRefreshToken", this.expiredAtRefreshToken);
       saveLocalState("refreshToken", this.refreshToken);
       saveLocalState("userName", this.userName);
       saveLocalState("email", this.email);
@@ -129,15 +145,18 @@ export class UserStore {
   public saveTokens(
     accessToken: string,
     refreshToken: string,
-    expiredAt: string
+    expiredAtAccessToken: string,
+    expiredAtRefreshToken: string
   ) {
     autorun(() => {
       this.accessToken = accessToken;
       this.refreshToken = refreshToken;
-      this.expiredAt = expiredAt;
+      this.expiredAtAccessToken = expiredAtAccessToken;
+      this.expiredAtRefreshToken = expiredAtRefreshToken;
       saveLocalState("accessToken", accessToken);
       saveLocalState("refreshToken", refreshToken);
-      saveLocalState("expiredAt", expiredAt);
+      saveLocalState("expiredAtAccessToken", expiredAtAccessToken);
+      saveLocalState("expiredAtRefreshToken", expiredAtRefreshToken);
     });
   }
 
@@ -152,6 +171,8 @@ export class UserStore {
       this.userRoles = [];
       this.id = "";
       this.image = "";
+      this.expiredAtAccessToken = "";
+      this.expiredAtRefreshToken = "";
     });
   }
 }

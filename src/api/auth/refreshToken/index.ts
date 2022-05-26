@@ -7,7 +7,6 @@ async function refreshToken() {
     headers: {
       "Content-Type": "application/json;charset=utf-8",
       Accept: "application/json",
-      Authorization: "Bearer " + globalStore.userStore.getAccessToken(),
     },
     body: JSON.stringify({
       refreshToken: globalStore.userStore.getRefreshToken(),
@@ -18,9 +17,10 @@ async function refreshToken() {
     const answer = await response.json();
     const userStore = globalStore.userStore;
     userStore.saveTokens(
-      answer.accessToken,
-      answer.refreshToken,
-      answer.expiredAt
+      answer.accessToken.tokenString,
+      answer.refreshToken.tokenString,
+      answer.accessToken.expiredAt,
+      answer.refreshToken.expiredAt
     );
   } else globalStore.userStore.logout();
 }
