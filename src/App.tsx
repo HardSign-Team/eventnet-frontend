@@ -18,6 +18,7 @@ import { UserEvents } from "./pages/userEvents";
 import globalStore from "./stores/GlobalStore";
 import { CompletedRegister } from "./pages/register/completedRegister";
 import { EventPage } from "./pages/eventPage";
+import { ProtectedRoute } from "./shared/ProtectedRoute";
 
 export const App = () => {
   return (
@@ -26,22 +27,40 @@ export const App = () => {
         <Header userStore={globalStore.userStore} />
         <div className={"content-wrapper"}>
           <Routes>
+            <Route path="/" element={<Navigate to="/events" replace />} />
+            <Route path="/events" element={<Events />} />
             <Route path="/register" element={<Registration />} />
-            <Route
-              path="/profile"
-              element={<Profile userStore={globalStore.userStore} />}
-            />
+            <Route path="/completed-register" element={<CompletedRegister />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route
               path="/login"
               element={<Login userStore={globalStore.userStore} />}
             />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/event-creation" element={<EventCreation />} />
-            <Route path="/user-events" element={<UserEvents />} />
-            <Route path="/completed-register" element={<CompletedRegister />} />
-            <Route path="/" element={<Navigate to="/events" replace />} />
             <Route path="/event-page" element={<EventPage />} />
-            <Route path="/events" element={<Events />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile userStore={globalStore.userStore} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/event-creation"
+              element={
+                <ProtectedRoute>
+                  <EventCreation />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/user-events"
+              element={
+                <ProtectedRoute>
+                  <UserEvents />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </div>
         <Footer />
