@@ -81,9 +81,7 @@ const EditProfile: React.FC<EditProfileProps> = observer(
             onChange={setUserName}
           />
           {isError && (
-            <p className={styles.errorMessage}>
-              Возникла непредвиденная ошибка
-            </p>
+            <p className={styles.errorMessage}>Это имя уже занято :)</p>
           )}
           <CustomSelectDate
             date={birthDate}
