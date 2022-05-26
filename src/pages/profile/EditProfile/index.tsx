@@ -1,6 +1,5 @@
 import { Gapped } from "@skbkontur/react-ui";
-import styles from "./index.module.scss";
-import React, { Dispatch, useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import ChangePasswordModal from "../ChangePasswordModal";
 import { CustomInput } from "../../../shared/CustomInput/CustomInput";
 import { CustomSelectDate } from "../../../shared/CustomSelectDate/CustomSelectDate";
@@ -12,11 +11,12 @@ import { observer } from "mobx-react-lite";
 import { changeInfo } from "../../../api/profile/changeInfo";
 import Image from "../../../models/Image";
 import { updatePhoto } from "../../../api/profile/updatePhoto";
+import styles from "./index.module.scss";
 
 type EditProfileProps = {
   userStore: UserStore;
   setEditProfile: Dispatch<boolean>;
-  setUserAvatar: Dispatch<Image[]>;
+  setUserAvatar: Dispatch<SetStateAction<Image[]>>;
   userAvatar: Image[];
 };
 
@@ -46,7 +46,7 @@ const EditProfile: React.FC<EditProfileProps> = observer(
     const saveProfileState = async () => {
       setIsError(false);
       let responseUpdatePhoto = "";
-      if (userAvatar[0])
+      if (userAvatar[0].file)
         responseUpdatePhoto = await updatePhoto(userAvatar[0].file);
       if (
         (await changeInfo(userName, birthDate, userGender)) &&
@@ -70,11 +70,9 @@ const EditProfile: React.FC<EditProfileProps> = observer(
           labelText={"Изменить фото"}
           setImages={setUserAvatar}
           maxImagesCount={1}
+          withAdditionalLoading={false}
           style={{ padding: "10px 0 25px" }}
         />
-        {isError && (
-          <p className={styles.errorMessage}>Возникла непредвиденная ошибка</p>
-        )}
         <Gapped className={"profile_info-wrapper"} gap={7} vertical>
           <CustomInput
             label="Имя пользователя"
@@ -82,6 +80,11 @@ const EditProfile: React.FC<EditProfileProps> = observer(
             value={userName}
             onChange={setUserName}
           />
+          {isError && (
+            <p className={styles.errorMessage}>
+              Возникла непредвиденная ошибка
+            </p>
+          )}
           <CustomSelectDate
             date={birthDate}
             label="Дата рождения"

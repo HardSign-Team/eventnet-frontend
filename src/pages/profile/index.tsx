@@ -13,7 +13,12 @@ interface ProfileProps {
 
 const Profile: React.FC<ProfileProps> = observer(({ userStore }) => {
   const [editing, setEditing] = useState(false);
-  const [userAvatar, setUserAvatar] = useState<Image[]>([]);
+  const [userAvatar, setUserAvatar] = useState<Image[]>([
+    {
+      url: userStore.getImage(),
+      file: null,
+    },
+  ]);
 
   const reverseEditing = () => {
     setEditing(!editing);
@@ -23,7 +28,7 @@ const Profile: React.FC<ProfileProps> = observer(({ userStore }) => {
     <div className="profile">
       <figure className={"profile_avatar-wrapper"}>
         <img
-          src={!userAvatar[0] ? userStore.getImage() : userAvatar[0].url}
+          src={userAvatar[0].url}
           alt="user avatar"
           className="profile_avatar"
         />
