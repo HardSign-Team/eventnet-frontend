@@ -26,7 +26,6 @@ const getDescription = (description: string) =>
   description.length < 60 ? description : `${description.substring(0, 60)}...`;
 
 const EventCard = observer(({ event }: EventCardProps) => {
-  console.log(event.info.coordinates)
   return (
     <section className={styles.eventCard}>
       <img
