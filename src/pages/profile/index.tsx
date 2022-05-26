@@ -1,23 +1,28 @@
 import React, { useState } from "react";
-import avatar from "../../assets/avatar.jpg";
 import "./index.css";
 import CustomButton from "../../shared/CustomButton/CustomButton";
 import WatchProfile from "./WatchProfile";
 import EditProfile from "./EditProfile";
+import { observer } from "mobx-react-lite";
+import { UserStore } from "../../stores/UserStore";
 import Image from "../../models/Image";
 
-const Profile = () => {
-  const [userAvatar, setUserAvatar] = useState<Image[]>([{
-    url: avatar,
-    file: null,
-  }]);
+interface ProfileProps {
+  userStore: UserStore;
+}
+
+const Profile: React.FC<ProfileProps> = observer(({ userStore }) => {
   const [editing, setEditing] = useState(false);
+  const [userAvatar, setUserAvatar] = useState<Image[]>([
+    {
+      url: userStore.getImage(),
+      file: null,
+    },
+  ]);
 
   const reverseEditing = () => {
     setEditing(!editing);
   };
-
-  console.log(userAvatar)
 
   return (
     <div className="profile">
@@ -37,12 +42,17 @@ const Profile = () => {
         />
       )}
       {!editing ? (
-        <WatchProfile />
+        <WatchProfile userStore={userStore} />
       ) : (
-        <EditProfile setUserAvatar={setUserAvatar} />
+        <EditProfile
+          userStore={userStore}
+          setEditProfile={setEditing}
+          setUserAvatar={setUserAvatar}
+          userAvatar={userAvatar}
+        />
       )}
     </div>
   );
-};
+});
 
 export default Profile;

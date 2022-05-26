@@ -3,86 +3,114 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import ChangePasswordModal from "../ChangePasswordModal";
 import { CustomInput } from "../../../shared/CustomInput/CustomInput";
 import { CustomSelectDate } from "../../../shared/CustomSelectDate/CustomSelectDate";
-import {
-  genders,
-  GenderSelector,
-} from "../../../shared/GenderSelector/GenderSelector";
+import { GenderSelector } from "../../../shared/GenderSelector/GenderSelector";
 import CustomButton from "../../../shared/CustomButton/CustomButton";
 import ImageLoader from "../../../shared/ImageLoader/ImageLoader";
+import { UserStore } from "../../../stores/UserStore";
+import { observer } from "mobx-react-lite";
+import { changeInfo } from "../../../api/profile/changeInfo";
 import Image from "../../../models/Image";
+import { updatePhoto } from "../../../api/profile/updatePhoto";
+import styles from "./index.module.scss";
 
 type EditProfileProps = {
+  userStore: UserStore;
+  setEditProfile: Dispatch<boolean>;
   setUserAvatar: Dispatch<SetStateAction<Image[]>>;
+  userAvatar: Image[];
 };
 
-const EditProfile: React.FC<EditProfileProps> = ({ setUserAvatar }) => {
-  const [userName, setUserName] = useState("");
-  const [userPhone, setUserPhone] = useState("");
-  const [userGender, setUserGender] = useState(genders.Male);
-  const [birthDate, setBirthDate] = useState("");
+const EditProfile: React.FC<EditProfileProps> = observer(
+  ({ userStore, setEditProfile, setUserAvatar, userAvatar }) => {
+    const [userName, setUserName] = useState(userStore.getUserName());
+    const [userGender, setUserGender] = useState(userStore.getGender());
+    const [birthDate, setBirthDate] = useState(
+      new Date(userStore.getBirthDate()).toLocaleDateString()
+    );
+    const [isError, setIsError] = useState(false);
+    const [modalOpened, setModalOpened] = useState(false);
 
-  const [modalOpened, setModalOpened] = useState(false);
+    const openModal = () => {
+      setModalOpened(true);
+    };
 
-  const openModal = () => {
-    setModalOpened(true);
-  };
+    const closeModal = () => {
+      setModalOpened(false);
+    };
 
-  const closeModal = () => {
-    setModalOpened(false);
-  };
+    const getDate = (date: string) => {
+      const dates = date.split(".");
+      return dates[1] + "." + dates[0] + "." + dates[2];
+    };
 
-  const saveProfileState = () => {
-    console.log("saving");
-  };
+    const saveProfileState = async () => {
+      setIsError(false);
+      let responseUpdatePhoto = "";
+      if (userAvatar[0].file)
+        responseUpdatePhoto = await updatePhoto(userAvatar[0].file);
+      if (
+        (await changeInfo(userName, birthDate, userGender)) &&
+        (responseUpdatePhoto === "" || responseUpdatePhoto)
+      ) {
+        userStore.setUserName(userName);
+        userStore.setGender(userGender);
+        userStore.setBirthDate(getDate(birthDate));
+        if (responseUpdatePhoto !== "") userStore.setImage(responseUpdatePhoto);
+        userStore.save();
+        setEditProfile(false);
+      } else {
+        setIsError(true);
+      }
+    };
 
-  return (
-    <>
-      {modalOpened && <ChangePasswordModal onClose={closeModal} />}
-      <ImageLoader
-        labelText={"Изменить фото"}
-        setImages={setUserAvatar}
-        maxImagesCount={1}
-        withAdditionalLoading={false}
-        style={{ padding: "10px 0 25px" }}
-      />
-      <Gapped className={"profile_info-wrapper"} gap={7} vertical>
-        <CustomInput
-          label="Имя пользователя"
-          placeholder={"lapakota"}
-          value={userName}
-          onChange={setUserName}
+    return (
+      <>
+        {modalOpened && <ChangePasswordModal onClose={closeModal} />}
+        <ImageLoader
+          labelText={"Изменить фото"}
+          setImages={setUserAvatar}
+          maxImagesCount={1}
+          withAdditionalLoading={false}
+          style={{ padding: "10px 0 25px" }}
         />
-        <CustomInput
-          label="Номер телефона"
-          placeholder={"+78005553535"}
-          value={userPhone}
-          onChange={setUserPhone}
-        />
-        <CustomSelectDate
-          date={birthDate}
-          label="Дата рождения"
-          onChange={setBirthDate}
-        />
-        <GenderSelector
-          value={userGender}
-          label="Пол"
-          classNameDiv="gender_selector"
-          onChange={setUserGender}
-        />
-        <CustomButton
-          classNameDiv={"change-password_button"}
-          label={"Изменить пароль"}
-          onClick={openModal}
-        />
-        <CustomButton
-          onClick={saveProfileState}
-          classNameDiv={"save_button"}
-          label={"Сохранить"}
-          height={36}
-        />
-      </Gapped>
-    </>
-  );
-};
+        <Gapped className={"profile_info-wrapper"} gap={7} vertical>
+          <CustomInput
+            label="Имя пользователя"
+            placeholder={"lapakota"}
+            value={userName}
+            onChange={setUserName}
+          />
+          {isError && (
+            <p className={styles.errorMessage}>
+              Возникла непредвиденная ошибка
+            </p>
+          )}
+          <CustomSelectDate
+            date={birthDate}
+            label="Дата рождения"
+            onChange={setBirthDate}
+          />
+          <GenderSelector
+            value={userGender}
+            label="Пол"
+            classNameDiv="gender_selector"
+            onChange={setUserGender}
+          />
+          <CustomButton
+            classNameDiv={"change-password_button"}
+            label={"Изменить пароль"}
+            onClick={openModal}
+          />
+          <CustomButton
+            onClick={saveProfileState}
+            classNameDiv={"save_button"}
+            label={"Сохранить"}
+            height={36}
+          />
+        </Gapped>
+      </>
+    );
+  }
+);
 
 export default EditProfile;

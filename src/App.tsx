@@ -27,7 +27,10 @@ export const App = () => {
         <div className={"content-wrapper"}>
           <Routes>
             <Route path="/register" element={<Registration />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route
+              path="/profile"
+              element={<Profile userStore={globalStore.userStore} />}
+            />
             <Route
               path="/login"
               element={<Login userStore={globalStore.userStore} />}
