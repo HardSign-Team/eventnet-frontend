@@ -48,7 +48,7 @@ const Events = observer(() => {
           radius
         ),
       },
-      new PageInfoDto(1, 100)
+      new PageInfoDto(1, 5)
     );
     const params = buildRequestEventsParams(dto);
     navigate(`/events?${params}`);

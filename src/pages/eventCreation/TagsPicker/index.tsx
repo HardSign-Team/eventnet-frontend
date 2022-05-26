@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./index.module.scss";
 import { Token, TokenInput } from "@skbkontur/react-ui";
 import { TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
-import { getItems } from "../../events/SideBar/Toolbar/Toolbar";
 import { cropped } from "../../../utils/cropHelpers";
 
 type TagsPickerProps = {
@@ -23,7 +22,7 @@ const TagsPicker: React.FC<TagsPickerProps> = ({
       <span className={styles.eventTagsPicker__label}>Теги</span>
       <TokenInput
         type={TokenInputType.Combined}
-        getItems={getItems}
+        // getItems={getItems}
         selectedItems={cropped(selectedTags, maxSelectedTagsCount)}
         className={styles.eventTagsPicker__tokenInput}
         onValueChange={setSelectedTags}

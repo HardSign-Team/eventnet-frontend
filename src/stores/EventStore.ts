@@ -5,6 +5,7 @@ import { makeAutoObservable } from "mobx";
 import { guid } from "../viewModels/Guid";
 import { requestEventsFullInfo } from "../api/events/getEvents";
 import { evmToEvent } from "../pages/events/YandexMap/Circles/Circles";
+import { EventIdsModel } from "../dto/EventIdsModel";
 
 export class EventStore {
   public events: Array<Event> = [];
@@ -33,10 +34,16 @@ export class EventStore {
     if (!this._has(event)) this.events.push(event);
   }
 
-  addEvents(events: Array<EventLocationViewModel>) {
-    const eventsIds = events.map((e) => e.id);
-    requestEventsFullInfo(eventsIds)
-      .then((data) => data.events)
-      .then((ev) => ev.forEach((event) => this.events.push(evmToEvent(event))));
+  addEvents(eventsIds: Array<guid>) {
+    const eventsModel = new EventIdsModel(eventsIds);
+    console.log(eventsIds);
+    requestEventsFullInfo(eventsModel)
+      .then((_) => _.events)
+      .then((ev) => {
+        console.log(ev);
+        ev.forEach((event) => {
+          this.events.push(evmToEvent(event));
+        });
+      });
   }
 }

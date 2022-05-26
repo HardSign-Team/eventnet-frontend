@@ -4,6 +4,7 @@ import { EventLocationViewModel } from "../../viewModels/EvenLocationViewModel";
 import { BASE_ROUTE } from "../utils";
 import { guid } from "../../viewModels/Guid";
 import { EventViewModel } from "../../viewModels/EventViewModel";
+import { EventIdsModel } from "../../dto/EventIdsModel";
 
 type RequestEventsResponse = {
   events: Array<EventLocationViewModel>;
@@ -41,10 +42,11 @@ type RequestEventsFullInfo = {
 };
 
 export async function requestEventsFullInfo(
-  ids: guid[]
+  model: EventIdsModel
 ): Promise<RequestEventsFullInfo> {
-  const params = ids.map((id) => `Ids=${id}`).join("&");
-  const url = `${BASE_ROUTE}/api/events/full?${params}`;
+  // const params = ids.map((id) => `Ids=${id}`).join("&");
+  const params = Base64.toBase64(JSON.stringify(model), false);
+  const url = `${BASE_ROUTE}/api/events/full?events=${params}`;
   const options = {
     headers: {
       "Content-Type": "application/json",

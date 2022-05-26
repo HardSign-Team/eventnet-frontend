@@ -4,9 +4,9 @@ import { TagNameViewModel } from "../../viewModels/TagNameViewModel";
 type RequestEventResponse = Array<TagNameViewModel>;
 export async function requestTags(
   name: string,
-  count: number
+  count?: number
 ): Promise<RequestEventResponse> {
-  const url = `${BASE_ROUTE}/api/tags/search/name/${name}?mc=${count}`;
+  const url = `${BASE_ROUTE}/api/tags/search/name/${name}?mc=${count || ""}`;
   const options = {
     headers: {
       "Content-Type": "application/json",

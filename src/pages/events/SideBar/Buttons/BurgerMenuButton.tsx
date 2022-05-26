@@ -1,9 +1,13 @@
-import React from "react";
+import React, { MouseEventHandler } from "react";
 import { AiOutlineRight } from "react-icons/ai";
 
-export default function BurgerMenuButton() {
+type Props = {
+  onClick: () => void;
+};
+
+export default function BurgerMenuButton({ onClick }: Props) {
   return (
-    <button className="bm-icon button buttonMenu">
+    <button className="bm-icon button buttonMenu" onClick={onClick}>
       <AiOutlineRight />
     </button>
   );

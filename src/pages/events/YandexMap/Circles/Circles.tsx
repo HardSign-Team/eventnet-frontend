@@ -9,7 +9,6 @@ import { requestEvent } from "../../../../api/events/getEvent";
 import { Coordinates } from "../../../../models/Coordinates";
 import { guid } from "../../../../viewModels/Guid";
 import globalStore from "../../../../stores/GlobalStore";
-
 const CIRCLE_RADIUS = 5;
 const CIRCLE_COLOR = "#008D8E";
 const circleOptions = {

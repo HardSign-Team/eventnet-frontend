@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Input, Gapped, TokenInput } from "@skbkontur/react-ui";
 import "./Toolbar.css";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
@@ -6,26 +6,21 @@ import { Token } from "@skbkontur/react-ui";
 import { TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
 import { observer } from "mobx-react-lite";
 import globalStore from "../../../../stores/GlobalStore";
-
-const tags: string[] = [];
-
-export const getItems = (q: string): Promise<never[]> =>
-  Promise.resolve(
-    tags
-      .filter(
-        (x) => x.toLowerCase().includes(q.toLowerCase()) || x.toString() === q
-      )
-      .map((x) => x.toLowerCase())
-  ).then();
+import { requestSearchByName } from "../../../../api/events/searchByName";
+import { requestEventsFullInfo } from "../../../../api/events/getEvents";
+import { TagNameViewModel } from "../../../../viewModels/TagNameViewModel";
+import { requestTags } from "../../../../api/tags/getTags";
 
 type FormData = {
   eventName: string;
   currentCoordinates: string;
+  tags: TagNameViewModel[];
 };
 
 const defaultData = {
   eventName: "",
   currentCoordinates: "",
+  tags: [],
 };
 
 type Props = {
@@ -36,6 +31,27 @@ const Toolbar = observer(({ onSubmit }: Props) => {
   const [state, setState] = useState<FormData>(defaultData);
   const [isOpenEvent, setIsOpenEvent] = useState(true);
   const [selectedItems, setSelectedItems] = React.useState([]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      requestSearchByName(state.eventName)
+        .then((data) => data.events)
+        .then((eventsIds) => eventsIds.map((event) => event.id))
+        .then((guids) => globalStore.eventStore.addEvents(guids))
+        .catch(console.error);
+    }, 1000);
+    return () => clearTimeout(timeoutId);
+  }, [state]);
+
+  const getItems = (q: string): Promise<never[]> =>
+    Promise.resolve(
+      state.tags
+        .map((tagName) => tagName.name)
+        .filter(
+          (x) => x.toLowerCase().includes(q.toLowerCase()) || x.toString() === q
+        )
+        .map((x) => x.toLowerCase())
+    ).then();
 
   const onChangeEventName = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -68,6 +84,19 @@ const Toolbar = observer(({ onSubmit }: Props) => {
   };
 
   const { eventName, currentCoordinates } = state;
+
+  const onInputValueChange = (value: string) => {
+    if (value === "") return;
+    requestTags(value)
+      .then((tags) => {
+        for (let tag of tags) {
+          if (!state.tags.some((t) => t.id === tag.id)) {
+            state.tags.push(tag);
+          }
+        }
+      })
+      .catch(console.error);
+  };
 
   return (
     <div
@@ -108,6 +137,8 @@ const Toolbar = observer(({ onSubmit }: Props) => {
               width={"100%"}
               type={TokenInputType.Combined}
               getItems={getItems}
+              renderAddButton={() => null}
+              onInputValueChange={onInputValueChange}
               selectedItems={selectedItems}
               className="token-input"
               onValueChange={setSelectedItems}
