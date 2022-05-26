@@ -1,12 +1,33 @@
 .photoCarousel {
   width: 100%;
-  background: #D7DCD7;
+  background: #d7dcd7;
 
   &__imageWrapper {
+    position: relative;
     display: flex !important;
     justify-content: center;
     height: 320px;
     cursor: pointer;
+  }
+
+  &__deleteImageButton {
+    all: unset;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 8px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: box-shadow 0.2s ease-in-out;
+
+    &:hover {
+      box-shadow: 0 0 5px #00000020;
+    }
+
+    &:active {
+      background-color: #008d8e;
+    }
   }
 
   &__image {
@@ -23,7 +44,8 @@
   z-index: 1;
 }
 
-.arrowNext, .arrowPrev {
+.arrowNext,
+.arrowPrev {
   all: unset;
   display: flex;
   align-items: center;
@@ -35,14 +57,15 @@
   margin-top: -15px;
   font-weight: bold;
   vertical-align: center;
-  background: #D7DCD7;
+  background: #d7dcd7;
   border-radius: 50%;
   cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
 
   z-index: 5;
 
   &:hover {
-    background: #008D8E;
+    background-color: #008d8e;
   }
 }
 
@@ -57,4 +80,3 @@
 .slick-arrow {
   background: #171f1d;
 }
-
