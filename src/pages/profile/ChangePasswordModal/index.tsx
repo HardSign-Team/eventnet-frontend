@@ -1,14 +1,19 @@
 import React, { useState } from "react";
-import { Gapped, Modal } from "@skbkontur/react-ui";
+import { Modal } from "@skbkontur/react-ui";
 import { CustomInput } from "../../../shared/CustomInput/CustomInput";
 import CustomButton from "../../../shared/CustomButton/CustomButton";
-import "./index.scss";
-
-enum PasswordTypes {
-  Old,
-  New,
-  Repeated,
-}
+import styles from "./index.module.scss";
+import { FormContainer } from "../../../shared/FormContainer/FormContainer";
+import {
+  container,
+  refContainer,
+  changePasswordValidator,
+} from "../../../utils/Validators";
+import {
+  ValidationContainer,
+  ValidationWrapper,
+} from "@skbkontur/react-ui-validations";
+import { changePassword } from "../../../api/auth/password/changePassword";
 
 type ChangePasswordModalProps = {
   onClose: () => void;
@@ -17,106 +22,69 @@ type ChangePasswordModalProps = {
 const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
   onClose,
 }) => {
-  const userPassword = "jopabonana";
-
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [repeatedPassword, setRepeatedPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [isAccepted, setIsAccepted] = useState(false);
 
-  const [showEmptyInputMessage, setShowEmptyInputMessage] = useState(false);
-  const [showInvalidOldPassMessage, setShowInvalidOldPassMessage] =
-    useState(false);
-  const [showNewPassMismatchMessage, setShowNewPassMismatchMessage] =
-    useState(false);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const validator = changePasswordValidator({
+    oldPassword: oldPassword,
+    newPassword: newPassword,
+    confirmNewPassword: confirmNewPassword,
+  });
 
-  const clearMessages = () => {
-    setShowEmptyInputMessage(false);
-    setShowInvalidOldPassMessage(false);
-    setShowNewPassMismatchMessage(false);
-    setShowSuccessMessage(false);
-  };
-
-  const updatePasswordState =
-    (passwordType: PasswordTypes) => (value: string) => {
-      clearMessages();
-      switch (passwordType) {
-        case PasswordTypes.Old:
-          setOldPassword(value);
-          break;
-        case PasswordTypes.New:
-          setNewPassword(value);
-          break;
-        case PasswordTypes.Repeated:
-          setRepeatedPassword(value);
-          break;
-        default:
-          console.log("invalid password type");
-      }
-    };
-
-  const validateEmptyInput = () => {
+  const savePassword = async () => {
+    if (!container) {
+      return;
+    }
     if (
-      oldPassword.length === 0 ||
-      newPassword.length === 0 ||
-      repeatedPassword.length === 0
-    ) {
-      setShowEmptyInputMessage(true);
-      return false;
-    }
-    return true;
-  };
-
-  const savePassword = () => {
-    if (!validateEmptyInput()) return;
-
-    if (userPassword !== oldPassword) setShowInvalidOldPassMessage(true);
-    else if (newPassword !== repeatedPassword)
-      setShowNewPassMismatchMessage(true);
-    else {
-      //TODO дописать логику изменения пароля
-      setShowSuccessMessage(true);
-    }
+      (await container.validate()) &&
+      (await changePassword(oldPassword, newPassword))
+    )
+      setIsAccepted(true);
   };
 
   return (
     <Modal onClose={onClose}>
       <Modal.Header>Изменение пароля</Modal.Header>
       <Modal.Body>
-        <Gapped vertical gap={7}>
-          <CustomInput
-            type={"password"}
-            label="Старый пароль"
-            onChange={updatePasswordState(PasswordTypes.Old)}
-            value={oldPassword}
-          />
-          {showInvalidOldPassMessage && (
-            <p className={"error-message"}>Неверный пароль</p>
-          )}
-          <CustomInput
-            type={"password"}
-            label="Новый пароль"
-            onChange={updatePasswordState(PasswordTypes.New)}
-            value={newPassword}
-          />
-          <CustomInput
-            type={"password"}
-            label="Повтор пароля"
-            onChange={updatePasswordState(PasswordTypes.Repeated)}
-            value={repeatedPassword}
-          />
-          {showEmptyInputMessage && (
-            <p className={"error-message"}>Пустые поля ввода</p>
-          )}
-          {showNewPassMismatchMessage && (
-            <p className={"error-message"}>Пароли не совпадают</p>
-          )}
-          {showSuccessMessage && (
-            <p className={"success-message"}>Пароль успешно изменён</p>
-          )}
-        </Gapped>
+        <ValidationContainer ref={refContainer}>
+          <FormContainer>
+            <ValidationWrapper
+              validationInfo={validator.getNode((x) => x.oldPassword).get()}
+            >
+              <CustomInput
+                type={"password"}
+                label="Старый пароль"
+                onChange={setOldPassword}
+                value={oldPassword}
+              />
+            </ValidationWrapper>
+            <ValidationWrapper
+              validationInfo={validator.getNode((x) => x.newPassword).get()}
+            >
+              <CustomInput
+                type={"password"}
+                label="Новый пароль"
+                onChange={setNewPassword}
+                value={newPassword}
+              />
+            </ValidationWrapper>
+            <ValidationWrapper
+              validationInfo={validator.getNode((x) => x).get()}
+            >
+              <CustomInput
+                type={"password"}
+                label="Повтор пароля"
+                onChange={setConfirmNewPassword}
+                value={confirmNewPassword}
+              />
+            </ValidationWrapper>
+          </FormContainer>
+        </ValidationContainer>
       </Modal.Body>
       <Modal.Footer>
+        {isAccepted && <p className={styles.message}>Успешно</p>}
         <CustomButton
           onClick={savePassword}
           classNameDiv={"save-password_button"}
