@@ -19,8 +19,8 @@ async function refreshToken() {
     userStore.saveTokens(
       answer.accessToken.tokenString,
       answer.refreshToken.tokenString,
-      answer.accessToken.expiredAt,
-      answer.refreshToken.expiredAt
+      answer.accessToken.expireAt,
+      answer.refreshToken.expireAt
     );
   } else globalStore.userStore.logout();
 }
