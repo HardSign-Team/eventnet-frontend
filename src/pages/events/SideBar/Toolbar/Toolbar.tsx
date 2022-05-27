@@ -40,7 +40,7 @@ const Toolbar = observer(({ onSubmit }: Props) => {
     const timeoutId = setTimeout(() => {
       requestSearchByName(state.eventName)
         .then((data) => data.events)
-        .then((eventsIds) => eventsIds.map((event) => event.id))
+        .then((events) => events.map((event) => event.id))
         .then((guids) => globalStore.eventStore.addEvents(guids))
         .catch(console.error);
     }, 1000);
@@ -50,11 +50,8 @@ const Toolbar = observer(({ onSubmit }: Props) => {
   const getItems = (q: string): Promise<never[]> =>
     Promise.resolve(
       state.tags
-        .map((tagName) => tagName.name)
-        .filter(
-          (x) => x.toLowerCase().includes(q.toLowerCase()) || x.toString() === q
-        )
-        .map((x) => x.toLowerCase())
+        .map((tagName) => tagName.name.toLowerCase())
+        .filter((x) => x.includes(q.toLowerCase()) || x === q)
     ).then();
 
   const onChangeEventName = (e: ChangeEvent<HTMLInputElement>) => {

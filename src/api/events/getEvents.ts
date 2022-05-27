@@ -1,8 +1,7 @@
 import { RequestEventDto } from "../../dto/RequestEventDto";
 import { Base64 } from "js-base64";
 import { EventLocationViewModel } from "../../viewModels/EvenLocationViewModel";
-import { BASE_ROUTE } from "../utils";
-import { guid } from "../../viewModels/Guid";
+import { BASE_ROUTE, HTTP_METHODS } from "../utils";
 import { EventViewModel } from "../../viewModels/EventViewModel";
 import { EventIdsModel } from "../../dto/EventIdsModel";
 
@@ -44,10 +43,11 @@ type RequestEventsFullInfo = {
 export async function requestEventsFullInfo(
   model: EventIdsModel
 ): Promise<RequestEventsFullInfo> {
-  // const params = ids.map((id) => `Ids=${id}`).join("&");
-  const params = Base64.toBase64(JSON.stringify(model), false);
-  const url = `${BASE_ROUTE}/api/events/full?events=${params}`;
+  const body = JSON.stringify(model);
+  const url = `${BASE_ROUTE}/api/events/full`;
   const options = {
+    method: HTTP_METHODS.POST,
+    body: body,
     headers: {
       "Content-Type": "application/json",
     },
