@@ -8,7 +8,7 @@ const { eventStore } = globalStore;
 const EventList = () => {
   return (
     <div className="event-container">
-      {eventStore.events.map((event) => (
+      {eventStore.getEvents().map((event) => (
         <EventCard key={event.id} event={event} />
       ))}
     </div>

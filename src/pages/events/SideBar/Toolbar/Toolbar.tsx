@@ -41,9 +41,10 @@ const Toolbar = observer(({ onSubmit }: Props) => {
 
   useEffect(() => {
     if (state.eventName === "") {
+      globalStore.eventLocationStore.allowAdding();
       return;
     }
-
+    globalStore.eventLocationStore.forbidAdding();
     const timeoutId = setTimeout(() => {
       requestSearchByName(state.eventName)
         .then((data) => data.events)

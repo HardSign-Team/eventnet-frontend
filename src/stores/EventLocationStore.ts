@@ -9,6 +9,8 @@ export class EventLocationStore
   implements IEntityRepository<EventLocationViewModel, guid>
 {
   private _repository: IEntityRepository<EventLocationViewModel, guid>;
+  private canAdd = true;
+
   constructor() {
     this._repository = observable(
       new Repository<EventLocationViewModel, guid>()
@@ -16,12 +18,20 @@ export class EventLocationStore
     makeAutoObservable(this);
   }
 
+  allowAdding() {
+    this.canAdd = true;
+  }
+
+  forbidAdding() {
+    this.canAdd = false;
+  }
+
   setRange(items: Array<EventLocationViewModel>): void {
     this._repository.setRange(items);
   }
 
   addRange(items: Array<EventLocationViewModel>): void {
-    this._repository.addRange(items);
+    if (this.canAdd) this._repository.addRange(items);
   }
 
   getAll(): Array<EventLocationViewModel> {

@@ -1,6 +1,4 @@
 import Event from "../models/Event";
-import EventInfo from "../models/EventInfo";
-import { EventLocationViewModel } from "../viewModels/EvenLocationViewModel";
 import { makeAutoObservable } from "mobx";
 import { guid } from "../viewModels/Guid";
 import { requestEventsFullInfo } from "../api/events/getEvents";
@@ -9,7 +7,8 @@ import { EventViewModel } from "../viewModels/EventViewModel";
 import { eventViewModelToEvent } from "../utils/convertHelper";
 
 export class EventStore {
-  public events: Array<Event> = [];
+  private events: Array<Event> = [];
+  private allowAdding = true;
 
   constructor() {
     makeAutoObservable(this, {});
