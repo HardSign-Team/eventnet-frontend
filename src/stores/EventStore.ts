@@ -4,8 +4,9 @@ import { EventLocationViewModel } from "../viewModels/EvenLocationViewModel";
 import { makeAutoObservable } from "mobx";
 import { guid } from "../viewModels/Guid";
 import { requestEventsFullInfo } from "../api/events/getEvents";
-import { evmToEvent } from "../pages/events/YandexMap/Circles/Circles";
 import { EventIdsModel } from "../dto/EventIdsModel";
+import { EventViewModel } from "../viewModels/EventViewModel";
+import { eventViewModelToEvent } from "../utils/convertHelper";
 
 export class EventStore {
   public events: Array<Event> = [];
@@ -34,16 +35,26 @@ export class EventStore {
     if (!this._has(event)) this.events.push(event);
   }
 
+  setEvents(eventsIds: Array<guid>) {
+    EventStore.getFullInfo(eventsIds).then((ev) => {
+      this.events = ev.map(eventViewModelToEvent);
+    });
+  }
+
   addEvents(eventsIds: Array<guid>) {
-    const eventsModel = new EventIdsModel(eventsIds);
-    console.log(eventsIds);
-    requestEventsFullInfo(eventsModel)
-      .then((_) => _.events)
-      .then((ev) => {
-        console.log(ev);
-        ev.forEach((event) => {
-          this.events.push(evmToEvent(event));
-        });
+    EventStore.getFullInfo(eventsIds).then((ev) => {
+      ev.forEach((evm) => {
+        const event = eventViewModelToEvent(evm);
+        if (!this._has(event)) this.events.push(event);
       });
+    });
+  }
+
+  private static async getFullInfo(
+    eventsIds: Array<guid>
+  ): Promise<EventViewModel[]> {
+    const eventsModel = new EventIdsModel(eventsIds);
+    const { events } = await requestEventsFullInfo(eventsModel);
+    return events;
   }
 }

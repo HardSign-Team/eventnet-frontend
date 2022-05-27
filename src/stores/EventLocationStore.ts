@@ -16,6 +16,10 @@ export class EventLocationStore
     makeAutoObservable(this);
   }
 
+  setRange(items: Array<EventLocationViewModel>): void {
+    this._repository.setRange(items);
+  }
+
   addRange(items: Array<EventLocationViewModel>): void {
     this._repository.addRange(items);
   }

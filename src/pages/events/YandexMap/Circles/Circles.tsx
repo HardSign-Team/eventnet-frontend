@@ -9,6 +9,7 @@ import { requestEvent } from "../../../../api/events/getEvent";
 import { Coordinates } from "../../../../models/Coordinates";
 import { guid } from "../../../../viewModels/Guid";
 import globalStore from "../../../../stores/GlobalStore";
+import { eventViewModelToEvent } from "../../../../utils/convertHelper";
 const CIRCLE_RADIUS = 5;
 const CIRCLE_COLOR = "#008D8E";
 const circleOptions = {
@@ -24,28 +25,12 @@ type Props = {
   events: EventLocationViewModel[];
 };
 
-export const evmToEvent = (event: EventViewModel): Event => {
-  return {
-    id: event.id,
-    info: {
-      dateStart: new Date(event.startDate),
-      name: event.name,
-      coordinates: [event.location.latitude, event.location.longitude],
-      dateEnd: new Date(event.endDate || ""),
-      description: event.description,
-      likes: event.marks.likes,
-      dislikes: event.marks.dislikes,
-      participants: event.totalSubscriptions,
-    },
-  };
-};
-
 const Circles = ({ events }: Props) => {
   const circles: Array<JSX.Element> = [];
 
   const getEvent = async (eventId: guid) => {
     const evm = await requestEvent(eventId);
-    return evmToEvent(evm.event);
+    return eventViewModelToEvent(evm.event);
   };
 
   const getEventId = (coords: Coordinates) => {

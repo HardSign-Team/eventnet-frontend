@@ -7,15 +7,16 @@ import { TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
 import { observer } from "mobx-react-lite";
 import globalStore from "../../../../stores/GlobalStore";
 import { requestSearchByName } from "../../../../api/events/searchByName";
-import { requestEventsFullInfo } from "../../../../api/events/getEvents";
 import { TagNameViewModel } from "../../../../viewModels/TagNameViewModel";
 import { requestTags } from "../../../../api/tags/getTags";
+import Event from "../../../../models/Event";
+import { eventToEventLocationViewModel } from "../../../../utils/convertHelper";
 
-type FormData = {
+interface FormData {
   eventName: string;
   currentCoordinates: string;
   tags: TagNameViewModel[];
-};
+}
 
 const defaultData = {
   eventName: "",
@@ -25,6 +26,12 @@ const defaultData = {
 
 type Props = {
   onSubmit: (e: any) => void;
+};
+
+const putEventsToLocationStore = (events: Event[]) => {
+  globalStore.eventLocationStore.setRange(
+    events.map(eventToEventLocationViewModel)
+  );
 };
 
 const Toolbar = observer(({ onSubmit }: Props) => {
@@ -41,7 +48,10 @@ const Toolbar = observer(({ onSubmit }: Props) => {
       requestSearchByName(state.eventName)
         .then((data) => data.events)
         .then((events) => events.map((event) => event.id))
-        .then((guids) => globalStore.eventStore.addEvents(guids))
+        .then((guids) => {
+          globalStore.eventStore.setEvents(guids);
+          putEventsToLocationStore(globalStore.eventStore.getEvents());
+        })
         .catch(console.error);
     }, 1000);
     return () => clearTimeout(timeoutId);
