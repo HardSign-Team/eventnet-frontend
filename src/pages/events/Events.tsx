@@ -15,19 +15,30 @@ import { PageInfoDto } from "../../dto/PageInfoDto";
 import { observer } from "mobx-react-lite";
 import { throttle } from "lodash";
 import { Coordinates } from "../../models/Coordinates";
+import { useInterval } from "../../utils/Hooks";
+
+const requestEventsFromApi = (query: URLSearchParams) => {
+  requestEvents(query)
+    .then((r) => {
+      globalStore.eventLocationStore.addRange(r.events);
+    })
+    .catch(console.error);
+};
 
 const Events = observer(() => {
   const { search } = useLocation();
   const query = React.useMemo(() => new URLSearchParams(search), [search]);
   const navigate = useNavigate();
 
+  useInterval(() => {
+    if (query.toString() !== "") {
+      requestEventsFromApi(query);
+    }
+  }, 5000);
+
   useEffect(() => {
     if (query.toString() !== "") {
-      requestEvents(query)
-        .then((r) => {
-          globalStore.eventLocationStore.addRange(r.events);
-        })
-        .catch(console.error);
+      requestEventsFromApi(query);
     }
     document.body.style.overflow = "hidden";
     document.getElementsByTagName("html")[0].style.overflow = "hidden";

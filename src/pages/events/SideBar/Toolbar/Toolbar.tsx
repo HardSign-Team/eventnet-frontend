@@ -40,6 +40,7 @@ const Toolbar = observer(({ onSubmit }: Props) => {
   useEffect(() => {
     if (state.eventName === "") {
       globalStore.eventLocationStore.allowAdding();
+      globalStore.eventStore.setEvents([]);
       if (query.toString() !== "") {
         requestEvents(query)
           .then((r) => {
