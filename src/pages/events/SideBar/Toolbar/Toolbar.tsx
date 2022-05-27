@@ -11,6 +11,8 @@ import { TagNameViewModel } from "../../../../viewModels/TagNameViewModel";
 import { requestTags } from "../../../../api/tags/getTags";
 import Event from "../../../../models/Event";
 import { eventToEventLocationViewModel } from "../../../../utils/convertHelper";
+import { useLocation, useNavigate } from "react-router-dom";
+import { requestEvents } from "../../../../api/events/getEvents";
 
 interface FormData {
   eventName: string;
@@ -28,20 +30,23 @@ type Props = {
   onSubmit: (e: any) => void;
 };
 
-const putEventsToLocationStore = (events: Event[]) => {
-  globalStore.eventLocationStore.setRange(
-    events.map(eventToEventLocationViewModel)
-  );
-};
-
 const Toolbar = observer(({ onSubmit }: Props) => {
   const [state, setState] = useState<FormData>(defaultData);
   const [isOpenEvent, setIsOpenEvent] = useState(true);
   const [selectedItems, setSelectedItems] = React.useState([]);
+  const { search } = useLocation();
+  const query = React.useMemo(() => new URLSearchParams(search), [search]);
 
   useEffect(() => {
     if (state.eventName === "") {
       globalStore.eventLocationStore.allowAdding();
+      if (query.toString() !== "") {
+        requestEvents(query)
+          .then((r) => {
+            globalStore.eventLocationStore.addRange(r.events);
+          })
+          .catch(console.error);
+      }
       return;
     }
     globalStore.eventLocationStore.forbidAdding();
@@ -51,7 +56,6 @@ const Toolbar = observer(({ onSubmit }: Props) => {
         .then((events) => events.map((event) => event.id))
         .then((guids) => {
           globalStore.eventStore.setEvents(guids);
-          putEventsToLocationStore(globalStore.eventStore.getEvents());
         })
         .catch(console.error);
     }, 1000);

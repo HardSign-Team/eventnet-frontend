@@ -4,7 +4,11 @@ import { guid } from "../viewModels/Guid";
 import { requestEventsFullInfo } from "../api/events/getEvents";
 import { EventIdsModel } from "../dto/EventIdsModel";
 import { EventViewModel } from "../viewModels/EventViewModel";
-import { eventViewModelToEvent } from "../utils/convertHelper";
+import {
+  eventToEventLocationViewModel,
+  eventViewModelToEvent,
+} from "../utils/convertHelper";
+import globalStore from "./GlobalStore";
 
 export class EventStore {
   private events: Array<Event> = [];
@@ -36,7 +40,9 @@ export class EventStore {
 
   setEvents(eventsIds: Array<guid>) {
     EventStore.getFullInfo(eventsIds).then((ev) => {
-      this.events = ev.map(eventViewModelToEvent);
+      const newEvents = ev.map(eventViewModelToEvent);
+      this.events = newEvents;
+      this.putEventsToLocationStore(newEvents);
     });
   }
 
@@ -48,6 +54,11 @@ export class EventStore {
       });
     });
   }
+
+  private putEventsToLocationStore = (events: Event[]) => {
+    const eventLocations = events.map(eventToEventLocationViewModel);
+    globalStore.eventLocationStore.setRange(eventLocations);
+  };
 
   private static async getFullInfo(
     eventsIds: Array<guid>

@@ -2,10 +2,11 @@ import React from "react";
 import EventCard from "../EventCard/EventCard";
 import "./EventList.css";
 import globalStore from "../../../stores/GlobalStore";
+import { observer } from "mobx-react-lite";
 
 const { eventStore } = globalStore;
 
-const EventList = () => {
+const EventList = observer(() => {
   return (
     <div className="event-container">
       {eventStore.getEvents().map((event) => (
@@ -13,6 +14,6 @@ const EventList = () => {
       ))}
     </div>
   );
-};
+});
 
 export default EventList;

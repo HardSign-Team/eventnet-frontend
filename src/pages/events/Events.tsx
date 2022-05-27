@@ -27,7 +27,7 @@ const Events = observer(() => {
         .then((r) => {
           globalStore.eventLocationStore.addRange(r.events);
         })
-        .catch((e: any) => console.log(e.message));
+        .catch(console.error);
     }
     document.body.style.overflow = "hidden";
     document.getElementsByTagName("html")[0].style.overflow = "hidden";

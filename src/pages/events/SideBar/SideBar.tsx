@@ -6,7 +6,6 @@ import EventList from "../EventList/EventList";
 import Toolbar from "./Toolbar/Toolbar";
 import BurgerMenuButton from "./Buttons/BurgerMenuButton";
 import CrossMenuButton from "./Buttons/CrossMenuButton";
-import { observer } from "mobx-react-lite";
 import globalStore from "../../../stores/GlobalStore";
 
 type BarProps = {
@@ -14,7 +13,7 @@ type BarProps = {
   onSubmit: (e: any) => void;
 };
 
-const SideBar = observer(({ className, onSubmit }: BarProps) => {
+const SideBar = ({ className, onSubmit }: BarProps) => {
   const [menuCollapse, setMenuCollapse] = useState(true);
 
   const onOpen = () => {
@@ -43,6 +42,6 @@ const SideBar = observer(({ className, onSubmit }: BarProps) => {
       </div>
     </div>
   );
-});
+};
 
 export default SideBar;
