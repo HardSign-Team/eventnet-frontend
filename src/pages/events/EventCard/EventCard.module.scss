@@ -14,7 +14,11 @@
   padding: 10px;
 }
 
+
 .eventCard {
+  &__photo{
+    object-fit: cover;
+  }
   .buttons {
     display: flex;
     gap: 6px;

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import Event from "../../../../models/Event";
+import React from "react";
+import "./Circles.scss";
 import { Circle } from "react-yandex-maps";
 import EventBalloonContent from "../EventBalloonContent/EventBalloonContent";
 import ReactDOMServer from "react-dom/server";
 import { EventLocationViewModel } from "../../../../viewModels/EvenLocationViewModel";
-import { EventViewModel } from "../../../../viewModels/EventViewModel";
 import { requestEvent } from "../../../../api/events/getEvent";
 import { Coordinates } from "../../../../models/Coordinates";
 import { guid } from "../../../../viewModels/Guid";
@@ -47,21 +46,30 @@ const Circles = ({ events }: Props) => {
     return eventId;
   };
 
-  const onCircleClick = async (c: any) => {
+  const onMouseEnter = async (c: any) => {
     const map = c.get("map");
     const coords = c.get("coords");
     const eventId = getEventId(coords);
     const event = await getEvent(eventId);
+
     globalStore.eventStore.addEvent(event);
-    map.balloon.open(
+    map.hint.open(
       c.get("coords"),
       ReactDOMServer.renderToString(
         <EventBalloonContent
           className={"event-balloon-content"}
           event={event}
         />
-      )
+      ),
+      {
+        openTimeout: 0,
+      }
     );
+  };
+
+  const onMouseLeave = async (c: any) => {
+    const map = c.get("map");
+    map.hint.close();
   };
 
   events.forEach((e) => {
@@ -70,7 +78,8 @@ const Circles = ({ events }: Props) => {
         geometry={[[e.location.latitude, e.location.longitude], CIRCLE_RADIUS]}
         options={circleOptions}
         key={e.id}
-        onClick={onCircleClick}
+        onMouseLeave={onMouseLeave}
+        onMouseEnter={onMouseEnter}
         modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
       />
     );
