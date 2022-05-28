@@ -72,8 +72,6 @@ const YaMap = observer(({ className, onChangeBound }: Props) => {
     setShowEvents(!showEvents);
   };
 
-  console.log(accessToken);
-
   return (
     <YMaps
       className="yandex-maps"
