@@ -15,6 +15,7 @@ import "./YaMap.scss";
 import { BiHide, BiShow } from "react-icons/bi";
 import ReactDOMServer from "react-dom/server";
 import { getDistanceFromLatLonInKm } from "../../../utils/distance";
+import { Coordinates } from "../../../models/Coordinates";
 
 const MIN_ZOOM = 4;
 
@@ -54,7 +55,7 @@ function addBalloon(event: any) {
 
 type Props = {
   className: string;
-  onChangeBound?: (center: [number, number], radius: number) => void;
+  onChangeBound?: (center: Coordinates, radius: number) => void;
 };
 
 const YaMap = observer(({ className, onChangeBound }: Props) => {
@@ -70,6 +71,8 @@ const YaMap = observer(({ className, onChangeBound }: Props) => {
   const onClickButton = () => {
     setShowEvents(!showEvents);
   };
+
+  console.log(accessToken);
 
   return (
     <YMaps

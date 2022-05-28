@@ -16,13 +16,16 @@ import { observer } from "mobx-react-lite";
 import { throttle } from "lodash";
 import { Coordinates } from "../../models/Coordinates";
 import { useInterval } from "../../utils/Hooks";
+import { coordinatesToLocation } from "../../utils/convertHelper";
 
 const requestEventsFromApi = (query: URLSearchParams) => {
-  requestEvents(query)
-    .then((r) => {
-      globalStore.eventLocationStore.addRange(r.events);
-    })
-    .catch(console.error);
+  if (query.toString() !== "") {
+    requestEvents(query)
+      .then((r) => {
+        globalStore.eventLocationStore.addRange(r.events);
+      })
+      .catch(console.error);
+  }
 };
 
 const Events = observer(() => {
@@ -31,15 +34,11 @@ const Events = observer(() => {
   const navigate = useNavigate();
 
   useInterval(() => {
-    if (query.toString() !== "") {
-      requestEventsFromApi(query);
-    }
+    requestEventsFromApi(query);
   }, 5000);
 
   useEffect(() => {
-    if (query.toString() !== "") {
-      requestEventsFromApi(query);
-    }
+    requestEventsFromApi(query);
     document.body.style.overflow = "hidden";
     document.getElementsByTagName("html")[0].style.overflow = "hidden";
     return () => {
@@ -55,7 +54,7 @@ const Events = observer(() => {
     const dto = new RequestEventDto(
       {
         radiusLocation: new LocationFilterModel(
-          new Location(center[0], center[1]),
+          coordinatesToLocation(center),
           radius
         ),
       },
