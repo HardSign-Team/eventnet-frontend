@@ -66,18 +66,22 @@ const PhotoCarousel: React.FC<PhotoCarouselProps> = ({
     <>
       {showModal && <PhotoModal image={pickedImage} onClose={closeModal} />}
       <div className={styles.wrapper}>
-        <button
-          className={styles.arrowPrev}
-          onClick={() => carousel?.current?.slickPrev()}
-        >
-          <img src={arrowLeft} alt={"arrow left"} />
-        </button>
-        <button
-          className={styles.arrowNext}
-          onClick={() => carousel?.current?.slickNext()}
-        >
-          <img src={arrowRight} alt={"arrow right"} />
-        </button>
+        {((withLoader && images.length > 0) || images.length > 1) && (
+          <>
+            <button
+              className={styles.arrowPrev}
+              onClick={() => carousel?.current?.slickPrev()}
+            >
+              <img src={arrowLeft} alt={"arrow left"} />
+            </button>
+            <button
+              className={styles.arrowNext}
+              onClick={() => carousel?.current?.slickNext()}
+            >
+              <img src={arrowRight} alt={"arrow right"} />
+            </button>
+          </>
+        )}
         <Slider className={styles.photoCarousel} {...settings} ref={carousel}>
           {images.map((image) => (
             <div
@@ -105,15 +109,13 @@ const PhotoCarousel: React.FC<PhotoCarouselProps> = ({
               />
             </div>
           ))}
-          {images.length < MAX_IMAGES_COUNT && (
+          {withLoader && images.length < MAX_IMAGES_COUNT && (
             <div className={styles.photoCarousel__imageWrapper}>
-              {withLoader && (
-                <ImageLoader
-                  setImages={withLoader.setImages}
-                  withAdditionalLoading={withLoader?.withAdditionalLoading}
-                  maxImagesCount={MAX_IMAGES_COUNT}
-                />
-              )}
+              <ImageLoader
+                setImages={withLoader.setImages}
+                withAdditionalLoading={withLoader?.withAdditionalLoading}
+                maxImagesCount={MAX_IMAGES_COUNT}
+              />
             </div>
           )}
         </Slider>
