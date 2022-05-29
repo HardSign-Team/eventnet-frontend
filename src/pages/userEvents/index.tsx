@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { CustomSelector } from "../../shared/CustomSelector/CustomSelector";
 import EventCard from "../events/EventCard/EventCard";
 import globalStore from "../../stores/GlobalStore";
 import { observer } from "mobx-react-lite";
 import Event from "../../models/Event";
+import { requestMyEvents } from "../../api/events/getMyEvents";
+import { eventViewModelToEvent } from "../../utils/convertHelper";
 
 type UserEventsProps = {};
 
@@ -13,12 +15,22 @@ enum SelectorItem {
   Past = "Прошедшие",
 }
 
-const { eventStore } = globalStore;
-
-const USERNAME = "lapakota";
+const { userStore } = globalStore;
 
 export const UserEvents: React.FC<UserEventsProps> = observer(() => {
+  const [events, setEvents] = useState<Event[]>([]);
+
   const [picked, setPicked] = useState(SelectorItem.Relevant);
+
+  useEffect(() => {
+    loadMyEvents();
+  }, []);
+
+  const loadMyEvents = async () => {
+    const response = await requestMyEvents(userStore.getAccessToken());
+    const myEvents = response.events.map((x) => eventViewModelToEvent(x));
+    setEvents(myEvents);
+  };
 
   const isRelevant = (event: Event) => {
     if (!event.info.dateEnd) return true;
@@ -29,7 +41,7 @@ export const UserEvents: React.FC<UserEventsProps> = observer(() => {
   return (
     <section className={styles.userEvents}>
       <h2 className={styles.userEvents__userName}>
-        События от пользователя {USERNAME}
+        События от пользователя {userStore.getUserName()}
       </h2>
       <CustomSelector
         onChange={setPicked}
@@ -40,8 +52,7 @@ export const UserEvents: React.FC<UserEventsProps> = observer(() => {
         value={picked}
       />
       <div className={styles.userEvents__events}>
-        {eventStore
-          .getEvents()
+        {events
           .filter((x) =>
             picked === SelectorItem.Relevant ? isRelevant(x) : !isRelevant(x)
           )
