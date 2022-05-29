@@ -18,6 +18,8 @@
 }
 
 .pro-sidebar-content {
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
   color: #323232;
   background-color: #d7dcd7;
