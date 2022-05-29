@@ -11,7 +11,7 @@ import { LoadSpinner } from "../../shared/LoadSpinner";
 import EventInfo from "../../models/EventInfo";
 import { requestEvent } from "../../api/events/getEvent";
 import { eventViewModelToEvent } from "../../utils/convertHelper";
-import avatar from "../../assets/avatar.jpg";
+import blankPhoto from "../../assets/blank_photo.png";
 import { getEventPhotos } from "../../api/events/getEventPhotos";
 
 const iconsStyle = {
@@ -23,7 +23,7 @@ const iconsStyle = {
   height: "30px",
 } as const;
 
-const defaultImage: Image = { url: avatar as string, file: null };
+const defaultImage: Image = { url: blankPhoto as string, file: null };
 
 export const EventPage: React.FC = () => {
   const { search } = useLocation();

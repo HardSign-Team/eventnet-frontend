@@ -4,7 +4,7 @@ import Event from "../../../models/Event";
 import { getDurationBetweenDates } from "../../../utils/date";
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { GoLocation } from "react-icons/go";
-import avatar from "../../../assets/avatar.jpg";
+import blankPhoto from "../../../assets/blank_photo.png";
 import { observer } from "mobx-react-lite";
 import styles from "./EventCard.module.scss";
 import cn from "classnames";
@@ -45,7 +45,7 @@ const EventCard = observer(({ event }: EventCardProps) => {
       <a href={`/event-page?id=${event.id}`}>
         <img
           className={styles.eventCard__photo}
-          src={photo?.url ?? avatar}
+          src={photo?.url ?? blankPhoto}
           alt="EventPhoto"
           width={"100%"}
           height={"150px"}
