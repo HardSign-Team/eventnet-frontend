@@ -5,7 +5,6 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import Events from "./pages/events/Events";
 import { Registration } from "./pages/register/Registration";
 import { Login } from "./pages/login/Login";
 import EventCreation from "./pages/eventCreation";
@@ -19,6 +18,30 @@ import globalStore from "./stores/GlobalStore";
 import { CompletedRegister } from "./pages/register/completedRegister";
 import { EventPage } from "./pages/eventPage";
 import { ProtectedRoute } from "./shared/ProtectedRoute";
+import { RequestEventDto } from "./dto/RequestEventDto";
+import { LocationFilterModel } from "./dto/LocationFilterModel";
+import { Location } from "./dto/Location";
+import { PageInfoDto } from "./dto/PageInfoDto";
+import { buildRequestEventsParams } from "./api/events/getEvents";
+import Events from "./pages/events/Events";
+
+const DEFAULT_MAP_STATE = {
+  center: [56.84168, 60.614947],
+  radius: 100,
+};
+
+const getDefaultParams = () => {
+  const dto = new RequestEventDto(
+    {
+      radiusLocation: new LocationFilterModel(
+        new Location(DEFAULT_MAP_STATE.center[0], DEFAULT_MAP_STATE.center[1]),
+        DEFAULT_MAP_STATE.radius
+      ),
+    },
+    new PageInfoDto(1, 5)
+  );
+  return buildRequestEventsParams(dto);
+};
 
 export const App = () => {
   return (
@@ -27,7 +50,12 @@ export const App = () => {
         <Header userStore={globalStore.userStore} />
         <div className={"content-wrapper"}>
           <Routes>
-            <Route path="/" element={<Navigate to="/events" replace />} />
+            <Route
+              path="/"
+              element={
+                <Navigate to={`/events?${getDefaultParams()}`} replace />
+              }
+            />
             <Route path="/events" element={<Events />} />
             <Route path="/register" element={<Registration />} />
             <Route path="/completed-register" element={<CompletedRegister />} />

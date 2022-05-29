@@ -1,18 +1,16 @@
 import React from "react";
-import Event from "../../../../models/Event";
-import EventCard from "../../EventCard/EventCard";
 import "./EventBalloonContent.scss";
+import EventCard from "../../EventCard/EventCard";
+import Event from "../../../../models/Event";
 
 type Props = {
   className?: string;
-  event: Event;
+  event: Event | null;
 };
 
 const EventBalloonContent = ({ className, event }: Props) => {
   return (
-    <div className={className}>
-      <EventCard event={event} />
-    </div>
+    <div className={className}>{event && <EventCard event={event} />}</div>
   );
 };
 

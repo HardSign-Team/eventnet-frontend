@@ -26,7 +26,7 @@ const iconsStyle = {
 
 // TODO убрать заглушку ивента
 export const EventPage: React.FC<EventPageProps> = ({
-  event = eventStore.events[0],
+  event = eventStore.getEvents()[0],
 }) => {
   const eventInfo = event.info;
 
