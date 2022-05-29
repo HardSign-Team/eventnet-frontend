@@ -8,7 +8,8 @@ import avatar from "../../../assets/avatar.jpg";
 import { observer } from "mobx-react-lite";
 import styles from "./EventCard.module.scss";
 import cn from "classnames";
-import { Navigate } from "react-router-dom";
+import Image from "../../../models/Image";
+import { getEventPhotos } from "../../../api/events/getEventPhotos";
 
 type EventCardProps = {
   event: Event;
@@ -27,28 +28,29 @@ const getDescription = (description: string) =>
   description.length < 60 ? description : `${description.substring(0, 60)}...`;
 
 const EventCard = observer(({ event }: EventCardProps) => {
-  const [navigate, setNavigate] = useState(false);
-
-  const onDoubleClick = () => {
-    setNavigate(true);
-  };
+  const [photo, setPhoto] = useState<Image | null>(null);
 
   useEffect(() => {
-    return () => setNavigate(false);
-  }, [navigate]);
-  if (navigate) {
-    return <Navigate replace to={"../user-events"} />;
-  }
+    getEventPhotos(event.id)
+      .then((resp) =>
+        resp.photos.map(
+          (photo) => ({ url: `${photo}.jpeg`, file: null } as Image)
+        )
+      )
+      .then((photos) => photos.length > 0 && setPhoto(photos[0]));
+  }, [event.id, setPhoto]);
 
   return (
-    <section className={styles.eventCard} onDoubleClick={onDoubleClick}>
-      <img
-        className={styles.eventCard__photo}
-        src={(event.info.photos && event.info.photos[0]) || avatar}
-        alt="EventPhoto"
-        width={"100%"}
-        height={"150px"}
-      />
+    <section className={styles.eventCard}>
+      <a href={`/event-page?id=${event.id}`}>
+        <img
+          className={styles.eventCard__photo}
+          src={photo?.url ?? avatar}
+          alt="EventPhoto"
+          width={"100%"}
+          height={"150px"}
+        />
+      </a>
       <div className={styles.eventInfo}>
         <h4 className={styles.eventCard__title}>{event.info.name}</h4>
         <div className={styles.eventCard__description}>

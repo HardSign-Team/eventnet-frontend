@@ -66,7 +66,7 @@ const PhotoCarousel: React.FC<PhotoCarouselProps> = ({
     <>
       {showModal && <PhotoModal image={pickedImage} onClose={closeModal} />}
       <div className={styles.wrapper}>
-        {images.length > 0 && (
+        {((withLoader && images.length > 0) || images.length > 1) && (
           <>
             <button
               className={styles.arrowPrev}
@@ -109,15 +109,13 @@ const PhotoCarousel: React.FC<PhotoCarouselProps> = ({
               />
             </div>
           ))}
-          {images.length < MAX_IMAGES_COUNT && (
+          {withLoader && images.length < MAX_IMAGES_COUNT && (
             <div className={styles.photoCarousel__imageWrapper}>
-              {withLoader && (
-                <ImageLoader
-                  setImages={withLoader.setImages}
-                  withAdditionalLoading={withLoader?.withAdditionalLoading}
-                  maxImagesCount={MAX_IMAGES_COUNT}
-                />
-              )}
+              <ImageLoader
+                setImages={withLoader.setImages}
+                withAdditionalLoading={withLoader?.withAdditionalLoading}
+                maxImagesCount={MAX_IMAGES_COUNT}
+              />
             </div>
           )}
         </Slider>

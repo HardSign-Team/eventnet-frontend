@@ -14,10 +14,10 @@
   padding: 10px;
 }
 
-
 .eventCard {
-  &__photo{
+  &__photo {
     object-fit: cover;
+    cursor: pointer;
   }
   .buttons {
     display: flex;
