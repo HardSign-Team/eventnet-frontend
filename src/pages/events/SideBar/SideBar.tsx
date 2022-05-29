@@ -6,14 +6,20 @@ import EventList from "../EventList/EventList";
 import Toolbar from "./Toolbar/Toolbar";
 import BurgerMenuButton from "./Buttons/BurgerMenuButton";
 import CrossMenuButton from "./Buttons/CrossMenuButton";
+import globalStore from "../../../stores/GlobalStore";
 
 type BarProps = {
   className: string;
   onSubmit: (e: any) => void;
 };
 
-export default function SideBar({ className, onSubmit }: BarProps) {
+const SideBar = ({ className, onSubmit }: BarProps) => {
   const [menuCollapse, setMenuCollapse] = useState(true);
+
+  const onOpen = () => {
+    const circles = globalStore.eventLocationStore.getAll();
+    globalStore.eventStore.addEvents(circles.map((event) => event.id));
+  };
 
   return (
     <div className={className}>
@@ -28,8 +34,14 @@ export default function SideBar({ className, onSubmit }: BarProps) {
         onClick={() => setMenuCollapse(!menuCollapse)}
         style={!menuCollapse ? { transform: "translateX(-28px)" } : {}}
       >
-        {menuCollapse ? <BurgerMenuButton /> : <CrossMenuButton />}
+        {menuCollapse ? (
+          <BurgerMenuButton onClick={onOpen} />
+        ) : (
+          <CrossMenuButton />
+        )}
       </div>
     </div>
   );
-}
+};
+
+export default SideBar;

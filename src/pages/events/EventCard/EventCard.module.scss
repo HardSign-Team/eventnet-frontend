@@ -14,7 +14,11 @@
   padding: 10px;
 }
 
+
 .eventCard {
+  &__photo{
+    object-fit: cover;
+  }
   .buttons {
     display: flex;
     gap: 6px;
@@ -35,12 +39,18 @@
   }
   &__title {
     margin-top: 10px;
+    height: 1.1rem;
+    overflow: hidden;
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
   }
+
   &__description {
     height: 3rem;
     overflow: hidden;
     margin-top: 15px;
-    font-size: 14px;
+    font-size: 13px;
   }
   &__startDate,
   &__dateDuration {

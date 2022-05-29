@@ -1,11 +1,18 @@
 import Event from "../models/Event";
-import EventInfo from "../models/EventInfo";
-import { EventLocationViewModel } from "../viewModels/EvenLocationViewModel";
 import { makeAutoObservable } from "mobx";
 import { guid } from "../viewModels/Guid";
+import { requestEventsFullInfo } from "../api/events/getEvents";
+import { EventIdsModel } from "../dto/EventIdsModel";
+import { EventViewModel } from "../viewModels/EventViewModel";
+import {
+  eventToEventLocationViewModel,
+  eventViewModelToEvent,
+} from "../utils/convertHelper";
+import globalStore from "./GlobalStore";
 
 export class EventStore {
-  public events: Array<Event> = [];
+  private events: Array<Event> = [];
+  private allowAdding = true;
 
   constructor() {
     makeAutoObservable(this, {});
@@ -23,22 +30,41 @@ export class EventStore {
     this.events = this.events.filter((ev) => ev.id === event.id);
   }
 
-  addEvents(events: Array<EventLocationViewModel>) {
-    const a: Array<Event> = events.map((event) => {
-      return {
-        id: event.id,
-        info: {
-          name: event.name,
-          coordinates: [event.location.latitude, event.location.longitude],
-          dateStart: new Date(2021, 10, 15),
-          likes: 2,
-          description: "",
-          dateEnd: new Date(2021, 10, 15),
-        },
-      };
+  _has(event: Event) {
+    return this.events.some((e) => e.id === event.id);
+  }
+
+  addEvent(event: Event) {
+    if (!this._has(event)) this.events.push(event);
+  }
+
+  setEvents(eventsIds: Array<guid>) {
+    EventStore.getFullInfo(eventsIds).then((ev) => {
+      const newEvents = ev.map(eventViewModelToEvent);
+      this.events = newEvents;
+      this.putEventsToLocationStore(newEvents);
     });
-    for (const e of a) {
-      if (!this.events.some((event) => event.id === e.id)) this.events.push(e);
-    }
+  }
+
+  addEvents(eventsIds: Array<guid>) {
+    EventStore.getFullInfo(eventsIds).then((ev) => {
+      ev.forEach((evm) => {
+        const event = eventViewModelToEvent(evm);
+        if (!this._has(event)) this.events.push(event);
+      });
+    });
+  }
+
+  private putEventsToLocationStore = (events: Event[]) => {
+    const eventLocations = events.map(eventToEventLocationViewModel);
+    globalStore.eventLocationStore.setRange(eventLocations);
+  };
+
+  private static async getFullInfo(
+    eventsIds: Array<guid>
+  ): Promise<EventViewModel[]> {
+    const eventsModel = new EventIdsModel(eventsIds);
+    const { events } = await requestEventsFullInfo(eventsModel);
+    return events;
   }
 }

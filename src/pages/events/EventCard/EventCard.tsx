@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./EventCard.module.scss";
 import Event from "../../../models/Event";
 import { getDurationBetweenDates } from "../../../utils/date";
@@ -8,6 +8,7 @@ import avatar from "../../../assets/avatar.jpg";
 import { observer } from "mobx-react-lite";
 import styles from "./EventCard.module.scss";
 import cn from "classnames";
+import { Navigate } from "react-router-dom";
 
 type EventCardProps = {
   event: Event;
@@ -26,8 +27,21 @@ const getDescription = (description: string) =>
   description.length < 60 ? description : `${description.substring(0, 60)}...`;
 
 const EventCard = observer(({ event }: EventCardProps) => {
+  const [navigate, setNavigate] = useState(false);
+
+  const onDoubleClick = () => {
+    setNavigate(true);
+  };
+
+  useEffect(() => {
+    return () => setNavigate(false);
+  }, [navigate]);
+  if (navigate) {
+    return <Navigate replace to={"../user-events"} />;
+  }
+
   return (
-    <section className={styles.eventCard}>
+    <section className={styles.eventCard} onDoubleClick={onDoubleClick}>
       <img
         className={styles.eventCard__photo}
         src={(event.info.photos && event.info.photos[0]) || avatar}

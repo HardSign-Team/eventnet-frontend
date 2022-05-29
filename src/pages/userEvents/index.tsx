@@ -40,7 +40,8 @@ export const UserEvents: React.FC<UserEventsProps> = observer(() => {
         value={picked}
       />
       <div className={styles.userEvents__events}>
-        {eventStore.events
+        {eventStore
+          .getEvents()
           .filter((x) =>
             picked === SelectorItem.Relevant ? isRelevant(x) : !isRelevant(x)
           )

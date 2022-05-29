@@ -14,20 +14,31 @@ import { Location } from "../../dto/Location";
 import { PageInfoDto } from "../../dto/PageInfoDto";
 import { observer } from "mobx-react-lite";
 import { throttle } from "lodash";
+import { Coordinates } from "../../models/Coordinates";
+import { useInterval } from "../../utils/Hooks";
+import { coordinatesToLocation } from "../../utils/convertHelper";
+
+const requestEventsFromApi = (query: URLSearchParams) => {
+  if (query.toString() !== "") {
+    requestEvents(query)
+      .then((r) => {
+        globalStore.eventLocationStore.addRange(r.events);
+      })
+      .catch(console.error);
+  }
+};
 
 const Events = observer(() => {
   const { search } = useLocation();
   const query = React.useMemo(() => new URLSearchParams(search), [search]);
   const navigate = useNavigate();
 
+  useInterval(() => {
+    requestEventsFromApi(query);
+  }, 5000);
+
   useEffect(() => {
-    if (query.toString() !== "") {
-      requestEvents(query)
-        .then((r) => {
-          globalStore.eventStore.addEvents(r.events);
-        })
-        .catch((e: any) => console.log(e.message));
-    }
+    requestEventsFromApi(query);
     document.body.style.overflow = "hidden";
     document.getElementsByTagName("html")[0].style.overflow = "hidden";
     return () => {
@@ -37,28 +48,26 @@ const Events = observer(() => {
   }, [query]);
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    await request();
   };
 
-  const handleClick = throttle((center: [number, number], radius: number) => {
+  const onChangeBound = throttle((center: Coordinates, radius: number) => {
     const dto = new RequestEventDto(
       {
         radiusLocation: new LocationFilterModel(
-          new Location(center[0], center[1]),
+          coordinatesToLocation(center),
           radius
         ),
       },
-      new PageInfoDto(1, 100)
+      new PageInfoDto(1, 5)
     );
     const params = buildRequestEventsParams(dto);
     navigate(`/events?${params}`);
   }, 500);
 
-  const request = async () => {};
   return (
     <div className="main-page">
       <SideBar className="side-bar" onSubmit={handleSubmit} />
-      <YandexMap className="ya-map" onClick={handleClick} />
+      <YandexMap className="ya-map" onChangeBound={onChangeBound} />
     </div>
   );
 });
