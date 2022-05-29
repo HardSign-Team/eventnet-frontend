@@ -2,9 +2,6 @@ import styles from "./index.module.scss";
 import React, { useEffect, useState } from "react";
 import PhotoCarousel from "../../shared/PhotoCarousel/Carousel/PhotoCarousel";
 import { formatTimeString } from "../../utils/datetimeHelpers";
-import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
-import { GoLocation } from "react-icons/go";
-import cn from "classnames";
 import Image from "../../models/Image";
 import { useLocation } from "react-router-dom";
 import { LoadSpinner } from "../../shared/LoadSpinner";
@@ -13,15 +10,7 @@ import { requestEvent } from "../../api/events/getEvent";
 import { eventViewModelToEvent } from "../../utils/convertHelper";
 import blankPhoto from "../../assets/blank_photo.png";
 import { getEventPhotos } from "../../api/events/getEventPhotos";
-
-const iconsStyle = {
-  float: "right",
-  borderRadius: "50%",
-  backgroundColor: "#D7DCD7",
-  display: "inline-block",
-  width: "30px",
-  height: "30px",
-} as const;
+import { EventButtons } from "../../shared/EventButtons";
 
 const defaultImage: Image = { url: blankPhoto as string, file: null };
 
@@ -50,7 +39,7 @@ export const EventPage: React.FC = () => {
 
   return (
     <>
-      {eventInfo ? (
+      {eventInfo && eventId ? (
         <div className={styles.eventPage}>
           <PhotoCarousel images={eventPhotos ?? [defaultImage]} />
           <div className={styles.wrapper}>
@@ -67,20 +56,7 @@ export const EventPage: React.FC = () => {
                 </p>
               )}
             </div>
-            <div className={styles.buttons}>
-              <button className={cn(styles.button, styles.likes)}>
-                <AiOutlineLike style={iconsStyle} />
-                {eventInfo.likes || 0}
-              </button>
-              <button className={cn(styles.button, styles.dislikes)}>
-                <AiOutlineDislike style={iconsStyle} />
-                {eventInfo.dislikes || 0}
-              </button>
-              <button className={cn(styles.button, styles.participants)}>
-                <GoLocation style={iconsStyle} />
-                {eventInfo.participants || 0}
-              </button>
-            </div>
+            <EventButtons eventId={eventId} eventInfo={eventInfo} />
           </div>
           <div className={styles.eventDescription}>
             <p className={styles.descriptionTitle}>Описание:</p>
