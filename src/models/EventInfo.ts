@@ -6,9 +6,9 @@ export default interface EventInfo {
   name: string;
   coordinates: Coordinates;
   dateEnd?: Date;
-  description?: string;
-  likes?: number;
-  dislikes?: number;
-  participants?: number;
+  description: string;
+  likes: number;
+  dislikes: number;
+  participants: number;
   photos?: Array<Image>;
 }

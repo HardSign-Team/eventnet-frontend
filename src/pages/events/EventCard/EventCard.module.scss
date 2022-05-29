@@ -19,24 +19,18 @@
     object-fit: cover;
     cursor: pointer;
   }
-  .buttons {
-    display: flex;
-    gap: 6px;
-    text-align: center;
-    justify-content: flex-end;
-    transform: translateY(-40px);
 
-    .button {
-      all: unset;
-      justify-items: center;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      height: fit-content;
-      font-size: 0.9rem;
-      cursor: pointer;
-    }
+  &__footer {
+    display: flex;
+    justify-content: space-between;
   }
+
+  &__datesWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
   &__title {
     margin-top: 10px;
     height: 1.1rem;
@@ -57,10 +51,6 @@
     justify-self: flex-end;
     height: 1rem;
     font-size: 12px;
-  }
-
-  &__startDate {
-    margin-top: 20px;
   }
 
   &__dateDuration {

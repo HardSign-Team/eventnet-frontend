@@ -8,10 +8,10 @@ export async function addSubscription(
 ): Promise<SubscriptionsCountViewModel> {
   const url = `${BASE_ROUTE}/api/subscriptions/${eventId}`;
   const options = {
+    method: HTTP_METHODS.PUT,
     headers: {
-      method: HTTP_METHODS.PUT,
       "Content-Type": "application/json",
-      Authorization: token,
+      Authorization: `Bearer ${token}`,
     },
   };
   const response = await fetch(url, options);

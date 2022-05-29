@@ -2,27 +2,16 @@ import React, { useEffect, useState } from "react";
 import "./EventCard.module.scss";
 import Event from "../../../models/Event";
 import { getDurationBetweenDates } from "../../../utils/date";
-import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
-import { GoLocation } from "react-icons/go";
 import blankPhoto from "../../../assets/blank_photo.png";
 import { observer } from "mobx-react-lite";
 import styles from "./EventCard.module.scss";
-import cn from "classnames";
 import Image from "../../../models/Image";
 import { getEventPhotos } from "../../../api/events/getEventPhotos";
+import { EventButtons } from "../../../shared/EventButtons";
 
 type EventCardProps = {
   event: Event;
 };
-
-const iconsStyle = {
-  float: "right",
-  borderRadius: "50%",
-  backgroundColor: "#D7DCD7",
-  display: "inline-block",
-  width: "25px",
-  height: "25px",
-} as const;
 
 const getDescription = (description: string) =>
   description.length < 60 ? description : `${description.substring(0, 60)}...`;
@@ -56,29 +45,23 @@ const EventCard = observer(({ event }: EventCardProps) => {
         <div className={styles.eventCard__description}>
           {getDescription(event.info.description || "")}
         </div>
-        <div className={styles.eventCard__startDate}>
-          Дата начала: {event.info.dateStart.toLocaleDateString()}
-        </div>
-        {event.info.dateEnd && (
-          <div className={styles.eventCard__dateDuration}>
-            Длительность:{" "}
-            {getDurationBetweenDates(event.info.dateStart, event.info.dateEnd)}
+        <footer className={styles.eventCard__footer}>
+          <div className={styles.eventCard__datesWrapper}>
+            <div className={styles.eventCard__startDate}>
+              Дата начала: {event.info.dateStart.toLocaleDateString()}
+            </div>
+            {event.info.dateEnd && (
+              <div className={styles.eventCard__dateDuration}>
+                Длительность:{" "}
+                {getDurationBetweenDates(
+                  event.info.dateStart,
+                  event.info.dateEnd
+                )}
+              </div>
+            )}
           </div>
-        )}
-        <div className={styles.buttons}>
-          <button className={cn(styles.button)}>
-            <AiOutlineLike style={iconsStyle} />
-            {event.info.likes || 0}
-          </button>
-          <button className={cn(styles.button)}>
-            <AiOutlineDislike style={iconsStyle} />
-            {event.info.dislikes || 0}
-          </button>
-          <button className={cn(styles.button)}>
-            <GoLocation style={iconsStyle} />
-            {event.info.participants || 0}
-          </button>
-        </div>
+          <EventButtons eventId={event.id} eventInfo={event.info} />
+        </footer>
       </div>
     </section>
   );

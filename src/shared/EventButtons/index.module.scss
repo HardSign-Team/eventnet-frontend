@@ -1,0 +1,17 @@
+.buttons {
+  display: flex;
+  gap: 6px;
+  text-align: center;
+  justify-content: flex-end;
+
+  .button {
+    all: unset;
+    justify-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    height: fit-content;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+}
