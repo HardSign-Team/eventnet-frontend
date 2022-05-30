@@ -56,7 +56,7 @@ export const EventPage: React.FC = () => {
                 </p>
               )}
             </div>
-            <EventButtons eventId={eventId} eventInfo={eventInfo} />
+            <EventButtons event={{ id: eventId, info: eventInfo }} />
           </div>
           <div className={styles.eventDescription}>
             <p className={styles.descriptionTitle}>Описание:</p>

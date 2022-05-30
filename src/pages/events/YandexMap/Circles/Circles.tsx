@@ -2,7 +2,6 @@ import React from "react";
 import "./Circles.scss";
 import { Circle } from "react-yandex-maps";
 import EventBalloonContent from "../EventBalloonContent/EventBalloonContent";
-import ReactDOMServer from "react-dom/server";
 import { EventLocationViewModel } from "../../../../viewModels/EvenLocationViewModel";
 import { requestEvent } from "../../../../api/events/getEvent";
 import { Coordinates } from "../../../../models/Coordinates";

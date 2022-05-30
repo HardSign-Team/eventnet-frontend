@@ -60,7 +60,7 @@ const EventCard = observer(({ event }: EventCardProps) => {
               </div>
             )}
           </div>
-          <EventButtons eventId={event.id} eventInfo={event.info} />
+          <EventButtons event={event} />
         </footer>
       </div>
     </section>

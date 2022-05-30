@@ -1,7 +1,7 @@
 import styles from "./index.module.scss";
 import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { GoLocation } from "react-icons/go";
-import EventInfo from "../../models/EventInfo";
+import Event from "../../models/Event";
 import { useEffect, useState } from "react";
 import { addLike } from "../../api/marks/likes/addLike";
 import globalStore from "../../stores/GlobalStore";
@@ -17,8 +17,7 @@ import { getIsSubscribed } from "../../api/marks/my/getIsSubscribed";
 import { isEventRelevant } from "../../utils/eventsHelper";
 
 interface EventButtonsProps {
-  eventId: string;
-  eventInfo: EventInfo;
+  event: Event;
 }
 
 enum ButtonActions {
@@ -32,38 +31,41 @@ const iconsStyle = {
   borderRadius: "50%",
   backgroundColor: "#D7DCD7",
   display: "inline-block",
-  width: "30px",
-  height: "30px",
+  width: "28px",
+  height: "28px",
+  padding: "2px",
 } as const;
 
-const { userStore } = globalStore;
+const { userStore, eventStore } = globalStore;
 
 export const EventButtons: React.FC<EventButtonsProps> = observer(
-  ({ eventId, eventInfo }) => {
+  ({ event }) => {
     const [marks, setMarks] = useState({
-      likes: eventInfo.likes,
-      dislikes: eventInfo.dislikes,
+      likes: event.info.likes,
+      dislikes: event.info.dislikes,
     });
-    const [subscriptions, setSubscriptions] = useState(eventInfo.participants);
+    const [subscriptions, setSubscriptions] = useState(event.info.participants);
 
     const [isLikeActive, setIsLikeActive] = useState(false);
     const [isDislikeActive, setIsDislikeActive] = useState(false);
     const [isSubscriptionActive, setIsSubscriptionActive] = useState(false);
 
-    const [isSubscriptionDisabled] = useState(!isEventRelevant(eventInfo));
-
     useEffect(() => {
-      getMyMarks(eventId, userStore.getAccessToken()).then(
+      getMyMarks(event.id, userStore.getAccessToken()).then(
         (userMarks: MarksCountViewModel) => {
           if (!userMarks) return;
-          userMarks.likes > 0 && setIsLikeActive(true);
-          userMarks.dislikes > 0 && setIsDislikeActive(true);
+          setMarks({ likes: event.info.likes, dislikes: event.info.dislikes });
+          setIsLikeActive(userMarks.likes > 0);
+          setIsDislikeActive(userMarks.dislikes > 0);
         }
       );
-      getIsSubscribed(eventId, userStore.getAccessToken()).then(
-        (resp) => resp.isSubscribed && setIsSubscriptionActive(true)
-      );
-    }, [eventId]);
+      getIsSubscribed(event.id, userStore.getAccessToken()).then((resp) => {
+        resp.isSubscribed
+          ? setIsSubscriptionActive(true)
+          : setIsSubscriptionActive(false);
+        setSubscriptions(event.info.participants);
+      });
+    }, [event]);
 
     useEffect(() => {
       isLikeActive && setIsDislikeActive(false);
@@ -83,14 +85,15 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
       let newValue;
 
       if (isActive) {
-        newValue = await deleteCallback(eventId, userStore.getAccessToken());
+        newValue = await deleteCallback(event.id, userStore.getAccessToken());
       } else {
-        newValue = await addCallback(eventId, userStore.getAccessToken());
+        newValue = await addCallback(event.id, userStore.getAccessToken());
       }
 
       if (newValue) {
         setIsActive((prev) => !prev);
         setNewValue(newValue.count ?? newValue);
+        eventStore.updateEventById(event.id);
       }
     };
 
@@ -125,6 +128,8 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
           break;
       }
     };
+
+    const isSubscriptionDisabled = !isEventRelevant(event.info);
 
     return (
       <div className={styles.buttons}>
