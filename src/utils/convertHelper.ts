@@ -39,3 +39,9 @@ export const coordinatesToLocation = (
     longitude: coordinates[1],
   };
 };
+
+export const locationToCoordinates = (
+  location: LocationViewModel
+): Coordinates => {
+  return [location.latitude, location.longitude];
+};
