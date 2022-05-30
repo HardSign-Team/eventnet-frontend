@@ -4,3 +4,8 @@
     height: calc(100% - 70px);
     width: 100%;
 }
+
+.popup-modal-window{
+    z-index: 9999;
+    position: absolute;
+}

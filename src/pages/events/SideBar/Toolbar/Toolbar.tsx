@@ -9,9 +9,8 @@ import globalStore from "../../../../stores/GlobalStore";
 import { requestSearchByName } from "../../../../api/events/searchByName";
 import { TagNameViewModel } from "../../../../viewModels/TagNameViewModel";
 import { requestTags } from "../../../../api/tags/getTags";
-import Event from "../../../../models/Event";
-import { eventToEventLocationViewModel } from "../../../../utils/convertHelper";
-import { useLocation, useNavigate } from "react-router-dom";
+import { throttle } from "lodash";
+import { useLocation } from "react-router-dom";
 import { requestEvents } from "../../../../api/events/getEvents";
 
 interface FormData {
@@ -28,9 +27,10 @@ const defaultData = {
 
 type Props = {
   onSubmit: (e: any) => void;
+  onInputTag: (tags: TagNameViewModel[]) => void;
 };
 
-const Toolbar = observer(({ onSubmit }: Props) => {
+const Toolbar = observer(({ onSubmit, onInputTag }: Props) => {
   const [state, setState] = useState<FormData>(defaultData);
   const [isOpenEvent, setIsOpenEvent] = useState(true);
   const [selectedItems, setSelectedItems] = React.useState([]);
@@ -61,7 +61,9 @@ const Toolbar = observer(({ onSubmit }: Props) => {
         .catch(console.error);
     }, 1000);
     return () => clearTimeout(timeoutId);
-  }, [state, state.eventName]);
+  }, [state, state.eventName, query]);
+
+  useEffect(() => {}, [state.tags]);
 
   const getItems = (q: string): Promise<never[]> =>
     Promise.resolve(
@@ -102,18 +104,20 @@ const Toolbar = observer(({ onSubmit }: Props) => {
 
   const { eventName, currentCoordinates } = state;
 
-  const onInputValueChange = (value: string) => {
+  const onInputValueChange = throttle((value: string) => {
     if (value === "") return;
     requestTags(value)
       .then((tags) => {
+        const tagsForPush = [];
         for (let tag of tags) {
           if (!state.tags.some((t) => t.id === tag.id)) {
-            state.tags.push(tag);
+            tagsForPush.push(tag);
           }
         }
+        state.tags.push(...tagsForPush);
       })
       .catch(console.error);
-  };
+  }, 300);
 
   return (
     <div
@@ -158,7 +162,13 @@ const Toolbar = observer(({ onSubmit }: Props) => {
               onInputValueChange={onInputValueChange}
               selectedItems={selectedItems}
               className="token-input"
-              onValueChange={setSelectedItems}
+              onValueChange={(tags) => {
+                const tagsForFilter = state.tags.filter((t) =>
+                  tags.some((tag) => tag === t.name)
+                );
+                onInputTag(tagsForFilter);
+                setSelectedItems(tags);
+              }}
               renderToken={(item, tokenProps) => (
                 <Token key={item} {...tokenProps}>
                   {item}

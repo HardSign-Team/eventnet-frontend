@@ -12,9 +12,12 @@ import {
   eventViewModelToEvent,
   locationToCoordinates,
 } from "../../../../utils/convertHelper";
+import ReactDOM from "react-dom";
 
 const CIRCLE_RADIUS = 5;
 const CIRCLE_COLOR = "#008D8E";
+const CARD_WIDTH = 280;
+const CARD_HEIGHT = 320;
 
 const getEvent = async (eventId: guid) => {
   const evm = await requestEvent(eventId);
@@ -35,6 +38,30 @@ const getEventId = (events: EventLocationViewModel[], coords: Coordinates) => {
   return eventId;
 };
 
+const getTranslate = (x: number, y: number) => {
+  let dx = -CARD_WIDTH / 2;
+  let dy = -65;
+  const vph = document.documentElement.clientHeight;
+  const vpw = document.documentElement.clientWidth;
+
+  if (y + CARD_HEIGHT > vph) {
+    if (x + CARD_WIDTH > vpw) {
+      dx += -CARD_WIDTH / 3 - 40;
+    }
+    if (x - CARD_WIDTH < 0) {
+      dx += CARD_WIDTH / 3 + 20;
+    }
+    dy += -CARD_HEIGHT - 20;
+  } else if (x + CARD_WIDTH > vpw) {
+    dx += -CARD_WIDTH / 3 - 40;
+    dy += -10;
+  } else if (x - CARD_WIDTH < 0) {
+    dx += CARD_WIDTH / 2 + 20;
+    dy += -10;
+  }
+  return [dx, dy];
+};
+
 type Props = {
   events: EventLocationViewModel[];
 };
@@ -50,33 +77,35 @@ const Circles = ({ events }: Props) => {
     strokeWidth: 15,
   };
 
-  const onMouseEnter = async (c: any) => {
-    const map = c.get("map");
-    const coords = c.get("coords");
+  const onMouseLeave = async (e: any) => {
+    const modal = document.getElementsByClassName(
+      "popup-modal-window"
+    )[0] as HTMLElement;
+    modal.style.display = "none";
+  };
+
+  const onMouseEnter = async (e: any) => {
+    const coords = e.get("coords");
     const eventId = getEventId(events, coords);
     const event = await getEvent(eventId);
 
     globalStore.eventStore.addEvent(event);
-    map.hint.open(
-      c.get("coords"),
-      ReactDOMServer.renderToString(
-        <EventBalloonContent
-          className={"event-balloon-content"}
-          event={event}
-        />
-      ),
-      {
-        openTimeout: 0,
-      }
+
+    const modal = document.getElementsByClassName(
+      "popup-modal-window"
+    )[0] as HTMLElement;
+    modal.style.display = "block";
+
+    const x = e.get("clientX");
+    const y = e.get("clientY");
+    const [dx, dy] = getTranslate(x, y);
+    modal.style.top = y + dy + "px";
+    modal.style.left = x + dx + "px";
+    ReactDOM.render(
+      <EventBalloonContent className={"event-balloon-content"} event={event} />,
+      modal
     );
   };
-
-  const onMouseLeave = async (c: any) => {
-    const map = c.get("map");
-    map.hint.close(true);
-  };
-
-  const onClick = () => {};
 
   events.forEach((e) => {
     circles.push(
@@ -86,7 +115,6 @@ const Circles = ({ events }: Props) => {
         options={circleOptions}
         onMouseLeave={onMouseLeave}
         onMouseEnter={onMouseEnter}
-        onClick={onClick}
         modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
       />
     );
