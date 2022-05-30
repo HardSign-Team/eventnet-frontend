@@ -20,7 +20,6 @@ function formatDuration(duration: any) {
 
 export function getDurationBetweenDates(start: Date, end: Date) {
   let endDate = end;
-  console.log(start, end);
   if (end.toString() === "Invalid Date") {
     endDate = new Date();
   }

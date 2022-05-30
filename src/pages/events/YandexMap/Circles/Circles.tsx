@@ -73,8 +73,10 @@ const Circles = ({ events }: Props) => {
 
   const onMouseLeave = async (c: any) => {
     const map = c.get("map");
-    map.hint.close();
+    map.hint.close(true);
   };
+
+  const onClick = () => {};
 
   events.forEach((e) => {
     circles.push(
@@ -84,6 +86,7 @@ const Circles = ({ events }: Props) => {
         options={circleOptions}
         onMouseLeave={onMouseLeave}
         onMouseEnter={onMouseEnter}
+        onClick={onClick}
         modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
       />
     );

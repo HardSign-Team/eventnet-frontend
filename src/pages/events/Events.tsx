@@ -10,7 +10,6 @@ import {
 } from "../../api/events/getEvents";
 import globalStore from "../../stores/GlobalStore";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Location } from "../../dto/Location";
 import { PageInfoDto } from "../../dto/PageInfoDto";
 import { observer } from "mobx-react-lite";
 import { throttle } from "lodash";
@@ -58,7 +57,7 @@ const Events = observer(() => {
           radius
         ),
       },
-      new PageInfoDto(1, 5)
+      new PageInfoDto(1, 100)
     );
     const params = buildRequestEventsParams(dto);
     navigate(`/events?${params}`);
