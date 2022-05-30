@@ -38,6 +38,15 @@ const getEventId = (events: EventLocationViewModel[], coords: Coordinates) => {
   return eventId;
 };
 
+const circleOptions = {
+  fill: true,
+  fillColor: CIRCLE_COLOR,
+  strokeColor: CIRCLE_COLOR,
+  opacity: 1,
+  strokeOpacity: 1,
+  strokeWidth: 15,
+};
+
 const getTranslate = (x: number, y: number) => {
   let dx = -CARD_WIDTH / 2;
   let dy = -65;
@@ -68,14 +77,6 @@ type Props = {
 
 const Circles = ({ events }: Props) => {
   const circles: Array<JSX.Element> = [];
-  const circleOptions = {
-    fill: true,
-    fillColor: CIRCLE_COLOR,
-    strokeColor: CIRCLE_COLOR,
-    opacity: 1,
-    strokeOpacity: 1,
-    strokeWidth: 15,
-  };
 
   const onMouseLeave = async (e: any) => {
     const modal = document.getElementsByClassName(
