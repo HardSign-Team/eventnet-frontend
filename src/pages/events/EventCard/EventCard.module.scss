@@ -32,10 +32,9 @@
   }
 
   &__title {
-    margin-top: 10px;
-    height: 1.1rem;
     overflow: hidden;
     white-space: nowrap;
+    font-size: 18px;
 
     text-overflow: ellipsis;
   }
@@ -44,7 +43,7 @@
     height: 2.98rem;
     overflow: hidden;
     margin: 10px 0 15px;
-    font-size: 13px;
+    font-size: 14px;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -54,7 +53,7 @@
   &__dateDuration {
     justify-self: flex-end;
     height: 1rem;
-    font-size: 12px;
+    font-size: 13px;
   }
 
   &__dateDuration {
