@@ -54,44 +54,55 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
       isDislikeActive && setIsLikeActive(false);
     }, [isDislikeActive]);
 
+    const handleAction = async (
+      addCallback: (eventId: string, token: string) => Promise<any>,
+      deleteCallback: (eventId: string, token: string) => Promise<any>,
+      setNewValue: (value: React.SetStateAction<any>) => void,
+      isActive: boolean,
+      setIsActive: (value: React.SetStateAction<boolean>) => void
+    ) => {
+      let newValue;
+
+      if (isActive) {
+        newValue = await deleteCallback(eventId, userStore.getAccessToken());
+      } else {
+        newValue = await addCallback(eventId, userStore.getAccessToken());
+      }
+
+      if (newValue) {
+        setIsActive((prev) => !prev);
+        setNewValue(newValue.count ?? newValue);
+      }
+    };
+
     const onClick = async (action: ButtonActions) => {
       switch (action) {
         case ButtonActions.Like:
-          let newLikes;
-          if (isLikeActive) {
-            newLikes = await deleteLike(eventId, userStore.getAccessToken());
-          } else {
-            newLikes = await addLike(eventId, userStore.getAccessToken());
-          }
-          setIsLikeActive((prev) => !prev);
-          newLikes && setMarks(newLikes);
+          handleAction(
+            addLike,
+            deleteLike,
+            setMarks,
+            isLikeActive,
+            setIsLikeActive
+          );
           break;
         case ButtonActions.Dislike:
-          let newDislikes;
-          if (isDislikeActive) {
-            newDislikes = await deleteDislike(
-              eventId,
-              userStore.getAccessToken()
-            );
-          } else {
-            newDislikes = await addDislike(eventId, userStore.getAccessToken());
-          }
-          setIsDislikeActive((prev) => !prev);
-          newDislikes && setMarks(newDislikes);
+          handleAction(
+            addDislike,
+            deleteDislike,
+            setMarks,
+            isDislikeActive,
+            setIsDislikeActive
+          );
           break;
         case ButtonActions.Subscribe:
-          let newSubscriptions;
-          if (isSubscriptionActive) {
-            newSubscriptions = (
-              await deleteSubscription(eventId, userStore.getAccessToken())
-            ).count;
-          } else {
-            newSubscriptions = (
-              await addSubscription(eventId, userStore.getAccessToken())
-            ).count;
-          }
-          setiIsSubscriptionActive((prev) => !prev);
-          newSubscriptions && setSubscriptions(newSubscriptions);
+          handleAction(
+            addSubscription,
+            deleteSubscription,
+            setSubscriptions,
+            isSubscriptionActive,
+            setiIsSubscriptionActive
+          );
           break;
       }
     };
