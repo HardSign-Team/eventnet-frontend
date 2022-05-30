@@ -23,6 +23,7 @@ import {
 import { STATUS_CODES } from "../../api/utils";
 import { RegisterModel } from "../../dto/RegisterModel";
 import { ModalAcceptRegistration } from "./ModalAcceptRegistration";
+import { LoadSpinner } from "../../shared/LoadSpinner";
 
 export const Registration: React.FC = () => {
   const [userName, setUserName] = useState("");
@@ -33,6 +34,7 @@ export const Registration: React.FC = () => {
   const [gender, setGender] = useState(genders.Male);
   const [isAcceptRegister, setIsAcceptRegister] = useState(false);
   const [isErrorRegister, setIsErrorRegister] = useState(false);
+  const [isViewLoader, setIsViewLoader] = useState(false);
 
   const registration = async (): Promise<void> => {
     setIsErrorRegister(false);
@@ -49,11 +51,13 @@ export const Registration: React.FC = () => {
         email: mail,
         password: password,
       };
+      setIsViewLoader(true);
 
       registerRequest(userInfoRegister).then((x) => {
         if (x !== undefined && x.status === STATUS_CODES.OK) {
           setIsAcceptRegister(true);
         } else setIsErrorRegister(true);
+        setIsViewLoader(false);
       });
     }
   };
@@ -70,74 +74,79 @@ export const Registration: React.FC = () => {
   return (
     <div className="registration">
       <Logo className="logo_registration" width={200} height={200} />
+      {isViewLoader && <LoadSpinner />}
       {isAcceptRegister && (
         <ModalAcceptRegistration mail={mail} userName={userName} />
       )}
       {isErrorRegister && (
         <p className="errorMessage">Данные почта или имя уже ипользуются</p>
       )}
-      <ValidationContainer ref={refContainer}>
-        <FormContainer className="form__registration">
-          <ValidationWrapper
-            validationInfo={validator.getNode((x) => x.name).get()}
-          >
-            <CustomInput
-              label="Укажите имя пользователя"
-              onChange={setUserName}
-              value={userName}
+      {!isViewLoader && (
+        <ValidationContainer ref={refContainer}>
+          <FormContainer className="form__registration">
+            <ValidationWrapper
+              validationInfo={validator.getNode((x) => x.name).get()}
+            >
+              <CustomInput
+                label="Укажите имя пользователя"
+                onChange={setUserName}
+                value={userName}
+              />
+            </ValidationWrapper>
+            <ValidationWrapper
+              validationInfo={validator.getNode((x) => x.email).get()}
+            >
+              <CustomInput
+                label="Ваш адрес эл. почты"
+                onChange={setMail}
+                value={mail}
+                type={"mail"}
+              />
+            </ValidationWrapper>
+            <ValidationWrapper
+              validationInfo={validator.getNode((x) => x.password).get()}
+            >
+              <CustomInput
+                type="password"
+                label="Придумайте себе пароль"
+                onChange={setPassword}
+                value={password}
+              />
+            </ValidationWrapper>
+            <ValidationWrapper
+              validationInfo={validator.getNode((x) => x).get()}
+            >
+              <CustomInput
+                type="password"
+                label="Подтвердите пароль"
+                onChange={setConfirmPassword}
+                value={confirmPassword}
+              />
+            </ValidationWrapper>
+            <ValidationWrapper
+              validationInfo={validator.getNode((x) => x.born).get()}
+            >
+              <CustomSelectDate
+                date={dateBirthday}
+                label="Введите дату рождения"
+                onChange={setDateBirthday}
+              />
+            </ValidationWrapper>
+            <GenderSelector
+              label="Укажите свой пол"
+              classNameDiv="gender_selector"
+              onChange={setGender}
+              value={gender}
             />
-          </ValidationWrapper>
-          <ValidationWrapper
-            validationInfo={validator.getNode((x) => x.email).get()}
-          >
-            <CustomInput
-              label="Ваш адрес эл. почты"
-              onChange={setMail}
-              value={mail}
-              type={"mail"}
+            <CustomButton
+              onClick={registration}
+              classNameDiv="label_button"
+              className="registration_button"
+              label="Зарегистрироваться"
             />
-          </ValidationWrapper>
-          <ValidationWrapper
-            validationInfo={validator.getNode((x) => x.password).get()}
-          >
-            <CustomInput
-              type="password"
-              label="Придумайте себе пароль"
-              onChange={setPassword}
-              value={password}
-            />
-          </ValidationWrapper>
-          <ValidationWrapper validationInfo={validator.getNode((x) => x).get()}>
-            <CustomInput
-              type="password"
-              label="Подтвердите пароль"
-              onChange={setConfirmPassword}
-              value={confirmPassword}
-            />
-          </ValidationWrapper>
-          <ValidationWrapper
-            validationInfo={validator.getNode((x) => x.born).get()}
-          >
-            <CustomSelectDate
-              date={dateBirthday}
-              label="Введите дату рождения"
-              onChange={setDateBirthday}
-            />
-          </ValidationWrapper>
-          <GenderSelector
-            label="Укажите свой пол"
-            classNameDiv="gender_selector"
-            onChange={setGender}
-            value={gender}
-          />
-          <CustomButton
-            onClick={registration}
-            classNameDiv="label_button"
-            className="registration_button"
-            label="Зарегистрироваться"
-          />
-        </FormContainer>
-      </ValidationContainer>
+          </FormContainer>
+        </ValidationContainer>
+      )}
     </div>
   );
 };
