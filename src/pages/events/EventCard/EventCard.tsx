@@ -13,9 +13,6 @@ type EventCardProps = {
   event: Event;
 };
 
-const getDescription = (description: string) =>
-  description.length < 60 ? description : `${description.substring(0, 60)}...`;
-
 const EventCard = observer(({ event }: EventCardProps) => {
   const [photo, setPhoto] = useState<Image | null>(null);
 
@@ -43,7 +40,7 @@ const EventCard = observer(({ event }: EventCardProps) => {
       <div className={styles.eventInfo}>
         <h4 className={styles.eventCard__title}>{event.info.name}</h4>
         <div className={styles.eventCard__description}>
-          {getDescription(event.info.description || "")}
+          {event.info.description}
         </div>
         <footer className={styles.eventCard__footer}>
           <div className={styles.eventCard__datesWrapper}>

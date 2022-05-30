@@ -41,11 +41,15 @@
   }
 
   &__description {
-    height: 3rem;
+    height: 2.98rem;
     overflow: hidden;
-    margin-top: 15px;
+    margin: 10px 0 15px;
     font-size: 13px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
+
   &__startDate,
   &__dateDuration {
     justify-self: flex-end;
