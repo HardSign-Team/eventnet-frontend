@@ -34,7 +34,7 @@ const EventCard = observer(({ event }: EventCardProps) => {
           src={photo?.url ?? blankPhoto}
           alt="EventPhoto"
           width={"100%"}
-          height={"150px"}
+          height={"160px"}
         />
       </a>
       <div className={styles.eventInfo}>
