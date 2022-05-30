@@ -11,6 +11,10 @@ import { deleteDislike } from "../../api/marks/dislikes/deleteDislike";
 import { addDislike } from "../../api/marks/dislikes/addDislike";
 import { deleteSubscription } from "../../api/marks/subscriptions/deleteSubscription";
 import { addSubscription } from "../../api/marks/subscriptions/addSubscription";
+import { getMyMarks } from "../../api/marks/my/getMyMarks";
+import { MarksCountViewModel } from "../../viewModels/MarksCountViewModel";
+import { getIsSubscribed } from "../../api/marks/my/getIsSubscribed";
+import { isEventRelevant } from "../../utils/eventsHelper";
 
 interface EventButtonsProps {
   eventId: string;
@@ -44,7 +48,22 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
 
     const [isLikeActive, setIsLikeActive] = useState(false);
     const [isDislikeActive, setIsDislikeActive] = useState(false);
-    const [isSubscriptionActive, setiIsSubscriptionActive] = useState(false);
+    const [isSubscriptionActive, setIsSubscriptionActive] = useState(false);
+
+    const [isSubscriptionDisabled] = useState(!isEventRelevant(eventInfo));
+
+    useEffect(() => {
+      getMyMarks(eventId, userStore.getAccessToken()).then(
+        (userMarks: MarksCountViewModel) => {
+          if (!userMarks) return;
+          userMarks.likes > 0 && setIsLikeActive(true);
+          userMarks.dislikes > 0 && setIsDislikeActive(true);
+        }
+      );
+      getIsSubscribed(eventId, userStore.getAccessToken()).then(
+        (resp) => resp.isSubscribed && setIsSubscriptionActive(true)
+      );
+    }, [eventId]);
 
     useEffect(() => {
       isLikeActive && setIsDislikeActive(false);
@@ -78,7 +97,7 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
     const onClick = async (action: ButtonActions) => {
       switch (action) {
         case ButtonActions.Like:
-          handleAction(
+          await handleAction(
             addLike,
             deleteLike,
             setMarks,
@@ -87,7 +106,7 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
           );
           break;
         case ButtonActions.Dislike:
-          handleAction(
+          await handleAction(
             addDislike,
             deleteDislike,
             setMarks,
@@ -96,12 +115,12 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
           );
           break;
         case ButtonActions.Subscribe:
-          handleAction(
+          await handleAction(
             addSubscription,
             deleteSubscription,
             setSubscriptions,
             isSubscriptionActive,
-            setiIsSubscriptionActive
+            setIsSubscriptionActive
           );
           break;
       }
@@ -136,11 +155,13 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
         <button
           className={styles.button}
           onClick={() => onClick(ButtonActions.Subscribe)}
+          disabled={isSubscriptionDisabled}
         >
           <GoLocation
             style={{
               ...iconsStyle,
               backgroundColor: isSubscriptionActive ? "#008D8E" : "#D7DCD7",
+              opacity: isSubscriptionDisabled ? "35%" : "100%",
             }}
           />
           {subscriptions}
