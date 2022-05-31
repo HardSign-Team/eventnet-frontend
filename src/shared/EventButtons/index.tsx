@@ -50,8 +50,12 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
     const [isDislikeActive, setIsDislikeActive] = useState(false);
     const [isSubscriptionActive, setIsSubscriptionActive] = useState(false);
 
+    const accessToken = userStore.getAccessToken();
+
     useEffect(() => {
-      getMyMarks(event.id, userStore.getAccessToken()).then(
+      if (!accessToken) return;
+
+      getMyMarks(event.id, accessToken).then(
         (userMarks: MarksCountViewModel) => {
           if (!userMarks) return;
           setMarks({ likes: event.info.likes, dislikes: event.info.dislikes });
@@ -59,7 +63,7 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
           setIsDislikeActive(userMarks.dislikes > 0);
         }
       );
-      getIsSubscribed(event.id, userStore.getAccessToken()).then((resp) => {
+      getIsSubscribed(event.id, accessToken).then((resp) => {
         resp.isSubscribed
           ? setIsSubscriptionActive(true)
           : setIsSubscriptionActive(false);
@@ -85,9 +89,9 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
       let newValue;
 
       if (isActive) {
-        newValue = await deleteCallback(event.id, userStore.getAccessToken());
+        newValue = await deleteCallback(event.id, accessToken);
       } else {
-        newValue = await addCallback(event.id, userStore.getAccessToken());
+        newValue = await addCallback(event.id, accessToken);
       }
 
       if (newValue) {
@@ -98,6 +102,8 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
     };
 
     const onClick = async (action: ButtonActions) => {
+      if (!accessToken) return;
+
       switch (action) {
         case ButtonActions.Like:
           await handleAction(
@@ -129,7 +135,9 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
       }
     };
 
-    const isSubscriptionDisabled = !isEventRelevant(event.info);
+    const subscriptionsOpacity =
+      !isEventRelevant(event.info) || !accessToken ? "35%" : "100%";
+    const marksOpacity = !accessToken ? "35%" : "100%";
 
     return (
       <div className={styles.buttons}>
@@ -141,6 +149,7 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
             style={{
               ...iconsStyle,
               backgroundColor: isLikeActive ? "#008D8E" : "#D7DCD7",
+              opacity: marksOpacity,
             }}
           />
           {marks.likes}
@@ -153,6 +162,7 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
             style={{
               ...iconsStyle,
               backgroundColor: isDislikeActive ? "#008D8E" : "#D7DCD7",
+              opacity: marksOpacity,
             }}
           />
           {marks.dislikes}
@@ -160,13 +170,13 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
         <button
           className={styles.button}
           onClick={() => onClick(ButtonActions.Subscribe)}
-          disabled={isSubscriptionDisabled}
+          disabled={!isEventRelevant(event.info)}
         >
           <GoLocation
             style={{
               ...iconsStyle,
               backgroundColor: isSubscriptionActive ? "#008D8E" : "#D7DCD7",
-              opacity: isSubscriptionDisabled ? "35%" : "100%",
+              opacity: subscriptionsOpacity,
             }}
           />
           {subscriptions}
