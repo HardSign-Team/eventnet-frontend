@@ -69,7 +69,7 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
           : setIsSubscriptionActive(false);
         setSubscriptions(event.info.participants);
       });
-    }, [event]);
+    }, [event, accessToken]);
 
     useEffect(() => {
       isLikeActive && setIsDislikeActive(false);
@@ -148,7 +148,8 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
           <AiOutlineLike
             style={{
               ...iconsStyle,
-              backgroundColor: isLikeActive ? "#008D8E" : "#D7DCD7",
+              backgroundColor:
+                accessToken && isLikeActive ? "#008D8E" : "#D7DCD7",
               opacity: marksOpacity,
             }}
           />
@@ -161,7 +162,8 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
           <AiOutlineDislike
             style={{
               ...iconsStyle,
-              backgroundColor: isDislikeActive ? "#008D8E" : "#D7DCD7",
+              backgroundColor:
+                accessToken && isDislikeActive ? "#008D8E" : "#D7DCD7",
               opacity: marksOpacity,
             }}
           />
@@ -175,7 +177,8 @@ export const EventButtons: React.FC<EventButtonsProps> = observer(
           <GoLocation
             style={{
               ...iconsStyle,
-              backgroundColor: isSubscriptionActive ? "#008D8E" : "#D7DCD7",
+              backgroundColor:
+                accessToken && isSubscriptionActive ? "#008D8E" : "#D7DCD7",
               opacity: subscriptionsOpacity,
             }}
           />
