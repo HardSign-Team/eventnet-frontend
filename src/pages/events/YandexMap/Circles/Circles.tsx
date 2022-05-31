@@ -59,12 +59,12 @@ const getTranslate = (x: number, y: number) => {
     if (x - CARD_WIDTH < 0) {
       dx += CARD_WIDTH / 3 + 20;
     }
-    dy += -CARD_HEIGHT - 20;
+    dy += -CARD_HEIGHT - 10;
   } else if (x + CARD_WIDTH > vpw) {
     dx += -CARD_WIDTH / 3 - 40;
     dy += -10;
   } else if (x - CARD_WIDTH < 0) {
-    dx += CARD_WIDTH / 2 + 20;
+    dx += CARD_WIDTH / 2;
     dy += -10;
   }
   return [dx, dy];
@@ -77,7 +77,7 @@ type Props = {
 const Circles = ({ events }: Props) => {
   const circles: Array<JSX.Element> = [];
 
-  const onMouseLeave = async (e: any) => {
+  const onMouseLeave = async () => {
     const modal = document.getElementsByClassName(
       "popup-modal-window"
     )[0] as HTMLElement;
@@ -115,7 +115,6 @@ const Circles = ({ events }: Props) => {
         options={circleOptions}
         onMouseLeave={onMouseLeave}
         onMouseEnter={onMouseEnter}
-        modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
       />
     );
   });

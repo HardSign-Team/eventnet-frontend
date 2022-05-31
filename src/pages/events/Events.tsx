@@ -18,7 +18,6 @@ import { useInterval } from "../../utils/Hooks";
 import { coordinatesToLocation } from "../../utils/convertHelper";
 import { TagNameViewModel } from "../../viewModels/TagNameViewModel";
 import { TagsFilterModel } from "../../dto/TagsFilterModel";
-import EventBalloonContent from "./YandexMap/EventBalloonContent/EventBalloonContent";
 
 const requestEventsFromApi = (query: URLSearchParams) => {
   if (query.toString() !== "") {
@@ -92,7 +91,7 @@ const Events = observer(() => {
         onInputTag={(tags) => setTags(tags)}
       />
       <YandexMap className="ya-map" onChangeBound={onChangeBound} />
-      <div className={"popup-modal-window"}></div>
+      <div className={"popup-modal-window"} />
     </div>
   );
 });
