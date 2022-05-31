@@ -8,10 +8,10 @@ export async function addDislike(
 ): Promise<MarksCountViewModel> {
   const url = `${BASE_ROUTE}/api/marks/dislikes/${eventId}`;
   const options = {
+    method: HTTP_METHODS.PUT,
     headers: {
-      method: HTTP_METHODS.PUT,
       "Content-Type": "application/json",
-      Authorization: token,
+      Authorization: `Bearer ${token}`,
     },
   };
   const response = await fetch(url, options);

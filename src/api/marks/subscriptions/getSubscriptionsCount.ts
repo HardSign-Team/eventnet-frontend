@@ -7,8 +7,8 @@ export async function getSubscriptionsCount(
 ): Promise<SubscriptionsCountViewModel> {
   const url = `${BASE_ROUTE}/api/subscriptions/count/${eventId}`;
   const options = {
+    method: HTTP_METHODS.GET,
     headers: {
-      method: HTTP_METHODS.GET,
       "Content-Type": "application/json",
     },
   };

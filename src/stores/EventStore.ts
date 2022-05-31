@@ -9,6 +9,7 @@ import {
   eventViewModelToEvent,
 } from "../utils/convertHelper";
 import globalStore from "./GlobalStore";
+import { requestEvent } from "../api/events/getEvent";
 
 export class EventStore {
   private events: Array<Event> = [];
@@ -20,6 +21,17 @@ export class EventStore {
 
   public getEvents(): Array<Event> {
     return this.events;
+  }
+
+  public updateEventById(id: guid) {
+    requestEvent(id)
+      .then((r) => eventViewModelToEvent(r.event))
+      .then((event) => {
+        const prevEvent = this.getEventById(event.id);
+        if (!prevEvent) return;
+        const eventIndex = this.events.indexOf(prevEvent);
+        this.events.splice(eventIndex, 1, event);
+      });
   }
 
   public getEventById(id: guid): Event | undefined {

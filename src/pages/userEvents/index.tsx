@@ -7,6 +7,7 @@ import { observer } from "mobx-react-lite";
 import Event from "../../models/Event";
 import { requestMyEvents } from "../../api/events/getMyEvents";
 import { eventViewModelToEvent } from "../../utils/convertHelper";
+import { isEventRelevant } from "../../utils/eventsHelper";
 
 type UserEventsProps = {};
 
@@ -23,19 +24,13 @@ export const UserEvents: React.FC<UserEventsProps> = observer(() => {
   const [picked, setPicked] = useState(SelectorItem.Relevant);
 
   useEffect(() => {
-    loadMyEvents();
+    loadMyEvents().then((r) => r);
   }, []);
 
   const loadMyEvents = async () => {
     const response = await requestMyEvents(userStore.getAccessToken());
     const myEvents = response.events.map((x) => eventViewModelToEvent(x));
     setEvents(myEvents);
-  };
-
-  const isRelevant = (event: Event) => {
-    if (!event.info.dateEnd) return true;
-
-    return event.info.dateEnd?.getTime() - new Date().getTime() > 0;
   };
 
   return (
@@ -53,8 +48,10 @@ export const UserEvents: React.FC<UserEventsProps> = observer(() => {
       />
       <div className={styles.userEvents__events}>
         {events
-          .filter((x) =>
-            picked === SelectorItem.Relevant ? isRelevant(x) : !isRelevant(x)
+          .filter((event) =>
+            picked === SelectorItem.Relevant
+              ? isEventRelevant(event.info)
+              : !isEventRelevant(event.info)
           )
           .map((event) => (
             <EventCard key={event.id} event={event} />

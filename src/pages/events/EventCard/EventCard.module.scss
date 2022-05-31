@@ -1,8 +1,7 @@
 .eventCard {
   display: inline-block;
-  box-sizing: content-box;
   width: 280px;
-  height: 320px;
+  height: 326px;
   border: 0.5px solid #b8b8b8;
   background-color: #ffffff;
   color: black;
@@ -10,7 +9,7 @@
 }
 
 .eventInfo {
-  height: 170px;
+  height: 160px;
   padding: 10px;
 }
 
@@ -19,48 +18,41 @@
     object-fit: cover;
     cursor: pointer;
   }
-  .buttons {
-    display: flex;
-    gap: 6px;
-    text-align: center;
-    justify-content: flex-end;
-    transform: translateY(-40px);
 
-    .button {
-      all: unset;
-      justify-items: center;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      height: fit-content;
-      font-size: 0.9rem;
-      cursor: pointer;
-    }
+  &__footer {
+    display: flex;
+    justify-content: space-between;
   }
+
+  &__datesWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
   &__title {
-    margin-top: 10px;
-    height: 1.1rem;
     overflow: hidden;
     white-space: nowrap;
+    font-size: 18px;
 
     text-overflow: ellipsis;
   }
 
   &__description {
-    height: 3rem;
+    height: 2.98rem;
     overflow: hidden;
-    margin-top: 15px;
-    font-size: 13px;
+    margin: 10px 0 15px;
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
+
   &__startDate,
   &__dateDuration {
     justify-self: flex-end;
     height: 1rem;
-    font-size: 12px;
-  }
-
-  &__startDate {
-    margin-top: 20px;
+    font-size: 13px;
   }
 
   &__dateDuration {

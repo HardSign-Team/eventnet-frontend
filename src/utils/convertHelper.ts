@@ -1,7 +1,6 @@
 import { EventViewModel } from "../viewModels/EventViewModel";
 import Event from "../models/Event";
 import { EventLocationViewModel } from "../viewModels/EvenLocationViewModel";
-import { guid } from "../viewModels/Guid";
 import { LocationViewModel } from "../viewModels/LocationViewModel";
 import { Coordinates } from "../models/Coordinates";
 
@@ -9,6 +8,7 @@ export const eventViewModelToEvent = (event: EventViewModel): Event => {
   return {
     id: event.id,
     info: {
+      ownerId: event.ownerId,
       dateStart: new Date(event.startDate),
       name: event.name,
       coordinates: [event.location.latitude, event.location.longitude],
@@ -38,4 +38,10 @@ export const coordinatesToLocation = (
     latitude: coordinates[0],
     longitude: coordinates[1],
   };
+};
+
+export const locationToCoordinates = (
+  location: LocationViewModel
+): Coordinates => {
+  return [location.latitude, location.longitude];
 };

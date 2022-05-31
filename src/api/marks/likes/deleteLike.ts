@@ -8,10 +8,10 @@ export async function deleteLike(
 ): Promise<MarksCountViewModel> {
   const url = `${BASE_ROUTE}/api/marks/likes/${eventId}`;
   const options = {
+    method: HTTP_METHODS.DELETE,
     headers: {
-      method: HTTP_METHODS.DELETE,
       "Content-Type": "application/json",
-      Authorization: token,
+      Authorization: `Bearer ${token}`,
     },
   };
   const response = await fetch(url, options);

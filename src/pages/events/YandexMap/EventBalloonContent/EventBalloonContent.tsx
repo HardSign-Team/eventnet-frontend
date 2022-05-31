@@ -9,8 +9,28 @@ type Props = {
 };
 
 const EventBalloonContent = ({ className, event }: Props) => {
+  const onMouseEnter = () => {
+    const modal = document.getElementsByClassName(
+      "popup-modal-window"
+    )[0] as HTMLElement;
+    modal.style.display = "block";
+  };
+
+  const onMouseLeave = () => {
+    const modal = document.getElementsByClassName(
+      "popup-modal-window"
+    )[0] as HTMLElement;
+    modal.style.display = "none";
+  };
+
   return (
-    <div className={className}>{event && <EventCard event={event} />}</div>
+    <div
+      className={className}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      {event && <EventCard event={event} />}
+    </div>
   );
 };
 

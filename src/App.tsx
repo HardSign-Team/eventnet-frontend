@@ -38,7 +38,7 @@ const getDefaultParams = () => {
         DEFAULT_MAP_STATE.radius
       ),
     },
-    new PageInfoDto(1, 5)
+    new PageInfoDto(1, 100)
   );
   return buildRequestEventsParams(dto);
 };

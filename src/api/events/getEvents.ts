@@ -12,15 +12,23 @@ type RequestEventsResponse = {
 export async function requestEvents(
   params: URLSearchParams
 ): Promise<RequestEventsResponse> {
-  const url = `${BASE_ROUTE}/api/events?${params}`;
   const options = {
     headers: {
       "Content-Type": "application/json",
     },
   };
-  const response = await fetch(url, options);
+  const events = [];
+  let evs: any = [];
+  do {
+    const url = `${BASE_ROUTE}/api/events?${params}`;
+    const response = await fetch(url, options);
+    const pageNumber = +(params.get("p") || 1);
+    evs = await response.json();
+    events.push(...evs);
+    await params.set("p", String(pageNumber + 1));
+  } while (evs.length !== 0);
   return {
-    events: await response.json(),
+    events,
   };
 }
 

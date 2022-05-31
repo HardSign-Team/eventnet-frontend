@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import YandexMap from "./YandexMap/YaMap";
 import SideBar from "./SideBar/SideBar";
 import "./style.css";
@@ -10,13 +10,15 @@ import {
 } from "../../api/events/getEvents";
 import globalStore from "../../stores/GlobalStore";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Location } from "../../dto/Location";
 import { PageInfoDto } from "../../dto/PageInfoDto";
 import { observer } from "mobx-react-lite";
 import { throttle } from "lodash";
 import { Coordinates } from "../../models/Coordinates";
 import { useInterval } from "../../utils/Hooks";
 import { coordinatesToLocation } from "../../utils/convertHelper";
+import { TagNameViewModel } from "../../viewModels/TagNameViewModel";
+import { TagsFilterModel } from "../../dto/TagsFilterModel";
+import EventBalloonContent from "./YandexMap/EventBalloonContent/EventBalloonContent";
 
 const requestEventsFromApi = (query: URLSearchParams) => {
   if (query.toString() !== "") {
@@ -28,10 +30,34 @@ const requestEventsFromApi = (query: URLSearchParams) => {
   }
 };
 
+type LocationInfo = {
+  center: Coordinates;
+  radius: number;
+};
+
 const Events = observer(() => {
   const { search } = useLocation();
   const query = React.useMemo(() => new URLSearchParams(search), [search]);
   const navigate = useNavigate();
+  const [locationInfo, setLocationInfo] = useState<LocationInfo>();
+  const [tags, setTags] = useState<TagNameViewModel[]>([]);
+  const throttled = useRef(
+    throttle((locationInfo, tags: TagNameViewModel[]) => {
+      if (!locationInfo) return;
+      const dto = new RequestEventDto(
+        {
+          radiusLocation: new LocationFilterModel(
+            coordinatesToLocation(locationInfo.center),
+            locationInfo.radius
+          ),
+          tags: new TagsFilterModel(tags.map((t) => t.id)),
+        },
+        new PageInfoDto(1, 100)
+      );
+      const params = buildRequestEventsParams(dto);
+      navigate(`/events?${params}`);
+    }, 500)
+  );
 
   useInterval(() => {
     requestEventsFromApi(query);
@@ -50,24 +76,23 @@ const Events = observer(() => {
     e.preventDefault();
   };
 
-  const onChangeBound = throttle((center: Coordinates, radius: number) => {
-    const dto = new RequestEventDto(
-      {
-        radiusLocation: new LocationFilterModel(
-          coordinatesToLocation(center),
-          radius
-        ),
-      },
-      new PageInfoDto(1, 5)
-    );
-    const params = buildRequestEventsParams(dto);
-    navigate(`/events?${params}`);
-  }, 500);
+  useEffect(() => {
+    throttled.current(locationInfo, tags);
+  }, [locationInfo, tags]);
+
+  const onChangeBound = (center: Coordinates, radius: number) => {
+    setLocationInfo({ center, radius });
+  };
 
   return (
     <div className="main-page">
-      <SideBar className="side-bar" onSubmit={handleSubmit} />
+      <SideBar
+        className="side-bar"
+        onSubmit={handleSubmit}
+        onInputTag={(tags) => setTags(tags)}
+      />
       <YandexMap className="ya-map" onChangeBound={onChangeBound} />
+      <div className={"popup-modal-window"}></div>
     </div>
   );
 });
