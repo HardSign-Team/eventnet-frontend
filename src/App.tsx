@@ -13,7 +13,7 @@ import { ResetPassword } from "./pages/resetPassword/ResetPassword";
 import Header from "./shared/Header/Header";
 import Profile from "./pages/profile";
 import { Footer } from "./shared/Footer";
-import { UserEvents } from "./pages/userEvents";
+import { UserEvents, UserEventsTypes } from "./pages/userEvents";
 import globalStore from "./stores/GlobalStore";
 import { CompletedRegister } from "./pages/register/completedRegister";
 import { EventPage } from "./pages/eventPage";
@@ -85,7 +85,15 @@ export const App = () => {
               path="/user-events"
               element={
                 <ProtectedRoute>
-                  <UserEvents />
+                  <UserEvents type={UserEventsTypes.Own} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/user-subscriptions"
+              element={
+                <ProtectedRoute>
+                  <UserEvents type={UserEventsTypes.Subscribed} />
                 </ProtectedRoute>
               }
             />

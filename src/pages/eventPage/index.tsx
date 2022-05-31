@@ -11,6 +11,8 @@ import { eventViewModelToEvent } from "../../utils/convertHelper";
 import blankPhoto from "../../assets/blank_photo.png";
 import { getEventPhotos } from "../../api/events/getEventPhotos";
 import { EventButtons } from "../../shared/EventButtons";
+import { getDurationBetweenDates } from "../../utils/date";
+import { isEventRelevant } from "../../utils/eventsHelper";
 
 const defaultImage: Image = { url: blankPhoto as string, file: null };
 
@@ -31,7 +33,7 @@ export const EventPage: React.FC = () => {
     getEventPhotos(eventId)
       .then((resp) =>
         resp.photos.map(
-          (photo) => ({ url: `${photo}.jpeg`, file: null } as Image)
+          (photo) => ({ url: photo, file: null } as Image)
         )
       )
       .then((photos) => photos.length > 0 && setEventPhotos(photos));
@@ -50,14 +52,26 @@ export const EventPage: React.FC = () => {
                 {formatTimeString(eventInfo.dateStart.toLocaleTimeString())}
               </p>
               {eventInfo.dateEnd && (
-                <p className={styles.eventDateEnd}>
-                  Дата конца: {eventInfo.dateEnd.toLocaleDateString()} в{" "}
-                  {formatTimeString(eventInfo.dateEnd.toLocaleTimeString())}
-                </p>
+                <>
+                  <p className={styles.eventDateEnd}>
+                    Дата конца: {eventInfo.dateEnd.toLocaleDateString()} в{" "}
+                    {formatTimeString(eventInfo.dateEnd.toLocaleTimeString())}
+                  </p>
+                  <p className={styles.eventDuration}>
+                    Продолжительность:{" "}
+                    {getDurationBetweenDates(
+                      eventInfo.dateStart,
+                      eventInfo.dateEnd
+                    )}
+                  </p>
+                </>
               )}
             </div>
             <EventButtons event={{ id: eventId, info: eventInfo }} />
           </div>
+          {!isEventRelevant(eventInfo) && (
+            <p className={styles.eventStatus}>Событие уже завершилось(</p>
+          )}
           <div className={styles.eventDescription}>
             <p className={styles.descriptionTitle}>Описание:</p>
             <p className={styles.description}>{eventInfo.description}</p>

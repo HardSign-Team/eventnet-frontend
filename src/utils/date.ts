@@ -14,6 +14,7 @@ function formatDuration(duration: any) {
         years * MONTH_COUNT_PER_YEAR * DAYS_COUNT_PER_MONTH);
   return (
     (sumHours !== 0 ? `${sumHours} ч.` : "") +
+    " " +
     (minutes !== 0 ? `${minutes} м.` : "")
   );
 }

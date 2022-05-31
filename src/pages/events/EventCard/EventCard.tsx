@@ -14,14 +14,12 @@ type EventCardProps = {
 };
 
 const EventCard = observer(({ event }: EventCardProps) => {
-  const [photo, setPhoto] = useState<Image | null>(null);
+  const [photo, setPhoto] = useState<Image>({ url: blankPhoto, file: null });
 
   useEffect(() => {
     getEventPhotos(event.id)
       .then((resp) =>
-        resp.photos.map(
-          (photo) => ({ url: `${photo}.jpeg`, file: null } as Image)
-        )
+        resp.photos.map((photo) => ({ url: photo, file: null } as Image))
       )
       .then((photos) => photos.length > 0 && setPhoto(photos[0]));
   }, [event.id, setPhoto]);
@@ -31,7 +29,7 @@ const EventCard = observer(({ event }: EventCardProps) => {
       <a href={`/event-page?id=${event.id}`}>
         <img
           className={styles.eventCard__photo}
-          src={photo?.url ?? blankPhoto}
+          src={photo.url}
           alt="EventPhoto"
           width={"100%"}
           height={"160px"}

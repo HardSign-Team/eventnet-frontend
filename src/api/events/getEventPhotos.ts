@@ -1,12 +1,12 @@
 import { BASE_ROUTE } from "../utils";
 
-type GetEventPhotossResponse = {
+type GetEventPhotosResponse = {
   photos: string[];
 };
 
 export async function getEventPhotos(
   id: string
-): Promise<GetEventPhotossResponse> {
+): Promise<GetEventPhotosResponse> {
   const url = `${BASE_ROUTE}/api/photos/${id}`;
   const options = {
     headers: {

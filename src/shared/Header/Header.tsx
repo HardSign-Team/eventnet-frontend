@@ -49,6 +49,9 @@ const Header: React.FC<HeaderProps> = observer(({ userStore }) => {
                         <Link to={"/user-events"}>События</Link>
                       </li>
                       <li>
+                        <Link to={"/user-subscriptions"}>Подписки</Link>
+                      </li>
+                      <li>
                         <Link to={"/"} onClick={logout}>
                           Выйти
                         </Link>
