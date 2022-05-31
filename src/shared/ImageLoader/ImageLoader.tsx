@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import styles from "./ImageLoader.module.scss";
 import Image from "../../models/Image";
 
 type ImageLoaderProps = {
-  setImages: (images: Image[]) => void;
+  setImages: Dispatch<SetStateAction<Image[]>>;
+  withAdditionalLoading?: boolean;
   maxImagesCount?: number;
   labelText?: string;
   style?: {};
@@ -12,6 +13,7 @@ type ImageLoaderProps = {
 const DEFAULT_MAX_IMAGES_COUNT = 8;
 
 const ImageLoader: React.FC<ImageLoaderProps> = ({
+  withAdditionalLoading = true,
   labelText = "Загрузить фотографии...",
   style = {},
   setImages,
@@ -24,7 +26,7 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({
 
     if (!files) return;
 
-    const images = [];
+    const images: Image[] = [];
 
     for (let i = 0; i < Math.min(files.length, maxImagesCount); i++) {
       const file = files[i];
@@ -37,7 +39,9 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({
         images.push({ url: URL.createObjectURL(file), file: file });
     }
 
-    setImages(images);
+    withAdditionalLoading
+      ? setImages((prev) => [...prev, ...images].slice(0, maxImagesCount))
+      : setImages(images);
   }
 
   return (

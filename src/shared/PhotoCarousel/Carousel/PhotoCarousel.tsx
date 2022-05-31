@@ -1,4 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, {
+  MouseEvent,
+  Dispatch,
+  SetStateAction,
+  useRef,
+  useState,
+} from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -8,11 +14,17 @@ import arrowLeft from "../../../assets/arrow_left.svg";
 import arrowRight from "../../../assets/arrow_right.svg";
 import ImageLoader from "../../ImageLoader/ImageLoader";
 import Image from "../../../models/Image";
+import deleteIcon from "../../../assets/delete.svg";
 
 type PhotoCarouselProps = {
   images: Image[];
-  withLoader?: { setImages: (images: Image[]) => void };
+  withLoader?: {
+    setImages: Dispatch<SetStateAction<Image[]>>;
+    withAdditionalLoading?: boolean;
+  };
 };
+
+const MAX_IMAGES_COUNT = 10;
 
 const PhotoCarousel: React.FC<PhotoCarouselProps> = ({
   withLoader,
@@ -32,6 +44,14 @@ const PhotoCarousel: React.FC<PhotoCarouselProps> = ({
     setShowModal(false);
   };
 
+  const deleteImage = (
+    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+    image: Image
+  ) => {
+    e.stopPropagation();
+    withLoader?.setImages((prev) => prev.filter((x) => x !== image));
+  };
+
   let settings = {
     dots: true,
     arrows: false,
@@ -46,7 +66,7 @@ const PhotoCarousel: React.FC<PhotoCarouselProps> = ({
     <>
       {showModal && <PhotoModal image={pickedImage} onClose={closeModal} />}
       <div className={styles.wrapper}>
-        {images.length > 1 && (
+        {((withLoader && images.length > 0) || images.length > 1) && (
           <>
             <button
               className={styles.arrowPrev}
@@ -63,23 +83,39 @@ const PhotoCarousel: React.FC<PhotoCarouselProps> = ({
           </>
         )}
         <Slider className={styles.photoCarousel} {...settings} ref={carousel}>
-          {images.length !== 0 ? (
-            images.map((image) => (
-              <div
-                className={styles.photoCarousel__imageWrapper}
-                key={image.url}
-                onClick={() => openModal(image.url)}
-              >
-                <img
-                  className={styles.photoCarousel__image}
-                  src={image.url}
-                  alt={"event"}
-                />
-              </div>
-            ))
-          ) : (
+          {images.map((image) => (
+            <div
+              className={styles.photoCarousel__imageWrapper}
+              key={image.url}
+              onClick={() => openModal(image.url)}
+            >
+              {withLoader && (
+                <button
+                  className={styles.photoCarousel__deleteImageButton}
+                  onClick={(e) => deleteImage(e, image)}
+                >
+                  <img
+                    src={deleteIcon}
+                    width={"20px"}
+                    height={"20px"}
+                    alt="delete icon"
+                  />
+                </button>
+              )}
+              <img
+                className={styles.photoCarousel__image}
+                src={image.url}
+                alt={"event"}
+              />
+            </div>
+          ))}
+          {withLoader && images.length < MAX_IMAGES_COUNT && (
             <div className={styles.photoCarousel__imageWrapper}>
-              {withLoader && <ImageLoader setImages={withLoader.setImages} />}
+              <ImageLoader
+                setImages={withLoader.setImages}
+                withAdditionalLoading={withLoader?.withAdditionalLoading}
+                maxImagesCount={MAX_IMAGES_COUNT}
+              />
             </div>
           )}
         </Slider>

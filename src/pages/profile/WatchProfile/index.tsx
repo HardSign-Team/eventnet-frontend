@@ -1,17 +1,28 @@
-import { Gapped } from "@skbkontur/react-ui";
 import UserData from "../UserData";
 import React from "react";
+import { observer } from "mobx-react-lite";
+import { UserStore } from "../../../stores/UserStore";
+import { FormContainer } from "../../../shared/FormContainer/FormContainer";
 
-const WatchProfile = () => {
+interface PropsWatchProfile {
+  userStore: UserStore;
+}
+
+const WatchProfile: React.FC<PropsWatchProfile> = observer(({ userStore }) => {
   return (
-    <Gapped className={"profile_info-wrapper"} gap={7} vertical>
-      <UserData label={"Имя пользователя"} text={"lapakota"} />
-      <UserData label={"Почта"} text={"stalkerzone955@gmail.com"} />
-      <UserData label={"Номер телефона"} text={"+78005553535"} />
-      <UserData label={"Дата рождения"} text={"13.06.2001"} />
-      <UserData label={"Пол"} text={"Мужчина"} />
-    </Gapped>
+    <FormContainer className={"profile_info-wrapper"}>
+      <UserData label={"Имя пользователя"} text={userStore.getUserName()} />
+      <UserData label={"Почта"} text={userStore.getEmail()} />
+      <UserData
+        label={"Дата рождения"}
+        text={new Date(userStore.getBirthDate()).toLocaleDateString()}
+      />
+      <UserData
+        label={"Пол"}
+        text={userStore.getGender() === "Male" ? "Мужчина" : "Женщина"}
+      />
+    </FormContainer>
   );
-};
+});
 
 export default WatchProfile;

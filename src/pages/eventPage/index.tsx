@@ -1,71 +1,87 @@
 import styles from "./index.module.scss";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PhotoCarousel from "../../shared/PhotoCarousel/Carousel/PhotoCarousel";
-import globalStore from "../../stores/GlobalStore";
-import Event from "../../models/Event";
 import { formatTimeString } from "../../utils/datetimeHelpers";
-import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
-import { GoLocation } from "react-icons/go";
-import cn from "classnames";
 import Image from "../../models/Image";
+import { useLocation } from "react-router-dom";
+import { LoadSpinner } from "../../shared/LoadSpinner";
+import EventInfo from "../../models/EventInfo";
+import { requestEvent } from "../../api/events/getEvent";
+import { eventViewModelToEvent } from "../../utils/convertHelper";
+import blankPhoto from "../../assets/blank_photo.png";
+import { getEventPhotos } from "../../api/events/getEventPhotos";
+import { EventButtons } from "../../shared/EventButtons";
+import { getDurationBetweenDates } from "../../utils/date";
+import { isEventRelevant } from "../../utils/eventsHelper";
 
-const { eventStore } = globalStore;
+const defaultImage: Image = { url: blankPhoto as string, file: null };
 
-type EventPageProps = {
-  event?: Event;
-};
+export const EventPage: React.FC = () => {
+  const { search } = useLocation();
+  const query = React.useMemo(() => new URLSearchParams(search), [search]);
 
-const iconsStyle = {
-  float: "right",
-  borderRadius: "50%",
-  backgroundColor: "#D7DCD7",
-  display: "inline-block",
-  width: "30px",
-  height: "30px",
-} as const;
+  const [eventId] = useState(query.get("id"));
+  const [eventInfo, setEventInfo] = useState<EventInfo | null>(null);
+  const [eventPhotos, setEventPhotos] = useState<Image[] | null>(null);
 
-// TODO убрать заглушку ивента
-export const EventPage: React.FC<EventPageProps> = ({
-  event = eventStore.events[0],
-}) => {
-  const eventInfo = event.info;
+  useEffect(() => {
+    if (!eventId) return;
+    requestEvent(eventId)
+      .then((resp) => eventViewModelToEvent(resp.event))
+      .then((event) => setEventInfo(event.info));
+
+    getEventPhotos(eventId)
+      .then((resp) =>
+        resp.photos.map(
+          (photo) => ({ url: photo, file: null } as Image)
+        )
+      )
+      .then((photos) => photos.length > 0 && setEventPhotos(photos));
+  }, [eventId]);
 
   return (
-    <div className={styles.eventPage}>
-      <PhotoCarousel images={eventInfo.photos ?? [{} as Image]} />
-      <div className={styles.wrapper}>
-        <div className={styles.eventInfo}>
-          <h2 className={styles.eventName}>{eventInfo.name}</h2>
-          <p className={styles.eventDateStart}>
-            Дата начала: {eventInfo.dateStart.toLocaleDateString()} в{" "}
-            {formatTimeString(eventInfo.dateStart.toLocaleTimeString())}
-          </p>
-          {eventInfo.dateEnd && (
-            <p className={styles.eventDateEnd}>
-              Дата конца: {eventInfo.dateEnd.toLocaleDateString()} в{" "}
-              {formatTimeString(eventInfo.dateEnd.toLocaleTimeString())}
-            </p>
+    <>
+      {eventInfo && eventId ? (
+        <div className={styles.eventPage}>
+          <PhotoCarousel images={eventPhotos ?? [defaultImage]} />
+          <div className={styles.wrapper}>
+            <div className={styles.eventInfo}>
+              <h2 className={styles.eventName}>{eventInfo.name}</h2>
+              <p className={styles.eventDateStart}>
+                Дата начала: {eventInfo.dateStart.toLocaleDateString()} в{" "}
+                {formatTimeString(eventInfo.dateStart.toLocaleTimeString())}
+              </p>
+              {eventInfo.dateEnd && (
+                <>
+                  <p className={styles.eventDateEnd}>
+                    Дата конца: {eventInfo.dateEnd.toLocaleDateString()} в{" "}
+                    {formatTimeString(eventInfo.dateEnd.toLocaleTimeString())}
+                  </p>
+                  <p className={styles.eventDuration}>
+                    Продолжительность:{" "}
+                    {getDurationBetweenDates(
+                      eventInfo.dateStart,
+                      eventInfo.dateEnd
+                    )}
+                  </p>
+                </>
+              )}
+            </div>
+            <EventButtons event={{ id: eventId, info: eventInfo }} />
+          </div>
+          {!isEventRelevant(eventInfo) && (
+            <p className={styles.eventStatus}>Событие уже завершилось(</p>
           )}
+          <div className={styles.eventDescription}>
+            <p className={styles.descriptionTitle}>Описание:</p>
+            <p className={styles.description}>{eventInfo.description}</p>
+          </div>
         </div>
-        <div className={styles.buttons}>
-          <button className={cn(styles.button, styles.likes)}>
-            <AiOutlineLike style={iconsStyle} />
-            {eventInfo.likes || 0}
-          </button>
-          <button className={cn(styles.button, styles.dislikes)}>
-            <AiOutlineDislike style={iconsStyle} />
-            {eventInfo.dislikes || 0}
-          </button>
-          <button className={cn(styles.button, styles.participants)}>
-            <GoLocation style={iconsStyle} />
-            {eventInfo.participants || 0}
-          </button>
+      ) : (
+        <div className={styles.spinnerWrapper}>
+          <LoadSpinner />
         </div>
-      </div>
-      <div className={styles.eventDescription}>
-        <p className={styles.descriptionTitle}>Описание:</p>
-        <p className={styles.description}>{eventInfo.description}</p>
-      </div>
-    </div>
+      )}
+    </>
   );
 };

@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import React from "react";
 import Logo from "../Logo/Logo";
 import "./Header.css";
-import avatar from "../../assets/avatar.jpg";
 import { UserStore } from "../../stores/UserStore";
 import { observer } from "mobx-react-lite";
 import { logoutRequest } from "../../api/auth/logout";
@@ -15,7 +14,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = observer(({ userStore }) => {
   const logout = async () => {
-    if (await logoutRequest(userStore.accessToken)) userStore.logout();
+    if (await logoutRequest()) userStore.logout();
   };
 
   return (
@@ -36,15 +35,21 @@ const Header: React.FC<HeaderProps> = observer(({ userStore }) => {
                 <li>
                   <figure className="header__profile-photo">
                     <img
-                      src={userStore.image ? userStore.image : avatar}
+                      src={userStore.getImage()}
                       alt="Avatar"
                       className="avatar"
                     />
                   </figure>{" "}
-                  {userStore.isAuth ? (
+                  {userStore.getIsAuth() ? (
                     <ul className="header__submenu-container">
                       <li>
                         <Link to={"/profile"}>Профиль</Link>
+                      </li>
+                      <li>
+                        <Link to={"/user-events"}>События</Link>
+                      </li>
+                      <li>
+                        <Link to={"/user-subscriptions"}>Подписки</Link>
                       </li>
                       <li>
                         <Link to={"/"} onClick={logout}>

@@ -8,7 +8,7 @@ interface Props {
   readonly onClick?: (...rest: any) => void;
   readonly label: string;
   readonly classNameDiv?: string;
-  readonly width?: number;
+  readonly width?: number | string;
   readonly height?: number;
   readonly fontSize?: number;
   readonly onKeyPress?: (...rest: any) => void;

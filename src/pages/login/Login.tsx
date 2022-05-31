@@ -6,7 +6,6 @@ import { CustomInput } from "../../shared/CustomInput/CustomInput";
 import { FormContainer } from "../../shared/FormContainer/FormContainer";
 import { userInfo, loginRequest } from "../../api/auth/loginRequest";
 import {
-  text,
   ValidationContainer,
   ValidationWrapper,
 } from "@skbkontur/react-ui-validations";
@@ -44,16 +43,21 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
 
   const saveUserStore = (answer: any) => {
     const tokens = answer.tokens;
-    userStore.accessToken = tokens.accessToken;
-    userStore.refreshToken = tokens.refreshToken;
-    userStore.expiredAt = tokens.expiredAt;
+    const accessToken = tokens.accessToken;
+    const refreshToken = tokens.refreshToken;
+    userStore.setAccessToken(accessToken.tokenString);
+    userStore.setRefreshToken(refreshToken.tokenString);
+    userStore.setExpiredAtAccessToken(accessToken.expireAt);
+    userStore.setExpiredAtRefreshToken(refreshToken.expireAt);
     const user = answer.user;
-    userStore.email = user.email;
-    userStore.userName = user.userName;
-    userStore.birthDate = user.birthDate;
-    userStore.gender = user.gender;
-    userStore.userRoles = answer.userRoles;
-    userStore.isAuth = true;
+    userStore.setEmail(user.email);
+    userStore.setUserName(user.userName);
+    userStore.setBirthDate(user.birthDate);
+    userStore.setGender(user.gender);
+    userStore.setUserRoles(answer.userRoles);
+    userStore.setIsAuth(true);
+    userStore.setId(user.id);
+    userStore.setImage(user.avatarUrl);
     if (saveLogin) userStore.save();
   };
 
@@ -81,7 +85,6 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
         <FormContainer>
           <ValidationWrapper
             validationInfo={validator.getNode((x) => x.login).get()}
-            renderMessage={text("right")}
           >
             <CustomInput
               label="Эл. почта или имя пользователя"
@@ -91,7 +94,6 @@ export const Login: React.FC<LoginProps> = observer(({ userStore }) => {
           </ValidationWrapper>
           {error && <p className="error">Неправильный логин или пароль</p>}
           <ValidationWrapper
-            renderMessage={text("right")}
             validationInfo={validator.getNode((x) => x.password).get()}
           >
             <CustomInput

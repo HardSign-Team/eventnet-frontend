@@ -1,7 +1,7 @@
 .eventPage {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 30px;
   margin: auto;
   padding-top: 30px;
   width: 480px;
@@ -17,47 +17,44 @@
       gap: 7px;
 
       .eventName {
-
+        max-width: 365px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
       }
 
       .eventDateStart {
-
       }
 
       .eventDateEnd {
+      }
+
+      .eventDuration {
 
       }
     }
+  }
 
-    .buttons {
-      display: flex;
-      gap: 10px;
-      text-align: center;
-
-      .button {
-        all: unset;
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        height: fit-content;
-
-        cursor: pointer;
-      }
-
-    }
+  .eventStatus {
+    text-align: center;
+    font-size: 18px;
+    color: #008D8E;
   }
 
   .eventDescription {
     .descriptionTitle {
-      color: #ADB4B3;
+      color: #adb4b3;
     }
 
     .description {
       margin-top: 7px;
+      word-wrap: break-word;
     }
   }
+}
 
-  .comments {
-
-  }
+.spinnerWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: calc(50vh - 150px);
 }

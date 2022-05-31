@@ -6,40 +6,28 @@ import EventList from "../EventList/EventList";
 import Toolbar from "./Toolbar/Toolbar";
 import BurgerMenuButton from "./Buttons/BurgerMenuButton";
 import CrossMenuButton from "./Buttons/CrossMenuButton";
+import globalStore from "../../../stores/GlobalStore";
+import { TagNameViewModel } from "../../../viewModels/TagNameViewModel";
 
 type BarProps = {
   className: string;
+  onSubmit: (e: any) => void;
+  onInputTag: (tags: TagNameViewModel[]) => void;
 };
 
-let sideBarContentStyles = {
-  backgroundColor: "#D7DCD7",
-  padding: "1em 2em 0",
-  fontSize: "1.15em",
-  position: "relative",
-  height: "100%",
-} as const;
-
-let sideBarStyles = {
-  position: "relative",
-  overflowY: "auto",
-  color: "#323232",
-  fontSize: "14px",
-} as const;
-
-export default function SideBar({ className }: BarProps) {
+const SideBar = ({ className, onSubmit, onInputTag }: BarProps) => {
   const [menuCollapse, setMenuCollapse] = useState(true);
+
+  const onOpen = () => {
+    const circles = globalStore.eventLocationStore.getAll();
+    globalStore.eventStore.addEvents(circles.map((event) => event.id));
+  };
 
   return (
     <div className={className}>
-      <ProSidebar
-        collapsedWidth={1}
-        collapsed={menuCollapse}
-        className={className + "__bar"}
-        style={sideBarStyles}
-        width={"316px"}
-      >
-        <SidebarContent style={sideBarContentStyles}>
-          <Toolbar  onSubmit={() => {}}/>
+      <ProSidebar collapsedWidth={1} collapsed={menuCollapse} width={"350px"}>
+        <SidebarContent>
+          <Toolbar onInputTag={onInputTag} onSubmit={onSubmit} />
           <EventList />
         </SidebarContent>
       </ProSidebar>
@@ -48,8 +36,14 @@ export default function SideBar({ className }: BarProps) {
         onClick={() => setMenuCollapse(!menuCollapse)}
         style={!menuCollapse ? { transform: "translateX(-28px)" } : {}}
       >
-        {menuCollapse ? <BurgerMenuButton /> : <CrossMenuButton />}
+        {menuCollapse ? (
+          <BurgerMenuButton onClick={onOpen} />
+        ) : (
+          <CrossMenuButton />
+        )}
       </div>
     </div>
   );
-}
+};
+
+export default SideBar;

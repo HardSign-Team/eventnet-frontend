@@ -15,8 +15,8 @@ export async function createEvent(
     method: HTTP_METHODS.POST,
     body: formData,
     headers: {
-      "Accept": "application/json",
-      "Authorization": `Bearer ${token}`,
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
     },
   };
   const response = await fetch(url, options);
@@ -36,7 +36,9 @@ function createFormData(model: CreateEventModel): FormData {
   formData.append("latitude", model.location.latitude.toString());
   formData.append("longitude", model.location.longitude.toString());
   model.tags.forEach((tag) => formData.append("tags", tag));
-  model.photos.forEach((photo) => formData.append("photos", photo.file));
+  model.photos.forEach(
+    (photo) => photo.file && formData.append("photos", photo.file)
+  );
 
   return formData;
 }

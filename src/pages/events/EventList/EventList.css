@@ -1,5 +1,4 @@
 .event-container {
-  max-height: 500px;
   flex-direction: column;
   gap: 1rem;
   display: flex;

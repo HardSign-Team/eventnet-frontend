@@ -1,31 +1,40 @@
 import Event from "../models/Event";
-import EventInfo from "../models/EventInfo";
-import { EventLocationViewModel } from "../viewModels/EvenLocationViewModel";
 import { makeAutoObservable } from "mobx";
+import { guid } from "../viewModels/Guid";
+import { requestEventsFullInfo } from "../api/events/getEvents";
+import { EventIdsModel } from "../dto/EventIdsModel";
+import { EventViewModel } from "../viewModels/EventViewModel";
+import {
+  eventToEventLocationViewModel,
+  eventViewModelToEvent,
+} from "../utils/convertHelper";
+import globalStore from "./GlobalStore";
+import { requestEvent } from "../api/events/getEvent";
 
 export class EventStore {
-  public events: Array<Event> = [];
-
-  private mockedId: number = 1;
+  private events: Array<Event> = [];
+  private allowAdding = true;
 
   constructor() {
     makeAutoObservable(this, {});
-  }
-
-  public createEvent(eventInfo: EventInfo): number {
-    const newEvent: Event = {
-      id: this.mockedId++,
-      info: eventInfo,
-    };
-    this.events.push(newEvent);
-    return this.mockedId;
   }
 
   public getEvents(): Array<Event> {
     return this.events;
   }
 
-  public getEventById(id: number): Event | undefined {
+  public updateEventById(id: guid) {
+    requestEvent(id)
+      .then((r) => eventViewModelToEvent(r.event))
+      .then((event) => {
+        const prevEvent = this.getEventById(event.id);
+        if (!prevEvent) return;
+        const eventIndex = this.events.indexOf(prevEvent);
+        this.events.splice(eventIndex, 1, event);
+      });
+  }
+
+  public getEventById(id: guid): Event | undefined {
     return this.events.find((event) => event.id === id);
   }
 
@@ -33,29 +42,41 @@ export class EventStore {
     this.events = this.events.filter((ev) => ev.id === event.id);
   }
 
-  addEvents(events: Array<EventLocationViewModel>) {
-    // TODO заглушка
-    const a = events.map((e) => {
-      return {
-        id: Math.floor(Math.random() * 10000),
-        info: {
-          name: e.name,
-          coordinates: [e.location.latitude, e.location.longitude],
-          dateStart: new Date(2021, 10, 15),
-          likes: 2,
-          description: "",
-          dateEnd: new Date(2021, 10, 15),
-          photos: [
-            {
-              url: "https://cdn.iz.ru/sites/default/files/styles/1920x1080/public/article-2019-06/ZURR4215.JPG.jpg?itok=2KMsqbt9",
-            },
-          ],
-        },
-      };
+  _has(event: Event) {
+    return this.events.some((e) => e.id === event.id);
+  }
+
+  addEvent(event: Event) {
+    if (!this._has(event)) this.events.push(event);
+  }
+
+  setEvents(eventsIds: Array<guid>) {
+    EventStore.getFullInfo(eventsIds).then((ev) => {
+      const newEvents = ev.map(eventViewModelToEvent);
+      this.events = newEvents;
+      this.putEventsToLocationStore(newEvents);
     });
-    for (const e of a) {
-      this.events.push(e as Event);
-    }
-    console.log(this.events);
+  }
+
+  addEvents(eventsIds: Array<guid>) {
+    EventStore.getFullInfo(eventsIds).then((ev) => {
+      ev.forEach((evm) => {
+        const event = eventViewModelToEvent(evm);
+        if (!this._has(event)) this.events.push(event);
+      });
+    });
+  }
+
+  private putEventsToLocationStore = (events: Event[]) => {
+    const eventLocations = events.map(eventToEventLocationViewModel);
+    globalStore.eventLocationStore.setRange(eventLocations);
+  };
+
+  private static async getFullInfo(
+    eventsIds: Array<guid>
+  ): Promise<EventViewModel[]> {
+    const eventsModel = new EventIdsModel(eventsIds);
+    const { events } = await requestEventsFullInfo(eventsModel);
+    return events;
   }
 }
