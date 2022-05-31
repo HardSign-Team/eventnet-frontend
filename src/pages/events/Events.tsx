@@ -92,7 +92,7 @@ const Events = observer(() => {
         onInputTag={(tags) => setTags(tags)}
       />
       <YandexMap className="ya-map" onChangeBound={onChangeBound} />
-      <div className={"popup-modal-window"}></div>
+      <div className={"popup-modal-window"} />
     </div>
   );
 });

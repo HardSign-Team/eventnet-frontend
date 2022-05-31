@@ -60,12 +60,12 @@ const getTranslate = (x: number, y: number) => {
     if (x - CARD_WIDTH < 0) {
       dx += CARD_WIDTH / 3 + 20;
     }
-    dy += -CARD_HEIGHT - 20;
+    dy += -CARD_HEIGHT - 10;
   } else if (x + CARD_WIDTH > vpw) {
     dx += -CARD_WIDTH / 3 - 40;
     dy += -10;
   } else if (x - CARD_WIDTH < 0) {
-    dx += CARD_WIDTH / 2 + 20;
+    dx += CARD_WIDTH / 2;
     dy += -10;
   }
   return [dx, dy];
