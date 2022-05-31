@@ -78,7 +78,7 @@ type Props = {
 const Circles = ({ events }: Props) => {
   const circles: Array<JSX.Element> = [];
 
-  const onMouseLeave = async (e: any) => {
+  const onMouseLeave = async () => {
     const modal = document.getElementsByClassName(
       "popup-modal-window"
     )[0] as HTMLElement;
@@ -116,7 +116,6 @@ const Circles = ({ events }: Props) => {
         options={circleOptions}
         onMouseLeave={onMouseLeave}
         onMouseEnter={onMouseEnter}
-        modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
       />
     );
   });
