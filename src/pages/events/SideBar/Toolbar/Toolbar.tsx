@@ -42,8 +42,9 @@ const Toolbar = observer(({ onSubmit, onInputTag }: Props) => {
       globalStore.eventLocationStore.allowAdding();
       if (query.toString() !== "") {
         requestEvents(query)
-          .then((r) => {
-            globalStore.eventLocationStore.addRange(r.events);
+          .then(({ events }) => {
+            globalStore.eventLocationStore.addRange(events);
+            globalStore.eventStore.addEvents(events.map((event) => event.id));
           })
           .catch(console.error);
       }

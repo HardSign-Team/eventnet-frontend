@@ -6,6 +6,7 @@ import { LoadSpinner } from "../../../shared/LoadSpinner";
 import cn from "classnames";
 import CustomButton from "../../../shared/CustomButton/CustomButton";
 import { NavLink } from "react-router-dom";
+import { getDefaultParams } from "../../../App";
 
 type StatusModalProps = {
   status: EventSaveStatus;
@@ -58,7 +59,7 @@ export const StatusModal: React.FC<StatusModalProps> = ({
       </Modal.Body>
       <Modal.Footer>
         {status === EventSaveStatus.Saved && (
-          <NavLink to={"/events"}>
+          <NavLink to={`/events?${getDefaultParams()}`}>
             <CustomButton label={"Вернуться на карту"} width={"100%"} />
           </NavLink>
         )}
