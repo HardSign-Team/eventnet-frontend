@@ -8,6 +8,7 @@ import styles from "./EventCard.module.scss";
 import Image from "../../../models/Image";
 import { getEventPhotos } from "../../../api/events/getEventPhotos";
 import { EventButtons } from "../../../shared/EventButtons";
+import { Link } from "react-router-dom";
 
 type EventCardProps = {
   event: Event;
@@ -26,7 +27,7 @@ const EventCard = observer(({ event }: EventCardProps) => {
 
   return (
     <section className={styles.eventCard}>
-      <a href={`/event-page?id=${event.id}`}>
+      <Link to={`/event-page?id=${event.id}`}>
         <img
           className={styles.eventCard__photo}
           src={photo.url}
@@ -34,7 +35,7 @@ const EventCard = observer(({ event }: EventCardProps) => {
           width={"100%"}
           height={"160px"}
         />
-      </a>
+      </Link>
       <div className={styles.eventInfo}>
         <h4 className={styles.eventCard__title}>{event.info.name}</h4>
         <div className={styles.eventCard__description}>
