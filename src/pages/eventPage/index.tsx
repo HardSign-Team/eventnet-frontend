@@ -32,9 +32,7 @@ export const EventPage: React.FC = () => {
 
     getEventPhotos(eventId)
       .then((resp) =>
-        resp.photos.map(
-          (photo) => ({ url: photo, file: null } as Image)
-        )
+        resp.photos.map((photo) => ({ url: photo, file: null } as Image))
       )
       .then((photos) => photos.length > 0 && setEventPhotos(photos));
   }, [eventId]);
@@ -51,7 +49,7 @@ export const EventPage: React.FC = () => {
                 Дата начала: {eventInfo.dateStart.toLocaleDateString()} в{" "}
                 {formatTimeString(eventInfo.dateStart.toLocaleTimeString())}
               </p>
-              {eventInfo.dateEnd && (
+              {eventInfo.dateEnd !== null && (
                 <>
                   <p className={styles.eventDateEnd}>
                     Дата конца: {eventInfo.dateEnd.toLocaleDateString()} в{" "}
@@ -66,6 +64,18 @@ export const EventPage: React.FC = () => {
                   </p>
                 </>
               )}
+              <div className={styles.eventOwner}>
+                <div className={styles.eventOwner__info}>
+                  <p>{"lapakota"}&nbsp;</p>
+                  <img
+                    className={styles.eventOwner__info_avatar}
+                    src={defaultImage.url}
+                    alt={"owner avatar"}
+                    width={40}
+                    height={40}
+                  />
+                </div>
+              </div>
             </div>
             <EventButtons event={{ id: eventId, info: eventInfo }} />
           </div>

@@ -10,7 +10,6 @@ import { eventViewModelToEvent } from "../../utils/convertHelper";
 import { isEventRelevant } from "../../utils/eventsHelper";
 import { getMySubscriptions } from "../../api/marks/my/getMySubscriptions";
 import {
-  requestEvents,
   requestEventsFullInfo,
 } from "../../api/events/getEvents";
 

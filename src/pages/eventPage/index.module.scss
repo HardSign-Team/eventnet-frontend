@@ -32,6 +32,20 @@
       .eventDuration {
 
       }
+
+      .eventOwner {
+        display: flex;
+        align-items: center;
+
+        &__info {
+          display: flex;
+          align-items: center;
+
+          &_avatar {
+            border-radius: 50%;
+          }
+        }
+      }
     }
   }
 
