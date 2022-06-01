@@ -113,6 +113,7 @@ li a {
     right: 100%;
     transform: perspective(600px) rotateX(-90deg);
     transform-origin: 0 0;
+    box-shadow: 0 0 5px rgba(0,0,0, 0.2);
 }
 
 .header__profile-photo {

@@ -9,9 +9,8 @@ import { requestMyEvents } from "../../api/events/getMyEvents";
 import { eventViewModelToEvent } from "../../utils/convertHelper";
 import { isEventRelevant } from "../../utils/eventsHelper";
 import { getMySubscriptions } from "../../api/marks/my/getMySubscriptions";
-import {
-  requestEventsFullInfo,
-} from "../../api/events/getEvents";
+import { requestEventsFullInfo } from "../../api/events/getEvents";
+import { LoadSpinner } from "../../shared/LoadSpinner";
 
 export enum UserEventsTypes {
   Own,
@@ -35,6 +34,7 @@ export const UserEvents: React.FC<UserEventsProps> = observer(({ type }) => {
   const [picked, setPicked] = useState(SelectorItem.Relevant);
 
   useEffect(() => {
+    setEvents((_) => []);
     type === UserEventsTypes.Own && loadMyEvents().then((r) => r);
     type === UserEventsTypes.Subscribed &&
       loadSubscribedEvents().then((r) => r);
@@ -60,36 +60,44 @@ export const UserEvents: React.FC<UserEventsProps> = observer(({ type }) => {
   };
 
   return (
-    <section className={styles.userEvents}>
-      <h2 className={styles.userEvents__userName}>
-        {(type === UserEventsTypes.Own
-          ? `События пользователя `
-          : type === UserEventsTypes.Subscribed
-          ? "Подписки пользователя "
-          : "Ошибка, пожалуйста обновите страницу ") +
-          `${userStore.getUserName()}`}
-      </h2>
-      {type === UserEventsTypes.Own && (
-        <CustomSelector
-          onChange={setPicked}
-          first={SelectorItem.Relevant}
-          second={SelectorItem.Past}
-          firstLabel={SelectorItem.Relevant}
-          secondLabel={SelectorItem.Past}
-          value={picked}
-        />
+    <>
+      {events.length > 0 ? (
+        <section className={styles.userEvents}>
+          <h2 className={styles.userEvents__userName}>
+            {(type === UserEventsTypes.Own
+              ? `События пользователя `
+              : type === UserEventsTypes.Subscribed
+              ? "Актуальные подписки пользователя "
+              : "Ошибка, пожалуйста обновите страницу ") +
+              `${userStore.getUserName()}`}
+          </h2>
+          {type === UserEventsTypes.Own && (
+            <CustomSelector
+              onChange={setPicked}
+              first={SelectorItem.Relevant}
+              second={SelectorItem.Past}
+              firstLabel={SelectorItem.Relevant}
+              secondLabel={SelectorItem.Past}
+              value={picked}
+            />
+          )}
+          <div className={styles.userEvents__events}>
+            {events
+              .filter((event) =>
+                picked === SelectorItem.Relevant
+                  ? isEventRelevant(event.info)
+                  : !isEventRelevant(event.info)
+              )
+              .map((event) => (
+                <EventCard key={event.id} event={event} />
+              ))}
+          </div>
+        </section>
+      ) : (
+        <div className={styles.spinnerWrapper}>
+          <LoadSpinner />
+        </div>
       )}
-      <div className={styles.userEvents__events}>
-        {events
-          .filter((event) =>
-            picked === SelectorItem.Relevant
-              ? isEventRelevant(event.info)
-              : !isEventRelevant(event.info)
-          )
-          .map((event) => (
-            <EventCard key={event.id} event={event} />
-          ))}
-      </div>
-    </section>
+    </>
   );
 });
