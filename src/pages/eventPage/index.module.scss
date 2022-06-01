@@ -33,18 +33,27 @@
 
       }
 
-      .eventOwner {
-        display: flex;
-        align-items: center;
+    }
+  }
 
-        &__info {
-          display: flex;
-          align-items: center;
+  .buttonsWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
 
-          &_avatar {
-            border-radius: 50%;
-          }
-        }
+    .eventOwner__info {
+      display: flex;
+      align-items: flex-end;
+
+      &_name {
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &_avatar {
+        border-radius: 50%;
       }
     }
   }
