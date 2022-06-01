@@ -17,18 +17,10 @@ export async function requestEvents(
       "Content-Type": "application/json",
     },
   };
-  const events = [];
-  let evs: any = [];
-  do {
-    const url = `${BASE_ROUTE}/api/events?${params}`;
-    const response = await fetch(url, options);
-    const pageNumber = +(params.get("p") || 1);
-    evs = await response.json();
-    events.push(...evs);
-    await params.set("p", String(pageNumber + 1));
-  } while (evs.length !== 0);
+  const url = `${BASE_ROUTE}/api/events?${params}`;
+  const response = await fetch(url, options);
   return {
-    events,
+    events: await response.json(),
   };
 }
 

@@ -30,7 +30,7 @@ const DEFAULT_MAP_STATE = {
   radius: 100,
 };
 
-const getDefaultParams = () => {
+export const getDefaultParams = () => {
   const dto = new RequestEventDto(
     {
       radiusLocation: new LocationFilterModel(
