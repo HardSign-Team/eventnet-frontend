@@ -7,7 +7,7 @@ export default interface EventInfo {
   dateStart: Date;
   name: string;
   coordinates: Coordinates;
-  dateEnd?: Date;
+  dateEnd: Date | null;
   description: string;
   likes: number;
   dislikes: number;

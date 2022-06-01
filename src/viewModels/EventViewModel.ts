@@ -10,7 +10,7 @@ export interface EventViewModel {
     description: string;
     location: LocationViewModel;
     startDate: string;
-    endDate?: string;
+    endDate: string | null;
     tags: TagNameViewModel[],
     totalSubscriptions: number,
     marks: MarksCountViewModel

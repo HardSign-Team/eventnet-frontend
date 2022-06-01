@@ -13,6 +13,9 @@ import { getEventPhotos } from "../../api/events/getEventPhotos";
 import { EventButtons } from "../../shared/EventButtons";
 import { getDurationBetweenDates } from "../../utils/date";
 import { isEventRelevant } from "../../utils/eventsHelper";
+import { getUserShortInfo } from "../../api/users/getUserShortInfo";
+import { BASE_ROUTE } from "../../api/utils";
+import defaultAvatar from "../../assets/avatar.jpg";
 
 const defaultImage: Image = { url: blankPhoto as string, file: null };
 
@@ -24,6 +27,9 @@ export const EventPage: React.FC = () => {
   const [eventInfo, setEventInfo] = useState<EventInfo | null>(null);
   const [eventPhotos, setEventPhotos] = useState<Image[] | null>(null);
 
+  const [ownerName, setOwnerName] = useState("");
+  const [ownerAvatar, setOwnerAvatar] = useState<Image | null>(null);
+
   useEffect(() => {
     if (!eventId) return;
     requestEvent(eventId)
@@ -32,12 +38,24 @@ export const EventPage: React.FC = () => {
 
     getEventPhotos(eventId)
       .then((resp) =>
-        resp.photos.map(
-          (photo) => ({ url: photo, file: null } as Image)
-        )
+        resp.photos.map((photo) => ({ url: photo, file: null } as Image))
       )
       .then((photos) => photos.length > 0 && setEventPhotos(photos));
   }, [eventId]);
+
+  useEffect(() => {
+    if (!eventInfo) return;
+    getUserShortInfo(eventInfo.ownerId).then((resp) => {
+      setOwnerName(resp.userName);
+      setOwnerAvatar({
+        url:
+          resp.avatarUrl !== "default-avatar.jpeg"
+            ? `${BASE_ROUTE}/${resp.avatarUrl}?width=512&height=512`
+            : defaultAvatar,
+        file: null,
+      });
+    });
+  }, [eventInfo]);
 
   return (
     <>
@@ -51,7 +69,7 @@ export const EventPage: React.FC = () => {
                 Дата начала: {eventInfo.dateStart.toLocaleDateString()} в{" "}
                 {formatTimeString(eventInfo.dateStart.toLocaleTimeString())}
               </p>
-              {eventInfo.dateEnd && (
+              {eventInfo.dateEnd !== null && (
                 <>
                   <p className={styles.eventDateEnd}>
                     Дата конца: {eventInfo.dateEnd.toLocaleDateString()} в{" "}
@@ -67,7 +85,22 @@ export const EventPage: React.FC = () => {
                 </>
               )}
             </div>
-            <EventButtons event={{ id: eventId, info: eventInfo }} />
+            <div className={styles.buttonsWrapper}>
+              <EventButtons event={{ id: eventId, info: eventInfo }} />
+              {ownerName && ownerAvatar && (
+                <div className={styles.eventOwner__info} title={`Создатель события: ${ownerName}`}>
+                  <p className={styles.eventOwner__info_name}>{ownerName}</p>
+                  &nbsp;
+                  <img
+                    className={styles.eventOwner__info_avatar}
+                    src={ownerAvatar.url}
+                    alt={"owner avatar"}
+                    width={40}
+                    height={40}
+                  />
+                </div>
+              )}
+            </div>
           </div>
           {!isEventRelevant(eventInfo) && (
             <p className={styles.eventStatus}>Событие уже завершилось(</p>

@@ -12,7 +12,7 @@ export const eventViewModelToEvent = (event: EventViewModel): Event => {
       dateStart: new Date(event.startDate),
       name: event.name,
       coordinates: [event.location.latitude, event.location.longitude],
-      dateEnd: new Date(event.endDate || ""),
+      dateEnd: event.endDate ? new Date(event.endDate) : null,
       description: event.description,
       likes: event.marks.likes,
       dislikes: event.marks.dislikes,

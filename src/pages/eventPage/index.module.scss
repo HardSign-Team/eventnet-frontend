@@ -32,6 +32,29 @@
       .eventDuration {
 
       }
+
+    }
+  }
+
+  .buttonsWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+
+    .eventOwner__info {
+      display: flex;
+      align-items: flex-end;
+
+      &_name {
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &_avatar {
+        border-radius: 50%;
+      }
     }
   }
 
