@@ -2,17 +2,20 @@
   display: flex;
   gap: 6px;
   text-align: center;
-  justify-content: flex-end;
+  justify-content: space-around;
   height: fit-content;
 
   .button {
     all: unset;
-    justify-items: center;
     display: flex;
     flex-direction: column;
     gap: 2px;
     height: fit-content;
     font-size: 13px;
     cursor: pointer;
+
+    &:hover svg {
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
   }
 }

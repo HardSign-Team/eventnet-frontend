@@ -37,7 +37,9 @@ const EventCard = observer(({ event }: EventCardProps) => {
         />
       </Link>
       <div className={styles.eventInfo}>
-        <h4 className={styles.eventCard__title}>{event.info.name}</h4>
+        <h4 className={styles.eventCard__title} title={event.info.name}>
+          {event.info.name}
+        </h4>
         <div className={styles.eventCard__description}>
           {event.info.description}
         </div>

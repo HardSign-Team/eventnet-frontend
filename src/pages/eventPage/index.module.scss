@@ -44,7 +44,8 @@
 
     .eventOwner__info {
       display: flex;
-      align-items: flex-end;
+      align-items: center;
+      justify-content: flex-end;
 
       &_name {
         max-width: 100px;
