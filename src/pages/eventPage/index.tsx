@@ -86,7 +86,6 @@ export const EventPage: React.FC = () => {
               )}
             </div>
             <div className={styles.buttonsWrapper}>
-              <EventButtons event={{ id: eventId, info: eventInfo }} />
               {ownerName && ownerAvatar && (
                 <div className={styles.eventOwner__info} title={`Создатель события: ${ownerName}`}>
                   <p className={styles.eventOwner__info_name}>{ownerName}</p>
@@ -100,6 +99,7 @@ export const EventPage: React.FC = () => {
                   />
                 </div>
               )}
+              <EventButtons event={{ id: eventId, info: eventInfo }} />
             </div>
           </div>
           {!isEventRelevant(eventInfo) && (
