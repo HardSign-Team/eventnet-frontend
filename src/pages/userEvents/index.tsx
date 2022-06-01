@@ -33,8 +33,11 @@ export const UserEvents: React.FC<UserEventsProps> = observer(({ type }) => {
 
   const [picked, setPicked] = useState(SelectorItem.Relevant);
 
+  const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
     setEvents((_) => []);
+    setIsLoaded((_) => false);
     type === UserEventsTypes.Own && loadMyEvents().then((r) => r);
     type === UserEventsTypes.Subscribed &&
       loadSubscribedEvents().then((r) => r);
@@ -44,6 +47,7 @@ export const UserEvents: React.FC<UserEventsProps> = observer(({ type }) => {
     const response = await requestMyEvents(userStore.getAccessToken());
     const myEvents = response.events.map((x) => eventViewModelToEvent(x));
     setEvents(myEvents);
+    setIsLoaded(true);
   };
 
   const loadSubscribedEvents = async () => {
@@ -57,11 +61,12 @@ export const UserEvents: React.FC<UserEventsProps> = observer(({ type }) => {
       .map((x) => eventViewModelToEvent(x))
       .filter((x) => isEventRelevant(x.info));
     setEvents(subscribedEvents);
+    setIsLoaded(true);
   };
 
   return (
     <>
-      {events.length > 0 ? (
+      {isLoaded  ? (
         <section className={styles.userEvents}>
           <h2 className={styles.userEvents__userName}>
             {(type === UserEventsTypes.Own
@@ -82,7 +87,7 @@ export const UserEvents: React.FC<UserEventsProps> = observer(({ type }) => {
             />
           )}
           <div className={styles.userEvents__events}>
-            {events
+            {events.length > 0 ? events
               .filter((event) =>
                 picked === SelectorItem.Relevant
                   ? isEventRelevant(event.info)
@@ -90,7 +95,8 @@ export const UserEvents: React.FC<UserEventsProps> = observer(({ type }) => {
               )
               .map((event) => (
                 <EventCard key={event.id} event={event} />
-              ))}
+              )) :
+            <p className={styles.userEvents__events_placeholder}>Нет событий</p>}
           </div>
         </section>
       ) : (

@@ -64,7 +64,9 @@ export const EventPage: React.FC = () => {
           <PhotoCarousel images={eventPhotos ?? [defaultImage]} />
           <div className={styles.wrapper}>
             <div className={styles.eventInfo}>
-              <h2 className={styles.eventName}>{eventInfo.name}</h2>
+              <h2 className={styles.eventName} title={eventInfo.name}>
+                {eventInfo.name}
+              </h2>
               <p className={styles.eventDateStart}>
                 Дата начала: {eventInfo.dateStart.toLocaleDateString()} в{" "}
                 {formatTimeString(eventInfo.dateStart.toLocaleTimeString())}
@@ -87,7 +89,10 @@ export const EventPage: React.FC = () => {
             </div>
             <div className={styles.buttonsWrapper}>
               {ownerName && ownerAvatar && (
-                <div className={styles.eventOwner__info} title={`Создатель события: ${ownerName}`}>
+                <div
+                  className={styles.eventOwner__info}
+                  title={`Создатель события: ${ownerName}`}
+                >
                   <p className={styles.eventOwner__info_name}>{ownerName}</p>
                   &nbsp;
                   <img
