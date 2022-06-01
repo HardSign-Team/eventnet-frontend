@@ -6,6 +6,7 @@
 }
 
 .popup-modal-window{
+    display: none;
     z-index: 9999;
     position: absolute;
 }
