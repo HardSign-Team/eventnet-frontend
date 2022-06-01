@@ -5,14 +5,18 @@ import { LocationViewModel } from "../viewModels/LocationViewModel";
 import { Coordinates } from "../models/Coordinates";
 
 export const eventViewModelToEvent = (event: EventViewModel): Event => {
+  // + "z"  для учёта локального сдвига времени
+  const dateStart = new Date(event.startDate + "z");
+  const dateEnd = event.endDate ? new Date(event.endDate + "z") : null;
+
   return {
     id: event.id,
     info: {
       ownerId: event.ownerId,
-      dateStart: new Date(event.startDate),
+      dateStart: dateStart,
       name: event.name,
       coordinates: [event.location.latitude, event.location.longitude],
-      dateEnd: event.endDate ? new Date(event.endDate) : null,
+      dateEnd: dateEnd,
       description: event.description,
       likes: event.marks.likes,
       dislikes: event.marks.dislikes,

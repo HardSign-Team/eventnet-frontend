@@ -20,7 +20,7 @@ const EventDatetimePicker: React.FC<EventDatetimePickerProps> = ({
   return (
     <div className={styles.eventDatetimePicker}>
       <span>{label}</span>
-      <DatePicker value={date} onValueChange={onDateChange} />
+      <DatePicker width={120} value={date} onValueChange={onDateChange} />
       <span>в</span>
       <input
         type="time"

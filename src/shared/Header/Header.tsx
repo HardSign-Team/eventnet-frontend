@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import React from "react";
 import Logo from "../Logo/Logo";
-import "./Header.css";
+import "./Header.scss";
 import { UserStore } from "../../stores/UserStore";
 import { observer } from "mobx-react-lite";
 import { logoutRequest } from "../../api/auth/logout";

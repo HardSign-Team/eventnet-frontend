@@ -3,7 +3,7 @@
   flex-direction: column;
   margin: auto;
   padding-top: 30px;
-  width: 580px;
+  max-width: 580px;
   min-width: 480px;
 
   &__userName {
@@ -14,7 +14,23 @@
   &__events {
     padding-top: 30px;
     display: flex;
+    justify-content: flex-start;
     gap: 15px;
     flex-wrap: wrap;
   }
+}
+
+.spinnerWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: calc(50vh - 150px);
+}
+
+@media screen and (max-width: 591px) {
+  .userEvents {
+    &__events {
+      justify-content: center;
+    }
+  }
+
 }
