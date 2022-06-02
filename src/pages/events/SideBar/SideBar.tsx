@@ -20,7 +20,7 @@ const SideBar = ({ className, onSubmit, onInputTag }: BarProps) => {
 
   const onOpen = () => {
     const circles = globalStore.eventLocationStore.getAll();
-    globalStore.eventStore.addEvents(circles.map((event) => event.id));
+    globalStore.eventStore.setEvents(circles.map((event) => event.id));
   };
 
   return (

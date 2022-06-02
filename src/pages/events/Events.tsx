@@ -25,7 +25,8 @@ const requestEventsFromApi = (query: URLSearchParams) => {
   if (query.toString() !== "") {
     requestEvents(query)
       .then((r) => {
-        globalStore.eventLocationStore.addRange(r.events);
+        globalStore.eventLocationStore.setRange(r.events);
+        globalStore.eventStore.setEvents(r.events.map((event) => event.id));
       })
       .catch(console.error);
   }
@@ -46,15 +47,19 @@ const Events = observer(() => {
   const throttled = useRef(
     throttle((locationInfo, tags: TagNameViewModel[]) => {
       if (!locationInfo) return;
+      let tagFilter;
+      if (tags.length !== 0) {
+        tagFilter = new TagsFilterModel(tags.map((t) => t.id));
+      }
       const dto = new RequestEventDto(
         {
           radiusLocation: new LocationFilterModel(
             coordinatesToLocation(locationInfo.center),
-            locationInfo.radius
+            locationInfo.radius * 1000
           ),
-          tags: new TagsFilterModel(tags.map((t) => t.id)),
+          tags: tagFilter,
         },
-        new PageInfoDto(1, 100)
+        new PageInfoDto(1, 1000)
       );
       const params = buildRequestEventsParams(dto);
       navigate(`/events?${params}`);
@@ -63,7 +68,7 @@ const Events = observer(() => {
 
   useInterval(() => {
     requestEventsFromApi(query);
-  }, 5000);
+  }, 50000);
 
   useEffect(() => {
     requestEventsFromApi(query);
@@ -85,9 +90,6 @@ const Events = observer(() => {
   const onChangeBound = (center: Coordinates, radius: number) => {
     setLocationInfo({ center, radius });
   };
-
-  const balloonEvent = globalStore.eventStore.getBalloonEvent();
-
   return (
     <div className="main-page">
       <SideBar
@@ -97,12 +99,10 @@ const Events = observer(() => {
       />
       <YandexMap className="ya-map" onChangeBound={onChangeBound} />
       <div className={"popup-modal-window"}>
-        {balloonEvent && (
-          <EventBalloonContent
-            className={"event-balloon-content"}
-            event={balloonEvent}
-          />
-        )}
+        <EventBalloonContent
+          className={"event-balloon-content"}
+          event={globalStore.eventStore.getBalloonEvent()}
+        />
       </div>
     </div>
   );
