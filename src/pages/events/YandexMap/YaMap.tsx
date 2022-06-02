@@ -16,6 +16,7 @@ import { BiHide, BiShow } from "react-icons/bi";
 import ReactDOMServer from "react-dom/server";
 import { getDistanceFromLatLonInKm } from "../../../utils/distance";
 import { Coordinates } from "../../../models/Coordinates";
+import Event from "../../../models/Event";
 
 const MIN_ZOOM = 4;
 
@@ -30,7 +31,8 @@ export const mapOptions = {
   minZoom: MIN_ZOOM,
   yandexMapAutoSwitch: true,
 };
-export const YANDEX_MAP_ACCESS_TOKEN = process.env.REACT_APP_YANDEX_MAPS_API_KEY || "";
+export const YANDEX_MAP_ACCESS_TOKEN =
+  process.env.REACT_APP_YANDEX_MAPS_API_KEY || "";
 
 const { mapStore } = globalStore;
 

@@ -47,7 +47,7 @@ const circleOptions = {
 
 const getTranslate = (x: number, y: number) => {
   let dx = -CARD_WIDTH / 2;
-  let dy = -65;
+  let dy = -70;
   const vph = document.documentElement.clientHeight;
   const vpw = document.documentElement.clientWidth;
 
@@ -58,7 +58,7 @@ const getTranslate = (x: number, y: number) => {
     if (x - CARD_WIDTH < 0) {
       dx += CARD_WIDTH / 3 + 20;
     }
-    dy += -CARD_HEIGHT - 10;
+    dy += -CARD_HEIGHT;
   } else if (x + CARD_WIDTH > vpw) {
     dx += -CARD_WIDTH / 3 - 40;
     dy += -10;
@@ -72,7 +72,6 @@ const getTranslate = (x: number, y: number) => {
 type Props = {
   events: EventLocationViewModel[];
 };
-
 const Circles = ({ events }: Props) => {
   const circles: Array<JSX.Element> = [];
 
@@ -80,21 +79,19 @@ const Circles = ({ events }: Props) => {
     const modal = document.getElementsByClassName(
       "popup-modal-window"
     )[0] as HTMLElement;
-    modal.style.display = "none";
+    modal.style.visibility = "hidden";
   };
 
   const onMouseEnter = async (e: any) => {
     const coords = e.get("coords");
     const eventId = getEventId(events, coords);
     const event = await getEvent(eventId);
-
     globalStore.eventStore.addBalloonEvent(event);
 
     const modal = document.getElementsByClassName(
       "popup-modal-window"
     )[0] as HTMLElement;
-    modal.style.display = "block";
-
+    modal.style.visibility = "visible";
     const x = e.get("clientX");
     const y = e.get("clientY");
     const [dx, dy] = getTranslate(x, y);

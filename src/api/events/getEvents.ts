@@ -19,8 +19,9 @@ export async function requestEvents(
   };
   const url = `${BASE_ROUTE}/api/events?${params}`;
   const response = await fetch(url, options);
+  const events = await response.json();
   return {
-    events: await response.json(),
+    events,
   };
 }
 

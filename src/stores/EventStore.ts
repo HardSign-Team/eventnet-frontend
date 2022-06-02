@@ -13,14 +13,10 @@ import { requestEvent } from "../api/events/getEvent";
 
 export class EventStore {
   private events: Array<Event> = [];
-  private balloonEvent: Event | undefined;
+  private balloonEvent: Event | null = null;
 
   constructor() {
     makeAutoObservable(this, {});
-  }
-
-  public getBalloonEvent(): Event | undefined {
-    return this.balloonEvent;
   }
 
   public getEvents(): Array<Event> {
@@ -87,5 +83,13 @@ export class EventStore {
   addBalloonEvent(event: Event) {
     this.balloonEvent = event;
     this.addEvent(event);
+  }
+
+  public getBalloonEvent(): Event | null {
+    return this.balloonEvent;
+  }
+
+  resetBalloonEvent() {
+    this.balloonEvent = null;
   }
 }
