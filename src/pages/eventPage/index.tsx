@@ -118,20 +118,22 @@ export const EventPage: React.FC = () => {
               <EventButtons event={{ id: eventId, info: eventInfo }} />
             </div>
           </div>
-          <div className={styles.eventTags}>
-            <p className={styles.eventTags__tagsTitle}>Теги:</p>
-            <div className={styles.eventTags__wrapper}>
-              {eventInfo.tags.map((x) => (
-                <div
-                  className={styles.eventTags__wrapper__tag}
-                  key={x.id}
-                  onClick={() => copyTagName(x.name)}
-                >
-                  {x.name}
-                </div>
-              ))}
+          {eventInfo.tags.length > 0 && (
+            <div className={styles.eventTags}>
+              <p className={styles.eventTags__tagsTitle}>Теги:</p>
+              <div className={styles.eventTags__wrapper}>
+                {eventInfo.tags.map((x) => (
+                  <div
+                    className={styles.eventTags__wrapper__tag}
+                    key={x.id}
+                    onClick={() => copyTagName(x.name)}
+                  >
+                    {x.name}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
           {!isEventRelevant(eventInfo) && (
             <p className={styles.eventStatus}>Событие уже завершилось(</p>
           )}
