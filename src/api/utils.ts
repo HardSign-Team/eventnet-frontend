@@ -1,3 +1,5 @@
+import { refreshToken } from "./auth/refreshToken";
+
 export const BASE_ROUTE: string = "http://localhost:5203";
 
 export const STATUS_CODES = {
@@ -12,3 +14,11 @@ export const HTTP_METHODS = {
   DELETE: "DELETE",
   PUT: "PUT",
 };
+
+export async function AuthorizedRequest(request: () => Promise<Response>) {
+  const response = await request();
+  if (response.statusText === "Unauthorized") {
+    await refreshToken();
+    return await request();
+  } else return response;
+}

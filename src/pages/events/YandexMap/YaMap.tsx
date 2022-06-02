@@ -30,7 +30,9 @@ export const mapOptions = {
   minZoom: MIN_ZOOM,
   yandexMapAutoSwitch: true,
 };
-const accessToken = process.env.REACT_APP_YANDEX_MAPS_API_KEY || "";
+const accessToken =
+  process.env.REACT_APP_YANDEX_MAPS_API_KEY ||
+  "57a70efe-e6c8-49b2-94c3-2b040cd27c09";
 
 const { mapStore } = globalStore;
 

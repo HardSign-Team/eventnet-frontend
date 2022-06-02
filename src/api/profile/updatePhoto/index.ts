@@ -1,13 +1,13 @@
-import { refreshToken } from "../../auth/refreshToken";
 import globalStore from "../../../stores/GlobalStore";
-import { BASE_ROUTE, HTTP_METHODS, STATUS_CODES } from "../../utils";
+import {
+  AuthorizedRequest,
+  BASE_ROUTE,
+  HTTP_METHODS,
+  STATUS_CODES,
+} from "../../utils";
 
 async function updatePhoto(avatar: File) {
-  let response = await request(avatar);
-  if (response.statusText === "Unauthorized") {
-    await refreshToken();
-    response = await request(avatar);
-  }
+  const response = await AuthorizedRequest(() => request(avatar));
   if (response.status === STATUS_CODES.OK) {
     return await response.json();
   } else return false;
