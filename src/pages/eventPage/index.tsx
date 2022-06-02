@@ -17,6 +17,8 @@ import { getUserShortInfo } from "../../api/users/getUserShortInfo";
 import { BASE_ROUTE } from "../../api/utils";
 import defaultAvatar from "../../assets/avatar.jpg";
 import { toast, ToastContainer } from "react-toast";
+import { YANDEX_MAP_ACCESS_TOKEN } from "../events/YandexMap/YaMap";
+import { getAddress } from "../../api/getAddress";
 
 const defaultImage: Image = { url: blankPhoto as string, file: null };
 
@@ -30,6 +32,8 @@ export const EventPage: React.FC = () => {
 
   const [ownerName, setOwnerName] = useState("");
   const [ownerAvatar, setOwnerAvatar] = useState<Image | null>(null);
+
+  const [address, setAddress] = useState<string | null>(null);
 
   useEffect(() => {
     if (!eventId) return;
@@ -46,6 +50,7 @@ export const EventPage: React.FC = () => {
 
   useEffect(() => {
     if (!eventInfo) return;
+
     getUserShortInfo(eventInfo.ownerId).then((resp) => {
       setOwnerName(resp.userName);
       setOwnerAvatar({
@@ -56,6 +61,10 @@ export const EventPage: React.FC = () => {
         file: null,
       });
     });
+
+    getAddress(eventInfo, YANDEX_MAP_ACCESS_TOKEN).then((address) =>
+      setAddress(`${address.description}, ${address.name}`)
+    );
   }, [eventInfo]);
 
   const copyTagName = (name: string) => {
@@ -118,6 +127,12 @@ export const EventPage: React.FC = () => {
               <EventButtons event={{ id: eventId, info: eventInfo }} />
             </div>
           </div>
+          {address && (
+            <div className={styles.eventAddress}>
+              <p className={styles.eventAddress__title}>Адрес:</p>
+              <p className={styles.eventAddress__text}>{address}</p>
+            </div>
+          )}
           {eventInfo.tags.length > 0 && (
             <div className={styles.eventTags}>
               <p className={styles.eventTags__tagsTitle}>Теги:</p>

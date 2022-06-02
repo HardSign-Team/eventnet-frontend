@@ -51,6 +51,7 @@
 
 .toolbar__form-show {
   position: relative;
+  width: 286px;
   max-height: 150vh;
   opacity: 1;
   transition: max-height 0.5s linear, opacity 0.5s linear 0.2s;

@@ -1,15 +1,16 @@
-import { refreshToken } from "../../auth/refreshToken";
 import globalStore from "../../../stores/GlobalStore";
-import { BASE_ROUTE, HTTP_METHODS, STATUS_CODES } from "../../utils";
+import {
+  AuthorizedRequest,
+  BASE_ROUTE,
+  HTTP_METHODS,
+  STATUS_CODES,
+} from "../../utils";
 
 async function changeInfo(userName: string, birthDate: string, gender: string) {
-  const response = await request(userName, birthDate, gender);
-  if (response.statusText === "Unauthorized") {
-    await refreshToken();
-    return (
-      (await request(userName, birthDate, gender)).status === STATUS_CODES.OK
-    );
-  } else return response.status === STATUS_CODES.OK;
+  const response = await AuthorizedRequest(() =>
+    request(userName, birthDate, gender)
+  );
+  return response.status === STATUS_CODES.OK;
 }
 
 async function request(userName: string, birthDate: string, gender: string) {
