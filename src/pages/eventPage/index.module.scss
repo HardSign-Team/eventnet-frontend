@@ -59,6 +59,31 @@
     }
   }
 
+  .eventTags {
+
+    &__tagsTitle {
+      color: #adb4b3;
+    }
+
+    &__wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 7px;
+
+      &__tag {
+        width: fit-content;
+        padding: 5px;
+        border-radius: 500px;
+        border: 1px solid #b8b8b8;
+        color: #adb4b3;
+        user-select: none;
+        cursor: pointer;
+      }
+    }
+
+  }
+
   .eventStatus {
     text-align: left;
     font-size: 18px;
@@ -66,11 +91,11 @@
   }
 
   .eventDescription {
-    .descriptionTitle {
+    &__title {
       color: #adb4b3;
     }
 
-    .description {
+    &__text {
       margin-top: 7px;
       word-wrap: break-word;
     }
