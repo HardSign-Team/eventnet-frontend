@@ -30,7 +30,7 @@ export const mapOptions = {
   minZoom: MIN_ZOOM,
   yandexMapAutoSwitch: true,
 };
-const accessToken = process.env.REACT_APP_YANDEX_MAPS_API_KEY || "";
+export const YANDEX_MAP_ACCESS_TOKEN = process.env.REACT_APP_YANDEX_MAPS_API_KEY || "";
 
 const { mapStore } = globalStore;
 
@@ -76,7 +76,7 @@ const YaMap = observer(({ className, onChangeBound }: Props) => {
     <YMaps
       className="yandex-maps"
       enterprise={true}
-      query={{ apikey: accessToken }}
+      query={{ apikey: YANDEX_MAP_ACCESS_TOKEN }}
     >
       <Map
         style={mapStyle}
