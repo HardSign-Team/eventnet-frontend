@@ -151,7 +151,6 @@ const EventCreation: React.FC = observer(() => {
 
     const eventId = await requestEventCreation(userStore.getAccessToken());
 
-    console.log(latitude, longitude);
     const event: CreateEventModel = {
       id: eventId,
       location: new Location(latitude, longitude),
