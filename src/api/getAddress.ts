@@ -10,6 +10,5 @@ export async function getAddress(
     .then((r) => r.json())
     .then((r) => r.response);
 
-  console.log(response);
   return await response.GeoObjectCollection.featureMember[0].GeoObject;
 }

@@ -6,7 +6,7 @@
 }
 
 .popup-modal-window{
-    display: none;
+    visibility: hidden;
     z-index: 9999;
     position: absolute;
 }

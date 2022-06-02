@@ -27,7 +27,7 @@ import Events from "./pages/events/Events";
 
 const DEFAULT_MAP_STATE = {
   center: [56.84168, 60.614947],
-  radius: 100,
+  radius: 10000,
 };
 
 export const getDefaultParams = () => {

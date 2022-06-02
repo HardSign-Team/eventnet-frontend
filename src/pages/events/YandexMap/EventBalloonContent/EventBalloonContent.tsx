@@ -2,6 +2,7 @@ import React from "react";
 import "./EventBalloonContent.scss";
 import EventCard from "../../EventCard/EventCard";
 import Event from "../../../../models/Event";
+import globalStore from "../../../../stores/GlobalStore";
 
 type Props = {
   className?: string;
@@ -13,21 +14,22 @@ const EventBalloonContent = ({ className, event }: Props) => {
     const modal = document.getElementsByClassName(
       "popup-modal-window"
     )[0] as HTMLElement;
-    modal.style.display = "block";
+    modal.style.visibility = "visible";
   };
 
-  const onMouseLeave = () => {
+  const onMouseLeave = async () => {
     const modal = document.getElementsByClassName(
       "popup-modal-window"
     )[0] as HTMLElement;
-    modal.style.display = "none";
+    modal.style.visibility = "hidden";
+    globalStore.eventStore.resetBalloonEvent();
   };
 
   return (
     <div
-      className={className}
-      onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      onMouseEnter={onMouseEnter}
+      className={className}
     >
       {event && <EventCard event={event} />}
     </div>
