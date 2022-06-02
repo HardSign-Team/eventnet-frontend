@@ -37,6 +37,10 @@ type LocationInfo = {
   radius: number;
 };
 
+const METERS_PER_KILOMETER = 1000;
+const DEFAULT_PAGE_SIZE = 1000;
+const DEFAULT_REQUEST_INTERVAL = 50000;
+
 const Events = observer(() => {
   const { search } = useLocation();
   const query = React.useMemo(() => new URLSearchParams(search), [search]);
@@ -55,11 +59,11 @@ const Events = observer(() => {
         {
           radiusLocation: new LocationFilterModel(
             coordinatesToLocation(locationInfo.center),
-            locationInfo.radius * 1000
+            locationInfo.radius * METERS_PER_KILOMETER
           ),
           tags: tagFilter,
         },
-        new PageInfoDto(1, 1000)
+        new PageInfoDto(1, DEFAULT_PAGE_SIZE)
       );
       const params = buildRequestEventsParams(dto);
       navigate(`/events?${params}`);
@@ -68,7 +72,7 @@ const Events = observer(() => {
 
   useInterval(() => {
     requestEventsFromApi(query);
-  }, 50000);
+  }, DEFAULT_REQUEST_INTERVAL);
 
   useEffect(() => {
     requestEventsFromApi(query);
