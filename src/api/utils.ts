@@ -15,7 +15,7 @@ export const HTTP_METHODS = {
   PUT: "PUT",
 };
 
-export async function AuthorizedRequest(request: () => Promise<Response>) {
+export async function AuthorizedRequest(request: () => Promise<any>) {
   const response = await request();
   if (response.statusText === "Unauthorized") {
     await refreshToken();
