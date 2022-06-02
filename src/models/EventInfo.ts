@@ -1,6 +1,7 @@
 import Image from "./Image";
 import { Coordinates } from "./Coordinates";
 import { guid } from "../viewModels/Guid";
+import { TagNameViewModel } from "../viewModels/TagNameViewModel";
 
 export default interface EventInfo {
   ownerId: guid;
@@ -13,4 +14,5 @@ export default interface EventInfo {
   dislikes: number;
   participants: number;
   photos?: Array<Image>;
+  tags: TagNameViewModel[];
 }

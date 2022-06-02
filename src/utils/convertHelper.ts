@@ -21,6 +21,7 @@ export const eventViewModelToEvent = (event: EventViewModel): Event => {
       likes: event.marks.likes,
       dislikes: event.marks.dislikes,
       participants: event.totalSubscriptions,
+      tags: event.tags,
     },
   };
 };
