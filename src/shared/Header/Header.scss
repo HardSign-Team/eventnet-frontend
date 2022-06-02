@@ -78,7 +78,7 @@ li a {
     text-decoration: none;
     outline: none;
     text-align: center;
-    transition: 0.4s ease-in-out;
+    transition: 0.3s ease-in-out;
 }
 
 .header__menu-down {
@@ -113,6 +113,20 @@ li a {
     right: 100%;
     transform: perspective(600px) rotateX(-90deg);
     transform-origin: 0 0;
+    box-shadow: 0 0 5px rgba(0,0,0, 0.2);
+}
+
+.header__submenu-container li {
+    width: 100%;
+}
+
+.header__submenu-container li a {
+    width: 100%;
+    border-radius: 20px;
+    &:hover {
+        color: #f5f5f5;
+        background-color: #008D8E;
+     }
 }
 
 .header__profile-photo {

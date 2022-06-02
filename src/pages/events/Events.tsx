@@ -18,6 +18,8 @@ import { useInterval } from "../../utils/Hooks";
 import { coordinatesToLocation } from "../../utils/convertHelper";
 import { TagNameViewModel } from "../../viewModels/TagNameViewModel";
 import { TagsFilterModel } from "../../dto/TagsFilterModel";
+import EventBalloonContent from "./YandexMap/EventBalloonContent/EventBalloonContent";
+import Event from "../../models/Event";
 
 const requestEventsFromApi = (query: URLSearchParams) => {
   if (query.toString() !== "") {
@@ -40,6 +42,7 @@ const Events = observer(() => {
   const navigate = useNavigate();
   const [locationInfo, setLocationInfo] = useState<LocationInfo>();
   const [tags, setTags] = useState<TagNameViewModel[]>([]);
+
   const throttled = useRef(
     throttle((locationInfo, tags: TagNameViewModel[]) => {
       if (!locationInfo) return;
@@ -83,6 +86,8 @@ const Events = observer(() => {
     setLocationInfo({ center, radius });
   };
 
+  const balloonEvent = globalStore.eventStore.getBalloonEvent();
+
   return (
     <div className="main-page">
       <SideBar
@@ -91,7 +96,14 @@ const Events = observer(() => {
         onInputTag={(tags) => setTags(tags)}
       />
       <YandexMap className="ya-map" onChangeBound={onChangeBound} />
-      <div className={"popup-modal-window"} />
+      <div className={"popup-modal-window"}>
+        {balloonEvent && (
+          <EventBalloonContent
+            className={"event-balloon-content"}
+            event={balloonEvent}
+          />
+        )}
+      </div>
     </div>
   );
 });

@@ -9,10 +9,8 @@ import { requestMyEvents } from "../../api/events/getMyEvents";
 import { eventViewModelToEvent } from "../../utils/convertHelper";
 import { isEventRelevant } from "../../utils/eventsHelper";
 import { getMySubscriptions } from "../../api/marks/my/getMySubscriptions";
-import {
-  requestEvents,
-  requestEventsFullInfo,
-} from "../../api/events/getEvents";
+import { requestEventsFullInfo } from "../../api/events/getEvents";
+import { LoadSpinner } from "../../shared/LoadSpinner";
 
 export enum UserEventsTypes {
   Own,
@@ -35,7 +33,11 @@ export const UserEvents: React.FC<UserEventsProps> = observer(({ type }) => {
 
   const [picked, setPicked] = useState(SelectorItem.Relevant);
 
+  const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
+    setEvents((_) => []);
+    setIsLoaded((_) => false);
     type === UserEventsTypes.Own && loadMyEvents().then((r) => r);
     type === UserEventsTypes.Subscribed &&
       loadSubscribedEvents().then((r) => r);
@@ -45,6 +47,7 @@ export const UserEvents: React.FC<UserEventsProps> = observer(({ type }) => {
     const response = await requestMyEvents(userStore.getAccessToken());
     const myEvents = response.events.map((x) => eventViewModelToEvent(x));
     setEvents(myEvents);
+    setIsLoaded(true);
   };
 
   const loadSubscribedEvents = async () => {
@@ -58,39 +61,49 @@ export const UserEvents: React.FC<UserEventsProps> = observer(({ type }) => {
       .map((x) => eventViewModelToEvent(x))
       .filter((x) => isEventRelevant(x.info));
     setEvents(subscribedEvents);
+    setIsLoaded(true);
   };
 
   return (
-    <section className={styles.userEvents}>
-      <h2 className={styles.userEvents__userName}>
-        {(type === UserEventsTypes.Own
-          ? `События пользователя `
-          : type === UserEventsTypes.Subscribed
-          ? "Подписки пользователя "
-          : "Ошибка, пожалуйста обновите страницу ") +
-          `${userStore.getUserName()}`}
-      </h2>
-      {type === UserEventsTypes.Own && (
-        <CustomSelector
-          onChange={setPicked}
-          first={SelectorItem.Relevant}
-          second={SelectorItem.Past}
-          firstLabel={SelectorItem.Relevant}
-          secondLabel={SelectorItem.Past}
-          value={picked}
-        />
+    <>
+      {isLoaded  ? (
+        <section className={styles.userEvents}>
+          <h2 className={styles.userEvents__userName}>
+            {(type === UserEventsTypes.Own
+              ? `События пользователя `
+              : type === UserEventsTypes.Subscribed
+              ? "Актуальные подписки пользователя "
+              : "Ошибка, пожалуйста обновите страницу ") +
+              `${userStore.getUserName()}`}
+          </h2>
+          {type === UserEventsTypes.Own && (
+            <CustomSelector
+              onChange={setPicked}
+              first={SelectorItem.Relevant}
+              second={SelectorItem.Past}
+              firstLabel={SelectorItem.Relevant}
+              secondLabel={SelectorItem.Past}
+              value={picked}
+            />
+          )}
+          <div className={styles.userEvents__events}>
+            {events.length > 0 ? events
+              .filter((event) =>
+                picked === SelectorItem.Relevant
+                  ? isEventRelevant(event.info)
+                  : !isEventRelevant(event.info)
+              )
+              .map((event) => (
+                <EventCard key={event.id} event={event} />
+              )) :
+            <p className={styles.userEvents__events_placeholder}>Нет событий</p>}
+          </div>
+        </section>
+      ) : (
+        <div className={styles.spinnerWrapper}>
+          <LoadSpinner />
+        </div>
       )}
-      <div className={styles.userEvents__events}>
-        {events
-          .filter((event) =>
-            picked === SelectorItem.Relevant
-              ? isEventRelevant(event.info)
-              : !isEventRelevant(event.info)
-          )
-          .map((event) => (
-            <EventCard key={event.id} event={event} />
-          ))}
-      </div>
-    </section>
+    </>
   );
 });

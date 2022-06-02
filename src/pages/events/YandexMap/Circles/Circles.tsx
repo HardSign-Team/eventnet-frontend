@@ -1,17 +1,16 @@
 import React from "react";
 import "./Circles.scss";
 import { Circle } from "react-yandex-maps";
-import EventBalloonContent from "../EventBalloonContent/EventBalloonContent";
 import { EventLocationViewModel } from "../../../../viewModels/EvenLocationViewModel";
 import { requestEvent } from "../../../../api/events/getEvent";
 import { Coordinates } from "../../../../models/Coordinates";
 import { guid } from "../../../../viewModels/Guid";
+
 import globalStore from "../../../../stores/GlobalStore";
 import {
   eventViewModelToEvent,
   locationToCoordinates,
 } from "../../../../utils/convertHelper";
-import ReactDOM from "react-dom";
 
 const CIRCLE_RADIUS = 5;
 const CIRCLE_COLOR = "#008D8E";
@@ -89,7 +88,7 @@ const Circles = ({ events }: Props) => {
     const eventId = getEventId(events, coords);
     const event = await getEvent(eventId);
 
-    globalStore.eventStore.addEvent(event);
+    globalStore.eventStore.addBalloonEvent(event);
 
     const modal = document.getElementsByClassName(
       "popup-modal-window"
@@ -101,10 +100,6 @@ const Circles = ({ events }: Props) => {
     const [dx, dy] = getTranslate(x, y);
     modal.style.top = y + dy + "px";
     modal.style.left = x + dx + "px";
-    ReactDOM.render(
-      <EventBalloonContent className={"event-balloon-content"} event={event} />,
-      modal
-    );
   };
 
   events.forEach((e) => {

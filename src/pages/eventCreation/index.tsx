@@ -50,34 +50,6 @@ const EventCreation: React.FC = observer(() => {
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [modalStatus, setModalStatus] = useState(EventSaveStatus.Saved);
 
-  const closeStatusModal = () => {
-    setShowStatusModal(false);
-  };
-
-  const openStatusModal = (status: EventSaveStatus) => {
-    setModalStatus((_) => status);
-    setShowStatusModal(true);
-  };
-
-  const updateEventName = (name: string) => {
-    setEventName(cropped(name, MAX_EVENT_NAME_LENGTH));
-  };
-
-  const updateEventDescription = (description: string) => {
-    setEventDescription(cropped(description, MAX_EVENT_DESCRIPTION_LENGTH));
-  };
-
-  const isDatesNotEmpty = () => {
-    return dateStart && timeStart && dateEnd && timeEnd;
-  };
-
-  const isValidDates = () => {
-    const start = createDateFrom(dateStart, timeStart);
-    const end = createDateFrom(dateEnd, timeEnd);
-
-    return end.getTime() - start.getTime() >= 0;
-  };
-
   useEffect(() => {
     const [lat, long] = [query.get("lat"), query.get("long")];
     if (!lat || !long) return;
@@ -109,6 +81,34 @@ const EventCreation: React.FC = observer(() => {
       setDuration(newDuration);
     }
   }, [dateEnd, timeEnd]);
+
+  const closeStatusModal = () => {
+    setShowStatusModal(false);
+  };
+
+  const openStatusModal = (status: EventSaveStatus) => {
+    setModalStatus((_) => status);
+    setShowStatusModal(true);
+  };
+
+  const updateEventName = (name: string) => {
+    setEventName(cropped(name, MAX_EVENT_NAME_LENGTH));
+  };
+
+  const updateEventDescription = (description: string) => {
+    setEventDescription(cropped(description, MAX_EVENT_DESCRIPTION_LENGTH));
+  };
+
+  const isDatesNotEmpty = () => {
+    return dateStart && timeStart && dateEnd && timeEnd;
+  };
+
+  const isValidDates = () => {
+    const start = createDateFrom(dateStart, timeStart);
+    const end = createDateFrom(dateEnd, timeEnd);
+
+    return end.getTime() - start.getTime() >= 0;
+  };
 
   const isValidData = () => {
     if (isDatesNotEmpty() && !isValidDates()) return false;

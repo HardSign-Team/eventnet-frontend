@@ -15,7 +15,7 @@ export class EventLocationStore
     this._repository = observable(
       new Repository<EventLocationViewModel, guid>()
     );
-    makeAutoObservable(this);
+    makeAutoObservable(this, {});
   }
 
   allowAdding() {
@@ -27,7 +27,7 @@ export class EventLocationStore
   }
 
   setRange(items: Array<EventLocationViewModel>): void {
-    this._repository.setRange(items);
+    if (this.canAdd) this._repository.setRange(items);
   }
 
   addRange(items: Array<EventLocationViewModel>): void {

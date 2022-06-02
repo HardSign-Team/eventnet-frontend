@@ -32,21 +32,70 @@
       .eventDuration {
 
       }
+
     }
   }
 
+  .buttonsWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+
+    .eventOwner__info {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      &_name {
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &_avatar {
+        border-radius: 50%;
+      }
+    }
+  }
+
+  .eventTags {
+
+    &__tagsTitle {
+      color: #adb4b3;
+    }
+
+    &__wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 7px;
+
+      &__tag {
+        width: fit-content;
+        padding: 5px;
+        border-radius: 500px;
+        border: 1px solid #b8b8b8;
+        color: #adb4b3;
+        user-select: none;
+        cursor: pointer;
+      }
+    }
+
+  }
+
   .eventStatus {
-    text-align: center;
+    text-align: left;
     font-size: 18px;
     color: #008D8E;
   }
 
   .eventDescription {
-    .descriptionTitle {
+    &__title {
       color: #adb4b3;
     }
 
-    .description {
+    &__text {
       margin-top: 7px;
       word-wrap: break-word;
     }
