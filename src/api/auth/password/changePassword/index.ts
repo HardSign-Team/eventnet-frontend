@@ -1,13 +1,16 @@
-import { BASE_ROUTE, HTTP_METHODS, STATUS_CODES } from "../../../utils";
-import { refreshToken } from "../../refreshToken";
+import {
+  AuthorizedRequest,
+  BASE_ROUTE,
+  HTTP_METHODS,
+  STATUS_CODES,
+} from "../../../utils";
 import globalStore from "../../../../stores/GlobalStore";
 
 async function changePassword(oldPassword: string, newPassword: string) {
-  const response = await request(oldPassword, newPassword);
-  if (response.statusText === "Unauthorized") {
-    await refreshToken();
-    return (await request(oldPassword, newPassword)).status === STATUS_CODES.OK;
-  } else return response.status === STATUS_CODES.OK;
+  const response = await AuthorizedRequest(() =>
+    request(oldPassword, newPassword)
+  );
+  return response.status === STATUS_CODES.OK;
 }
 
 async function request(oldPassword: string, newPassword: string) {
