@@ -60,7 +60,7 @@ export const EventPage: React.FC = () => {
 
   const copyTagName = (name: string) => {
     navigator.clipboard.writeText(name).then((r) =>
-      toast(`Скопирован тег ${name}!`, {
+      toast(`Скопирован тег "${name}"!`, {
         backgroundColor: "#008D8E",
         color: "#ffffff",
       })
