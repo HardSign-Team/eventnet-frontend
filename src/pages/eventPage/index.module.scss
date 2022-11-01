@@ -119,6 +119,10 @@
       word-wrap: break-word;
     }
   }
+  .editButton {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .spinnerWrapper {

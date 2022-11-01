@@ -148,7 +148,7 @@ export class UserStore {
     expiredAtAccessToken: string,
     expiredAtRefreshToken: string
   ) {
-    autorun(() => {
+    {
       this.accessToken = accessToken;
       this.refreshToken = refreshToken;
       this.expiredAtAccessToken = expiredAtAccessToken;
@@ -157,7 +157,7 @@ export class UserStore {
       saveLocalState("refreshToken", refreshToken);
       saveLocalState("expiredAtAccessToken", expiredAtAccessToken);
       saveLocalState("expiredAtRefreshToken", expiredAtRefreshToken);
-    });
+    }
   }
 
   public logout() {
